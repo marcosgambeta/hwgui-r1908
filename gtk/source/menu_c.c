@@ -46,51 +46,39 @@ HB_FUNC(HWG__ADDMENUITEM)
   HB_BOOL lString = HB_FALSE, lCheck = HB_FALSE;
   const char *lpNewItem = HWG_NULLPTR;
 
-  if (HB_ISCHAR(2))
-  {
+  if (HB_ISCHAR(2)) {
     const char *ptr;
     lpNewItem = hb_parc(2);
     ptr = lpNewItem;
-    while (*ptr)
-    {
-      if (*ptr != ' ' && *ptr != '-')
-      {
+    while (*ptr) {
+      if (*ptr != ' ' && *ptr != '-') {
         lString = TRUE;
         break;
       }
       ptr++;
     }
   }
-  if (!HB_ISNIL(6) && (hb_parni(6) & FLAG_CHECK))
-  {
+  if (!HB_ISNIL(6) && (hb_parni(6) & FLAG_CHECK)) {
     lCheck = TRUE;
   }
 
-  if (lCheck)
-  {
+  if (lCheck) {
     gchar *gcptr = hwg_convert_to_utf8(lpNewItem);
     hMenu = gtk_check_menu_item_new_with_mnemonic(gcptr);
     g_free(gcptr);
-  }
-  else if (lString)
-  {
+  } else if (lString) {
     gchar *gcptr = hwg_convert_to_utf8(lpNewItem);
     hMenu = (GtkWidget *)gtk_menu_item_new_with_mnemonic(gcptr);
     g_free(gcptr);
-  }
-  else
-  {
+  } else {
     hMenu = (GtkWidget *)gtk_separator_menu_item_new();
   }
 
-  if (hb_parl(7))
-  {
+  if (hb_parl(7)) {
     GtkWidget *hSubMenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(hMenu), hSubMenu);
     HB_RETHANDLE(hSubMenu);
-  }
-  else
-  {
+  } else {
     char buf[20] = {0};
     sprintf(buf, "0 %ld %ld", hb_parnl(5), (HB_LONG)HB_PARHANDLE(4));
     g_signal_connect(G_OBJECT(hMenu), "activate", G_CALLBACK(cb_signal), (gpointer)g_strdup(buf));

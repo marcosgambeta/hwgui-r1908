@@ -23,12 +23,9 @@ void hwg_writelog(char *s)
   HB_FHANDLE handle;
 #endif
 
-  if (hb_fsFile("ac.log"))
-  {
+  if (hb_fsFile("ac.log")) {
     handle = hb_fsOpen("ac.log", FO_WRITE);
-  }
-  else
-  {
+  } else {
     handle = hb_fsCreate("ac.log", 0);
   }
 
@@ -83,12 +80,9 @@ HB_FUNC(HWG_BITANDINVERSE)
 
 HB_FUNC(HWG_SETBIT)
 {
-  if (hb_pcount() < 3 || hb_parni(3))
-  {
+  if (hb_pcount() < 3 || hb_parni(3)) {
     hb_retnl(hb_parnl(1) | (1 << (hb_parni(2) - 1)));
-  }
-  else
-  {
+  } else {
     hb_retnl(hb_parnl(1) & ~(1 << (hb_parni(2) - 1)));
   }
 }
@@ -119,22 +113,17 @@ HB_FUNC(NUMTOHEX) // TODO: revisar
 
   ulNum = (HB_ULONG)hb_parnl(1);
 
-  while (ulNum > 0)
-  {
+  while (ulNum > 0) {
     iCipher = ulNum % 16;
-    if (iCipher < 10)
-    {
+    if (iCipher < 10) {
       tmp[len++] = '0' + iCipher;
-    }
-    else
-    {
+    } else {
       tmp[len++] = 'A' + (iCipher - 10);
     }
     ulNum >>= 4;
   }
 
-  while (len > 0)
-  {
+  while (len > 0) {
     ret[len1++] = tmp[--len];
   }
   ret[len1] = '\0';

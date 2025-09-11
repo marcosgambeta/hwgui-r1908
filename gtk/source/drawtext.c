@@ -37,12 +37,10 @@ HB_FUNC(HWG_TEXTOUT)
   char *cText = hwg_convert_to_utf8(hb_parc(4));
   GdkColor fcolor, bcolor;
 
-  if (hDC->fcolor != -1)
-  {
+  if (hDC->fcolor != -1) {
     hwg_parse_color(hDC->fcolor, &fcolor);
   }
-  if (hDC->bcolor != -1)
-  {
+  if (hDC->bcolor != -1) {
     hwg_parse_color(hDC->bcolor, &bcolor);
   }
 
@@ -60,12 +58,10 @@ HB_FUNC(HWG_DRAWTEXT)
   PangoRectangle rc;
   int iWidth = hb_parni(5) - hb_parni(3);
 
-  if (hDC->fcolor != -1)
-  {
+  if (hDC->fcolor != -1) {
     hwg_parse_color(hDC->fcolor, &fcolor);
   }
-  if (hDC->bcolor != -1)
-  {
+  if (hDC->bcolor != -1) {
     hwg_parse_color(hDC->bcolor, &bcolor);
   }
 
@@ -74,8 +70,7 @@ HB_FUNC(HWG_DRAWTEXT)
   pango_layout_get_pixel_extents(hDC->layout, &rc, HWG_NULLPTR);
   pango_layout_set_width(hDC->layout, -1);
 
-  if (!HB_ISNIL(7) && (hb_parni(7) & (DT_CENTER | DT_RIGHT)) && (rc.width < (iWidth - 10)))
-  {
+  if (!HB_ISNIL(7) && (hb_parni(7) & (DT_CENTER | DT_RIGHT)) && (rc.width < (iWidth - 10))) {
     pango_layout_set_width(hDC->layout, iWidth * PANGO_SCALE);
     // pango_layout_set_wrap( hDC->layout, PANGO_WRAP_CHAR );
     pango_layout_set_alignment(hDC->layout, (hb_parni(7) & DT_CENTER) ? PANGO_ALIGN_CENTER : PANGO_ALIGN_RIGHT);
@@ -92,8 +87,7 @@ HB_FUNC(HWG_GETTEXTMETRIC)
   PangoContext *context;
   PangoFontMetrics *metrics;
 
-  if (!(hDC->hFont))
-  {
+  if (!(hDC->hFont)) {
     GtkStyle *style = gtk_widget_get_style(hDC->widget);
     hDC->hFont = style->font_desc;
   }
@@ -133,8 +127,7 @@ HB_FUNC(HWG_GETTEXTSIZE)
   PangoRectangle rc;
   PHB_ITEM aMetr = hb_itemArrayNew(2);
 
-  if (HB_ISCHAR(2))
-  {
+  if (HB_ISCHAR(2)) {
     pango_layout_set_text(hDC->layout, cText, -1);
   }
   pango_layout_get_pixel_extents(hDC->layout, &rc, HWG_NULLPTR);
@@ -259,13 +252,11 @@ HB_FUNC(HWG_CREATEFONT)
 
   hFont = pango_font_description_new();
   pango_font_description_set_family(hFont, hb_parc(1));
-  if (!HB_ISNIL(6))
-  {
+  if (!HB_ISNIL(6)) {
     pango_font_description_set_style(hFont, (hb_parni(6)) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
   }
   pango_font_description_set_size(hFont, hb_parni(3));
-  if (!HB_ISNIL(4))
-  {
+  if (!HB_ISNIL(4)) {
     pango_font_description_set_weight(hFont, hb_parni(4));
   }
 
@@ -284,8 +275,7 @@ HB_FUNC(HWG_SETCTRLFONT)
   GtkLabel *hLabel = (GtkLabel *)g_object_get_data((GObject *)hCtrl, "label");
   GtkStyle *style;
 
-  if (hLabel)
-  {
+  if (hLabel) {
     hCtrl = (GtkWidget *)hLabel;
   }
 

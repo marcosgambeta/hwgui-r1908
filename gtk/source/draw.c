@@ -37,15 +37,12 @@ HB_FUNC(HWG_INVALIDATERECT)
   GtkWidget *widget = (GtkWidget *)HB_PARHANDLE(1);
   int x1, y1, x2, y2;
 
-  if (hb_pcount() > 2)
-  {
+  if (hb_pcount() > 2) {
     x1 = hb_parni(3);
     y1 = hb_parni(4);
     x2 = hb_parni(5);
     y2 = hb_parni(6);
-  }
-  else
-  {
+  } else {
     x1 = y1 = 0;
     x2 = widget->allocation.width;
     y2 = widget->allocation.height;
@@ -169,13 +166,10 @@ HB_FUNC(HWG_DRAWBUTTON)
   unsigned int iType = hb_parni(6);
   GtkStyle *style = hDC->widget->style;
 
-  if (iType == 0)
-  {
+  if (iType == 0) {
     // FillRect( hDC, &rc, (HBRUSH) (COLOR_3DFACE+1) );
     gdk_draw_rectangle(hDC->window, style->bg_gc[0], 1, left, top, right - left + 1, bottom - top + 1);
-  }
-  else
-  {
+  } else {
     // FillRect( hDC, &rc, (HBRUSH) ( ( (iType & 2)? COLOR_3DSHADOW:COLOR_3DHILIGHT )+1) );
     gdk_draw_rectangle(hDC->window, (iType & 2) ? style->mid_gc[0] : style->light_gc[0], 1, left, top, right - left + 1,
                        bottom - top + 1);
@@ -190,8 +184,7 @@ HB_FUNC(HWG_DRAWBUTTON)
     bottom--;
     right--;
     bottom--;
-    if (iType & 4)
-    {
+    if (iType & 4) {
       // FillRect( hDC, &rc, (HBRUSH) ( ( (iType & 2)? COLOR_3DSHADOW:COLOR_3DLIGHT )+1) );
       gdk_draw_rectangle(hDC->window, (iType & 2) ? style->mid_gc[0] : style->light_gc[0], 1, left, top,
                          right - left + 1, bottom - top + 1);
@@ -330,8 +323,7 @@ HB_FUNC(HWG_OPENBITMAP)
   PHWGUI_PIXBUF hpix;
   GdkPixbuf *handle = gdk_pixbuf_new_from_file(hb_parc(1), HWG_NULLPTR);
 
-  if (handle)
-  {
+  if (handle) {
     hpix = (PHWGUI_PIXBUF)hb_xgrab(sizeof(HWGUI_PIXBUF));
     hpix->type = HWGUI_OBJECT_PIXBUF;
     hpix->handle = handle;
@@ -344,8 +336,7 @@ HB_FUNC(HWG_OPENIMAGE)
   PHWGUI_PIXBUF hpix;
   GdkPixbuf *handle = gdk_pixbuf_new_from_file(hb_parc(1), HWG_NULLPTR);
 
-  if (handle)
-  {
+  if (handle) {
     hpix = (PHWGUI_PIXBUF)hb_xgrab(sizeof(HWGUI_PIXBUF));
     hpix->type = HWGUI_OBJECT_PIXBUF;
     hpix->handle = handle;
@@ -371,8 +362,7 @@ HB_FUNC(HWG_ALPHA2PIXBUF)
   PHWGUI_PIXBUF obj = (PHWGUI_PIXBUF)HB_PARHANDLE(1);
   GdkPixbuf *handle;
 
-  if (obj && obj->handle)
-  {
+  if (obj && obj->handle) {
     handle = alpha2pixbuf(obj->handle, hb_parnl(2));
     gdk_pixbuf_unref(obj->handle);
     obj->handle = handle;
@@ -422,24 +412,18 @@ HB_FUNC(HWG_SELECTOBJECT)
 {
   HWGUI_HDC_OBJECT *obj = (HWGUI_HDC_OBJECT *)HB_PARHANDLE(2);
 
-  if (obj)
-  {
+  if (obj) {
     PHWGUI_HDC hDC = (PHWGUI_HDC)HB_PARHANDLE(1);
     GdkGCValues values;
 
-    if (obj->type == HWGUI_OBJECT_PEN)
-    {
+    if (obj->type == HWGUI_OBJECT_PEN) {
       gdk_gc_set_foreground(hDC->gc, &(((PHWGUI_PEN)obj)->color));
       gdk_gc_get_values(hDC->gc, &values);
       gdk_gc_set_line_attributes(hDC->gc, ((PHWGUI_PEN)obj)->width, ((PHWGUI_PEN)obj)->style, values.cap_style,
                                  values.join_style);
-    }
-    else if (obj->type == HWGUI_OBJECT_BRUSH)
-    {
+    } else if (obj->type == HWGUI_OBJECT_BRUSH) {
       gdk_gc_set_background(hDC->gc, &(((PHWGUI_BRUSH)obj)->color));
-    }
-    else if (obj->type == HWGUI_OBJECT_FONT)
-    {
+    } else if (obj->type == HWGUI_OBJECT_FONT) {
       hDC->hFont = ((PHWGUI_FONT)obj)->hFont;
       pango_layout_set_font_description(hDC->layout, hDC->hFont);
     }
@@ -451,21 +435,14 @@ HB_FUNC(HWG_DELETEOBJECT)
 {
   HWGUI_HDC_OBJECT *obj = (HWGUI_HDC_OBJECT *)HB_PARHANDLE(1);
 
-  if (obj->type == HWGUI_OBJECT_PEN)
-  {
+  if (obj->type == HWGUI_OBJECT_PEN) {
     hb_xfree(obj);
-  }
-  else if (obj->type == HWGUI_OBJECT_BRUSH)
-  {
+  } else if (obj->type == HWGUI_OBJECT_BRUSH) {
     hb_xfree(obj);
-  }
-  else if (obj->type == HWGUI_OBJECT_FONT)
-  {
+  } else if (obj->type == HWGUI_OBJECT_FONT) {
     pango_font_description_free(((PHWGUI_FONT)obj)->hFont);
     hb_xfree(obj);
-  }
-  else if (obj->type == HWGUI_OBJECT_PIXBUF)
-  {
+  } else if (obj->type == HWGUI_OBJECT_PIXBUF) {
     gdk_pixbuf_unref(((PHWGUI_PIXBUF)obj)->handle);
     hb_xfree(obj);
   }
@@ -502,8 +479,7 @@ HB_FUNC(HWG_ENDPAINT)
   PHWGUI_PPS pps = (PHWGUI_PPS)HB_PARHANDLE(2);
   PHWGUI_HDC hDC = pps->hDC;
 
-  if (hDC->layout)
-  {
+  if (hDC->layout) {
     g_object_unref((GObject *)hDC->layout);
   }
   g_object_unref((GObject *)hDC->gc);
@@ -530,8 +506,7 @@ HB_FUNC(HWG_RELEASEDC)
 {
   PHWGUI_HDC hDC = (PHWGUI_HDC)HB_PARHANDLE(2);
 
-  if (hDC->layout)
-  {
+  if (hDC->layout) {
     g_object_unref((GObject *)hDC->layout);
   }
   g_object_unref((GObject *)hDC->gc);

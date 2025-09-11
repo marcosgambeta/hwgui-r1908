@@ -43,8 +43,7 @@ HB_FUNC(HWG_OPENPRINTER)
   PHWGUI_PRINT print = (PHWGUI_PRINT)hb_xgrab(sizeof(HWGUI_PRINT));
 
 #ifdef G_CONSOLE_MODE
-  if (!bGtkInit)
-  {
+  if (!bGtkInit) {
     // gtk_set_locale();
     g_type_init();
     bGtkInit = 1;
@@ -67,8 +66,7 @@ HB_FUNC(HWG_OPENDEFAULTPRINTER)
   PHWGUI_PRINT print = (PHWGUI_PRINT)hb_xgrab(sizeof(HWGUI_PRINT));
 
 #ifdef G_CONSOLE_MODE
-  if (!bGtkInit)
-  {
+  if (!bGtkInit) {
     // gtk_set_locale();
     g_type_init();
     bGtkInit = 1;
@@ -89,8 +87,7 @@ HB_FUNC(HWG_GETPRINTERS)
   HB_FHANDLE hInput = hb_fsOpen("/etc/printcap", FO_READ);
   PHB_ITEM aMetr = HWG_NULLPTR, temp;
 
-  if (hInput != -1)
-  {
+  if (hInput != -1) {
     HB_ULONG ulLen = hb_fsSeek(hInput, 0, FS_END);
     unsigned char *cBuffer, *ptr, *ptr1;
 
@@ -100,61 +97,46 @@ HB_FUNC(HWG_GETPRINTERS)
     cBuffer[ulLen] = '\0';
 
     ptr = cBuffer;
-    while (1)
-    {
-      while (*ptr && (*ptr == ' ' || *ptr == 0x9 || *ptr == 0x0a))
-      {
+    while (1) {
+      while (*ptr && (*ptr == ' ' || *ptr == 0x9 || *ptr == 0x0a)) {
         ptr++;
       }
-      if (*ptr)
-      {
-        if (*ptr == '#')
-        {
-          while (*ptr && *ptr != 0x0a)
-          {
+      if (*ptr) {
+        if (*ptr == '#') {
+          while (*ptr && *ptr != 0x0a) {
             ptr++;
           }
-          if (*ptr)
-          {
+          if (*ptr) {
             ptr++;
           }
           continue;
         }
-        if (!aMetr)
-        {
+        if (!aMetr) {
           aMetr = hb_itemArrayNew(0);
         }
         ptr1 = ptr;
-        while (*ptr && *ptr != 0x0a && *ptr != '|')
-        {
+        while (*ptr && *ptr != 0x0a && *ptr != '|') {
           ptr++;
         }
         temp = hb_itemPutCL(HWG_NULLPTR, (char *)ptr1, ptr - ptr1);
         hb_arrayAdd(aMetr, temp);
         hb_itemRelease(temp);
-        while (*ptr && *ptr != 0x0a)
-        {
+        while (*ptr && *ptr != 0x0a) {
           ptr++;
         }
-        if (*ptr)
-        {
+        if (*ptr) {
           ptr++;
         }
-      }
-      else
-      {
+      } else {
         break;
       }
     }
     hb_xfree(cBuffer);
   }
-  if (aMetr)
-  {
+  if (aMetr) {
     hb_itemReturn(aMetr);
     hb_itemRelease(aMetr);
-  }
-  else
-  {
+  } else {
     hb_ret();
   }
 }
@@ -332,28 +314,21 @@ HB_FUNC(HWG_GP_DRAWTEXT)
   gint unival, glyph;
 
   cText = hwg_convert_to_utf8(hb_parc(2));
-  if (print->font)
-  {
-    for (p = cText; p && i < nLen; p = g_utf8_next_char(p), i++)
-    {
+  if (print->font) {
+    for (p = cText; p && i < nLen; p = g_utf8_next_char(p), i++) {
       unival = g_utf8_get_char(p);
       glyph = gnome_font_lookup_default(print->font, unival);
       dWidth += gnome_font_face_get_glyph_width(print->font->face, glyph) * 0.001 * print->font->size;
-      if (dWidth > (x2 - x1))
-      {
+      if (dWidth > (x2 - x1)) {
         break;
       }
     }
     nLen = p - cText;
   }
-  if (dWidth && dWidth < (x2 - x1) && (iOption == DT_RIGHT || iOption == DT_CENTER))
-  {
-    if (iOption == DT_RIGHT)
-    {
+  if (dWidth && dWidth < (x2 - x1) && (iOption == DT_RIGHT || iOption == DT_CENTER)) {
+    if (iOption == DT_RIGHT) {
       x1 = x2 - dWidth;
-    }
-    else
-    {
+    } else {
       x1 = x1 + ((x2 - x1 - dWidth) / 2);
     }
   }
@@ -393,16 +368,14 @@ HB_FUNC(HWG_GP_FONTLIST)
   PHB_ITEM aMetr, temp;
 
   tmp = list = gnome_font_list();
-  while (tmp)
-  {
+  while (tmp) {
     tmp = tmp->next;
     i++;
   }
   aMetr = hb_itemArrayNew(i);
   tmp = list;
   i = 1;
-  while (tmp)
-  {
+  while (tmp) {
     temp = hb_itemPutC(HWG_NULLPTR, tmp->data);
     hb_itemArrayPut(aMetr, i, temp);
     hb_itemRelease(temp);
@@ -421,14 +394,11 @@ HB_FUNC(HWG_GP_GETTEXTSIZE)
   char *cText;
   GnomeFont *font = (HB_ISNIL(3)) ? print->font : ((GnomeFont *)hb_parnl(3));
 
-  if (font)
-  {
+  if (font) {
     cText = hwg_convert_to_utf8(hb_parc(2));
     hb_retnl((HB_LONG)gnome_font_get_width_utf8(font, cText));
     g_free(cText);
-  }
-  else
-  {
+  } else {
     hb_retni(0);
   }
 }

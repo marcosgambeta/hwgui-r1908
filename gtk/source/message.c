@@ -26,8 +26,7 @@ static int MessageBox(const char *cMsg, const char *cTitle, int message_type, in
   dialog = gtk_message_dialog_new(GTK_WINDOW(GetActiveWindow()), GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                   message_type, button_type, gcptr);
   g_free(gcptr);
-  if (*cTitle)
-  {
+  if (*cTitle) {
     gcptr = hwg_convert_to_utf8(cTitle);
     gtk_window_set_title(GTK_WINDOW(dialog), gcptr);
     g_free(gcptr);

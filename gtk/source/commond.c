@@ -88,8 +88,7 @@ HB_FUNC(HWG_SELECTFONT)
   fontseldlg = gtk_font_selection_dialog_new(cTitle);
   fontsel = GTK_FONT_SELECTION(GTK_FONT_SELECTION_DIALOG(fontseldlg)->fontsel);
 
-  if (hb_pcount() > 0 && !HB_ISNIL(1))
-  {
+  if (hb_pcount() > 0 && !HB_ISNIL(1)) {
   }
 
   g_signal_connect(G_OBJECT(fontseldlg), "destroy", G_CALLBACK(gtk_main_quit), HWG_NULLPTR);
@@ -132,8 +131,7 @@ HB_FUNC(HWG_SELECTFILE)
   g_signal_connect_swapped(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->cancel_button), "clicked",
                            G_CALLBACK(cancel_filedlg), (gpointer)file_selector);
 
-  if (cMask)
-  {
+  if (cMask) {
     gtk_file_selection_complete((GtkFileSelection *)file_selector, cMask);
   }
 
@@ -166,8 +164,7 @@ HB_FUNC(HWG_CHOOSECOLOR)
   colorseldlg = gtk_color_selection_dialog_new(cTitle);
   colorsel = GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(colorseldlg)->colorsel);
 
-  if (hb_pcount() > 0 && !HB_ISNIL(1))
-  {
+  if (hb_pcount() > 0 && !HB_ISNIL(1)) {
     // char ss[30]={0};
     HB_ULONG ulColor = (HB_ULONG)hb_parnl(1);
     GdkColor color;

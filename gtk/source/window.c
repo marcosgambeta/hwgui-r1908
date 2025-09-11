@@ -93,8 +93,7 @@ HB_FUNC(HWG_INITMAINWINDOW)
   PHB_ITEM temp;
 
   hWnd = (GtkWidget *)gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  if (szFile)
-  {
+  if (szFile) {
     gtk_window_set_icon(GTK_WINDOW(hWnd), szFile->handle);
   }
 
@@ -141,13 +140,11 @@ HB_FUNC(HWG_CREATEDLG)
   PHWGUI_PIXBUF szFile = HWG_NULLPTR;
   PHB_ITEM temp;
 
-  if (!HB_IS_NIL(pIcon))
-  {
+  if (!HB_IS_NIL(pIcon)) {
     szFile = (PHWGUI_PIXBUF)hb_itemGetPtr(GetObjectVar(pIcon, "HANDLE"));
   }
   hWnd = (GtkWidget *)gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  if (szFile)
-  {
+  if (szFile) {
     gtk_window_set_icon(GTK_WINDOW(hWnd), szFile->handle);
   }
 
@@ -185,12 +182,10 @@ HB_FUNC(HWG_ACTIVATEMAINWINDOW)
   GtkWidget *hWnd = (GtkWidget *)HB_PARHANDLE(1);
   // HACCEL hAcceler = ( HB_ISNIL(2) )? HWG_NULLPTR : (HACCEL) hb_parnl(2);
 
-  if (!HB_ISNIL(3) && hb_parl(3))
-  {
+  if (!HB_ISNIL(3) && hb_parl(3)) {
     gtk_window_maximize((GtkWindow *)hWnd);
   }
-  if (!HB_ISNIL(4) && hb_parl(4))
-  {
+  if (!HB_ISNIL(4) && hb_parl(4)) {
     gtk_window_iconify((GtkWindow *)hWnd);
   }
 
@@ -201,8 +196,7 @@ HB_FUNC(HWG_ACTIVATEMAINWINDOW)
 HB_FUNC(HWG_ACTIVATEDIALOG)
 {
   // gtk_widget_show_all( (GtkWidget*) HB_PARHANDLE(1) );
-  if (HB_ISNIL(2) || !hb_parl(2))
-  {
+  if (HB_ISNIL(2) || !hb_parl(2)) {
     gtk_main();
   }
 }
@@ -223,13 +217,11 @@ gint cb_signal_size(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
   gpointer gObject = g_object_get_data((GObject *)widget->parent->parent, "obj");
   HB_SYMBOL_UNUSED(data);
 
-  if (!pSym_onEvent)
-  {
+  if (!pSym_onEvent) {
     pSym_onEvent = hb_dynsymFindName("ONEVENT");
   }
 
-  if (pSym_onEvent && gObject)
-  {
+  if (pSym_onEvent && gObject) {
     HB_LONG p3 = ((HB_ULONG)(allocation->width) & 0xFFFF) | (((HB_ULONG)(allocation->height) << 16) & 0xFFFF0000);
 
     /* g_signal_handlers_block_matched( (gpointer)widget, G_SIGNAL_MATCH_FUNC,
@@ -254,8 +246,7 @@ void cb_signal(GtkWidget *widget, gchar *data)
   HB_LONG p1, p2, p3;
 
   sscanf((char *)data, "%ld %ld %ld", &p1, &p2, &p3);
-  if (!p1)
-  {
+  if (!p1) {
     p1 = 273;
     widget = (GtkWidget *)p3;
     p3 = 0;
@@ -263,13 +254,11 @@ void cb_signal(GtkWidget *widget, gchar *data)
 
   gObject = g_object_get_data((GObject *)widget, "obj");
 
-  if (!pSym_onEvent)
-  {
+  if (!pSym_onEvent) {
     pSym_onEvent = hb_dynsymFindName("ONEVENT");
   }
 
-  if (pSym_onEvent && gObject)
-  {
+  if (pSym_onEvent && gObject) {
     hb_vmPushSymbol(hb_dynsymSymbol(pSym_onEvent));
     hb_vmPush((PHB_ITEM)gObject);
     hb_vmPushLong(p1);
@@ -282,314 +271,166 @@ void cb_signal(GtkWidget *widget, gchar *data)
 static HB_LONG ToKey(HB_LONG a, HB_LONG b)
 {
   // TODO: switch
-  if (a == GDK_asciitilde || a == GDK_dead_tilde)
-  {
-    if (b == GDK_A)
-    {
+  if (a == GDK_asciitilde || a == GDK_dead_tilde) {
+    if (b == GDK_A) {
       return (HB_LONG)GDK_Atilde;
-    }
-    else if (b == GDK_a)
-    {
+    } else if (b == GDK_a) {
       return (HB_LONG)GDK_atilde;
-    }
-    else if (b == GDK_N)
-    {
+    } else if (b == GDK_N) {
       return (HB_LONG)GDK_Ntilde;
-    }
-    else if (b == GDK_n)
-    {
+    } else if (b == GDK_n) {
       return (HB_LONG)GDK_ntilde;
-    }
-    else if (b == GDK_O)
-    {
+    } else if (b == GDK_O) {
       return (HB_LONG)GDK_Otilde;
-    }
-    else if (b == GDK_o)
-    {
+    } else if (b == GDK_o) {
       return (HB_LONG)GDK_otilde;
     }
   }
-  if (a == GDK_asciicircum || a == GDK_dead_circumflex)
-  {
-    if (b == GDK_A)
-    {
+  if (a == GDK_asciicircum || a == GDK_dead_circumflex) {
+    if (b == GDK_A) {
       return (HB_LONG)GDK_Acircumflex;
-    }
-    else if (b == GDK_a)
-    {
+    } else if (b == GDK_a) {
       return (HB_LONG)GDK_acircumflex;
-    }
-    else if (b == GDK_E)
-    {
+    } else if (b == GDK_E) {
       return (HB_LONG)GDK_Ecircumflex;
-    }
-    else if (b == GDK_e)
-    {
+    } else if (b == GDK_e) {
       return (HB_LONG)GDK_ecircumflex;
-    }
-    else if (b == GDK_I)
-    {
+    } else if (b == GDK_I) {
       return (HB_LONG)GDK_Icircumflex;
-    }
-    else if (b == GDK_i)
-    {
+    } else if (b == GDK_i) {
       return (HB_LONG)GDK_icircumflex;
-    }
-    else if (b == GDK_O)
-    {
+    } else if (b == GDK_O) {
       return (HB_LONG)GDK_Ocircumflex;
-    }
-    else if (b == GDK_o)
-    {
+    } else if (b == GDK_o) {
       return (HB_LONG)GDK_ocircumflex;
-    }
-    else if (b == GDK_U)
-    {
+    } else if (b == GDK_U) {
       return (HB_LONG)GDK_Ucircumflex;
-    }
-    else if (b == GDK_u)
-    {
+    } else if (b == GDK_u) {
       return (HB_LONG)GDK_ucircumflex;
-    }
-    else if (b == GDK_C)
-    {
+    } else if (b == GDK_C) {
       return (HB_LONG)GDK_Ccircumflex;
-    }
-    else if (b == GDK_C)
-    {
+    } else if (b == GDK_C) {
       return (HB_LONG)GDK_Ccircumflex;
-    }
-    else if (b == GDK_H)
-    {
+    } else if (b == GDK_H) {
       return (HB_LONG)GDK_Hcircumflex;
-    }
-    else if (b == GDK_h)
-    {
+    } else if (b == GDK_h) {
       return (HB_LONG)GDK_hcircumflex;
-    }
-    else if (b == GDK_J)
-    {
+    } else if (b == GDK_J) {
       return (HB_LONG)GDK_Jcircumflex;
-    }
-    else if (b == GDK_j)
-    {
+    } else if (b == GDK_j) {
       return (HB_LONG)GDK_jcircumflex;
-    }
-    else if (b == GDK_G)
-    {
+    } else if (b == GDK_G) {
       return (HB_LONG)GDK_Gcircumflex;
-    }
-    else if (b == GDK_g)
-    {
+    } else if (b == GDK_g) {
       return (HB_LONG)GDK_gcircumflex;
-    }
-    else if (b == GDK_S)
-    {
+    } else if (b == GDK_S) {
       return (HB_LONG)GDK_Scircumflex;
-    }
-    else if (b == GDK_s)
-    {
+    } else if (b == GDK_s) {
       return (HB_LONG)GDK_scircumflex;
     }
   }
-  if (a == GDK_grave || a == GDK_dead_grave)
-  {
-    if (b == GDK_A)
-    {
+  if (a == GDK_grave || a == GDK_dead_grave) {
+    if (b == GDK_A) {
       return (HB_LONG)GDK_Agrave;
-    }
-    else if (b == GDK_a)
-    {
+    } else if (b == GDK_a) {
       return (HB_LONG)GDK_agrave;
-    }
-    else if (b == GDK_E)
-    {
+    } else if (b == GDK_E) {
       return (HB_LONG)GDK_Egrave;
-    }
-    else if (b == GDK_e)
-    {
+    } else if (b == GDK_e) {
       return (HB_LONG)GDK_egrave;
-    }
-    else if (b == GDK_I)
-    {
+    } else if (b == GDK_I) {
       return (HB_LONG)GDK_Igrave;
-    }
-    else if (b == GDK_i)
-    {
+    } else if (b == GDK_i) {
       return (HB_LONG)GDK_igrave;
-    }
-    else if (b == GDK_O)
-    {
+    } else if (b == GDK_O) {
       return (HB_LONG)GDK_Ograve;
-    }
-    else if (b == GDK_o)
-    {
+    } else if (b == GDK_o) {
       return (HB_LONG)GDK_ograve;
-    }
-    else if (b == GDK_U)
-    {
+    } else if (b == GDK_U) {
       return (HB_LONG)GDK_Ugrave;
-    }
-    else if (b == GDK_u)
-    {
+    } else if (b == GDK_u) {
       return (HB_LONG)GDK_ugrave;
-    }
-    else if (b == GDK_C)
-    {
+    } else if (b == GDK_C) {
       return (HB_LONG)GDK_Ccedilla;
-    }
-    else if (b == GDK_c)
-    {
+    } else if (b == GDK_c) {
       return (HB_LONG)GDK_ccedilla;
     }
   }
-  if (a == GDK_acute || a == GDK_dead_acute)
-  {
-    if (b == GDK_A)
-    {
+  if (a == GDK_acute || a == GDK_dead_acute) {
+    if (b == GDK_A) {
       return (HB_LONG)GDK_Aacute;
-    }
-    else if (b == GDK_a)
-    {
+    } else if (b == GDK_a) {
       return (HB_LONG)GDK_aacute;
-    }
-    else if (b == GDK_E)
-    {
+    } else if (b == GDK_E) {
       return (HB_LONG)GDK_Eacute;
-    }
-    else if (b == GDK_e)
-    {
+    } else if (b == GDK_e) {
       return (HB_LONG)GDK_eacute;
-    }
-    else if (b == GDK_I)
-    {
+    } else if (b == GDK_I) {
       return (HB_LONG)GDK_Iacute;
-    }
-    else if (b == GDK_i)
-    {
+    } else if (b == GDK_i) {
       return (HB_LONG)GDK_iacute;
-    }
-    else if (b == GDK_O)
-    {
+    } else if (b == GDK_O) {
       return (HB_LONG)GDK_Oacute;
-    }
-    else if (b == GDK_o)
-    {
+    } else if (b == GDK_o) {
       return (HB_LONG)GDK_oacute;
-    }
-    else if (b == GDK_U)
-    {
+    } else if (b == GDK_U) {
       return (HB_LONG)GDK_Uacute;
-    }
-    else if (b == GDK_u)
-    {
+    } else if (b == GDK_u) {
       return (HB_LONG)GDK_uacute;
-    }
-    else if (b == GDK_Y)
-    {
+    } else if (b == GDK_Y) {
       return (HB_LONG)GDK_Yacute;
-    }
-    else if (b == GDK_y)
-    {
+    } else if (b == GDK_y) {
       return (HB_LONG)GDK_yacute;
-    }
-    else if (b == GDK_C)
-    {
+    } else if (b == GDK_C) {
       return (HB_LONG)GDK_Cacute;
-    }
-    else if (b == GDK_c)
-    {
+    } else if (b == GDK_c) {
       return (HB_LONG)GDK_cacute;
-    }
-    else if (b == GDK_L)
-    {
+    } else if (b == GDK_L) {
       return (HB_LONG)GDK_Lacute;
-    }
-    else if (b == GDK_l)
-    {
+    } else if (b == GDK_l) {
       return (HB_LONG)GDK_lacute;
-    }
-    else if (b == GDK_N)
-    {
+    } else if (b == GDK_N) {
       return (HB_LONG)GDK_Nacute;
-    }
-    else if (b == GDK_n)
-    {
+    } else if (b == GDK_n) {
       return (HB_LONG)GDK_nacute;
-    }
-    else if (b == GDK_R)
-    {
+    } else if (b == GDK_R) {
       return (HB_LONG)GDK_Racute;
-    }
-    else if (b == GDK_r)
-    {
+    } else if (b == GDK_r) {
       return (HB_LONG)GDK_racute;
-    }
-    else if (b == GDK_S)
-    {
+    } else if (b == GDK_S) {
       return (HB_LONG)GDK_Sacute;
-    }
-    else if (b == GDK_s)
-    {
+    } else if (b == GDK_s) {
       return (HB_LONG)GDK_sacute;
-    }
-    else if (b == GDK_Z)
-    {
+    } else if (b == GDK_Z) {
       return (HB_LONG)GDK_Zacute;
-    }
-    else if (b == GDK_z)
-    {
+    } else if (b == GDK_z) {
       return (HB_LONG)GDK_zacute;
     }
   }
-  if (a == GDK_diaeresis || a == GDK_dead_diaeresis)
-  {
-    if (b == GDK_A)
-    {
+  if (a == GDK_diaeresis || a == GDK_dead_diaeresis) {
+    if (b == GDK_A) {
       return (HB_LONG)GDK_Adiaeresis;
-    }
-    else if (b == GDK_a)
-    {
+    } else if (b == GDK_a) {
       return (HB_LONG)GDK_adiaeresis;
-    }
-    else if (b == GDK_E)
-    {
+    } else if (b == GDK_E) {
       return (HB_LONG)GDK_Ediaeresis;
-    }
-    else if (b == GDK_e)
-    {
+    } else if (b == GDK_e) {
       return (HB_LONG)GDK_ediaeresis;
-    }
-    else if (b == GDK_I)
-    {
+    } else if (b == GDK_I) {
       return (HB_LONG)GDK_Idiaeresis;
-    }
-    else if (b == GDK_i)
-    {
+    } else if (b == GDK_i) {
       return (HB_LONG)GDK_idiaeresis;
-    }
-    else if (b == GDK_O)
-    {
+    } else if (b == GDK_O) {
       return (HB_LONG)GDK_Odiaeresis;
-    }
-    else if (b == GDK_o)
-    {
+    } else if (b == GDK_o) {
       return (HB_LONG)GDK_odiaeresis;
-    }
-    else if (b == GDK_U)
-    {
+    } else if (b == GDK_U) {
       return (HB_LONG)GDK_Udiaeresis;
-    }
-    else if (b == GDK_u)
-    {
+    } else if (b == GDK_u) {
       return (HB_LONG)GDK_udiaeresis;
-    }
-    else if (b == GDK_Y)
-    {
+    } else if (b == GDK_Y) {
       return (HB_LONG)GDK_Ydiaeresis;
-    }
-    else if (b == GDK_y)
-    {
+    } else if (b == GDK_y) {
       return (HB_LONG)GDK_ydiaeresis;
     }
   }
@@ -604,8 +445,7 @@ static gint cb_event(GtkWidget *widget, GdkEvent *event, gchar *data)
   gchar *tmpbuf;
   gchar *res = HWG_NULLPTR;
 
-  if (!pSym_onEvent)
-  {
+  if (!pSym_onEvent) {
     pSym_onEvent = hb_dynsymFindName("ONEVENT");
   }
 
@@ -613,26 +453,20 @@ static gint cb_event(GtkWidget *widget, GdkEvent *event, gchar *data)
   // {
   //   gObject = g_object_get_data( (GObject*) (widget->parent->parent), "obj" );
   // }
-  if (pSym_onEvent && gObject)
-  {
+  if (pSym_onEvent && gObject) {
     HB_LONG p1, p2, p3;
 
-    if (event->type == GDK_KEY_PRESS || event->type == GDK_KEY_RELEASE)
-    {
+    if (event->type == GDK_KEY_PRESS || event->type == GDK_KEY_RELEASE) {
       p1 = (event->type == GDK_KEY_PRESS) ? WM_KEYDOWN : WM_KEYUP;
       p2 = ((GdkEventKey *)event)->keyval;
       uchar = gdk_keyval_to_unicode(((GdkEventKey *)event)->keyval);
       if (p2 == GDK_asciitilde || p2 == GDK_asciicircum || p2 == GDK_grave || p2 == GDK_acute || p2 == GDK_diaeresis ||
           p2 == GDK_dead_acute || p2 == GDK_dead_tilde || p2 == GDK_dead_circumflex || p2 == GDK_dead_grave ||
-          p2 == GDK_dead_diaeresis)
-      {
+          p2 == GDK_dead_diaeresis) {
         prevp2 = p2;
         p2 = -1;
-      }
-      else
-      {
-        if (prevp2 != -1)
-        {
+      } else {
+        if (prevp2 != -1) {
           p2 = ToKey(prevp2, (HB_LONG)p2);
           uchar = gdk_keyval_to_unicode(p2);
           prevp2 = -1;
@@ -646,53 +480,39 @@ static gint cb_event(GtkWidget *widget, GdkEvent *event, gchar *data)
       p3 = ((((GdkEventKey *)event)->state & GDK_SHIFT_MASK) ? 1 : 0) |
            ((((GdkEventKey *)event)->state & GDK_CONTROL_MASK) ? 2 : 0) |
            ((((GdkEventKey *)event)->state & GDK_MOD1_MASK) ? 4 : 0);
-    }
-    else if (event->type == GDK_SCROLL)
-    {
+    } else if (event->type == GDK_SCROLL) {
       p1 = WM_KEYDOWN;
       p2 = (((GdkEventScroll *)event)->direction == GDK_SCROLL_DOWN) ? 0xFF54 : 0xFF52;
       p3 = 0;
-    }
-    else if (event->type == GDK_BUTTON_PRESS || event->type == GDK_2BUTTON_PRESS || event->type == GDK_BUTTON_RELEASE)
-    {
+    } else if (event->type == GDK_BUTTON_PRESS || event->type == GDK_2BUTTON_PRESS ||
+               event->type == GDK_BUTTON_RELEASE) {
       p1 = (event->type == GDK_BUTTON_PRESS) ? WM_LBUTTONDOWN
                                              : ((event->type == GDK_BUTTON_RELEASE) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK);
       p2 = 0;
       p3 = (((HB_ULONG)(((GdkEventButton *)event)->x)) & 0xFFFF) |
            ((((HB_ULONG)(((GdkEventButton *)event)->y)) << 16) & 0xFFFF0000);
-    }
-    else if (event->type == GDK_MOTION_NOTIFY)
-    {
+    } else if (event->type == GDK_MOTION_NOTIFY) {
       p1 = WM_MOUSEMOVE;
       p2 = (((GdkEventMotion *)event)->state & GDK_BUTTON1_MASK) ? 1 : 0;
       p3 = (((HB_ULONG)(((GdkEventMotion *)event)->x)) & 0xFFFF) |
            ((((HB_ULONG)(((GdkEventMotion *)event)->y)) << 16) & 0xFFFF0000);
-    }
-    else if (event->type == GDK_CONFIGURE)
-    {
+    } else if (event->type == GDK_CONFIGURE) {
       p2 = 0;
       if (widget->allocation.width != ((GdkEventConfigure *)event)->width ||
-          widget->allocation.height != ((GdkEventConfigure *)event)->height)
-      {
+          widget->allocation.height != ((GdkEventConfigure *)event)->height) {
         return 0;
-      }
-      else
-      {
+      } else {
         p1 = WM_MOVE;
         p3 = (((GdkEventConfigure *)event)->x & 0xFFFF) | ((((GdkEventConfigure *)event)->y << 16) & 0xFFFF0000);
       }
-    }
-    else if (event->type == GDK_ENTER_NOTIFY || event->type == GDK_LEAVE_NOTIFY)
-    {
+    } else if (event->type == GDK_ENTER_NOTIFY || event->type == GDK_LEAVE_NOTIFY) {
       p1 = WM_MOUSEMOVE;
       p2 = (((GdkEventCrossing *)event)->state & GDK_BUTTON1_MASK) ? 1
            : 0 | (event->type == GDK_ENTER_NOTIFY)                 ? 0x10
                                                                    : 0;
       p3 = (((HB_ULONG)(((GdkEventCrossing *)event)->x)) & 0xFFFF) |
            ((((HB_ULONG)(((GdkEventMotion *)event)->y)) << 16) & 0xFFFF0000);
-    }
-    else
-    {
+    } else {
       sscanf((char *)data, "%ld %ld %ld", &p1, &p2, &p3);
     }
 
@@ -741,8 +561,7 @@ void all_signal_connect(gpointer hWnd)
   int i;
   char buf[20] = {0};
 
-  for (i = 0; i < NUMBER_OF_SIGNALS; i++)
-  {
+  for (i = 0; i < NUMBER_OF_SIGNALS; i++) {
     sprintf(buf, "%d 0 0", aSignals[i].msg);
     g_signal_connect(hWnd, aSignals[i].cName, G_CALLBACK(cb_signal), g_strdup(buf));
   }
@@ -768,16 +587,12 @@ void SetWindowObject(GtkWidget *hWnd, PHB_ITEM pObject)
 {
   gpointer gObject = g_object_get_data((GObject *)hWnd, "obj");
 
-  if (gObject)
-  {
+  if (gObject) {
     hb_itemRelease((PHB_ITEM)gObject);
   }
-  if (pObject)
-  {
+  if (pObject) {
     g_object_set_data((GObject *)hWnd, "obj", (gpointer)hb_itemNew(pObject));
-  }
-  else
-  {
+  } else {
     g_object_set_data((GObject *)hWnd, "obj", (gpointer)HWG_NULLPTR);
   }
 }
@@ -786,12 +601,9 @@ HB_FUNC(HWG_GETWINDOWOBJECT)
 {
   gpointer dwNewLong = g_object_get_data((GObject *)HB_PARHANDLE(1), "obj");
 
-  if (dwNewLong)
-  {
+  if (dwNewLong) {
     hb_itemReturn((PHB_ITEM)dwNewLong);
-  }
-  else
-  {
+  } else {
     hb_ret();
   }
 }
@@ -826,12 +638,10 @@ HB_FUNC(HWG_MOVEWINDOW)
 {
   GtkWidget *hWnd = (GtkWidget *)HB_PARHANDLE(1);
 
-  if (!HB_ISNIL(2) || !HB_ISNIL(3))
-  {
+  if (!HB_ISNIL(2) || !HB_ISNIL(3)) {
     gtk_window_move(GTK_WINDOW(hWnd), hb_parni(2), hb_parni(3));
   }
-  if (!HB_ISNIL(4) || !HB_ISNIL(5))
-  {
+  if (!HB_ISNIL(4) || !HB_ISNIL(5)) {
     gtk_window_resize(GTK_WINDOW(hWnd), hb_parni(4), hb_parni(5));
   }
 }
@@ -874,13 +684,10 @@ HB_FUNC(HWG_RELEASEOBJECT)
   GObject *hWnd = (GObject *)HB_PARHANDLE(1);
   gpointer dwNewLong = g_object_get_data(hWnd, "obj");
 
-  if (dwNewLong)
-  {
+  if (dwNewLong) {
     hb_itemRelease((PHB_ITEM)dwNewLong);
     g_object_set_data(hWnd, "obj", (gpointer)HWG_NULLPTR);
-  }
-  else
-  {
+  } else {
     hb_ret();
   }
 }
@@ -904,8 +711,7 @@ HB_FUNC(HWG_DESTROYWINDOW)
 HB_FUNC(HWG_SET_MODAL)
 {
   gtk_window_set_modal((GtkWindow *)HB_PARHANDLE(1), 1);
-  if (!HB_ISNIL(2))
-  {
+  if (!HB_ISNIL(2)) {
     gtk_window_set_transient_for((GtkWindow *)HB_PARHANDLE(1), (GtkWindow *)HB_PARHANDLE(2));
   }
 }
@@ -917,24 +723,18 @@ HB_FUNC(HWG_WINDOWSETRESIZE)
 
 gchar *hwg_convert_to_utf8(const char *szText)
 {
-  if (*szAppLocale)
-  {
+  if (*szAppLocale) {
     return g_convert(szText, -1, "UTF-8", szAppLocale, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR);
-  }
-  else
-  {
+  } else {
     return g_locale_to_utf8(szText, -1, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR);
   }
 }
 
 gchar *hwg_convert_from_utf8(const char *szText)
 {
-  if (*szAppLocale)
-  {
+  if (*szAppLocale) {
     return g_convert(szText, -1, szAppLocale, "UTF-8", HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR);
-  }
-  else
-  {
+  } else {
     return g_locale_from_utf8(szText, -1, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR);
   }
 }
