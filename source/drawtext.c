@@ -76,15 +76,12 @@ HB_FUNC(HWG_DRAWTEXT)
   // int uiPos = (hb_pcount() == 4 ? 3 : hb_parni(8));
   int heigh;
 
-  if (hb_pcount() > 4)
-  {
+  if (hb_pcount() > 4) {
     rc.left = hb_parni(3);
     rc.top = hb_parni(4);
     rc.right = hb_parni(5);
     rc.bottom = hb_parni(6);
-  }
-  else
-  {
+  } else {
     Array2Rect(hb_param(3, HB_IT_ARRAY), &rc);
   }
 
@@ -92,8 +89,7 @@ HB_FUNC(HWG_DRAWTEXT)
   hb_strfree(hText);
 
   // if (HB_ISBYREF(uiPos))
-  if (HB_ISARRAY(8))
-  {
+  if (HB_ISARRAY(8)) {
     hb_storvni(rc.left, 8, 1);
     hb_storvni(rc.top, 8, 2);
     hb_storvni(rc.right, 8, 3);

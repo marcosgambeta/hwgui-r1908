@@ -30,8 +30,7 @@ static int(CALLBACK BrowseCallbackProc)(HWND hwnd, UINT uMsg, LPARAM lParam, LPA
   // If the BFFM_INITIALIZED message is received
   // set the path to the start path.
   lParam = TRUE;
-  switch (uMsg)
-  {
+  switch (uMsg) {
   case BFFM_INITIALIZED: {
     if (lpData != (LPARAM)NULL) // TODO: HWG_NULLPTR ?
     {
@@ -68,10 +67,8 @@ HB_FUNC(HWG_SELECTFOLDER)
 
   // Browse for a folder and return its PIDL.
   pidlBrowse = SHBrowseForFolder(&bi);
-  if (pidlBrowse != HWG_NULLPTR)
-  {
-    if (SHGetPathFromIDList(pidlBrowse, lpBuffer))
-    {
+  if (pidlBrowse != HWG_NULLPTR) {
+    if (SHGetPathFromIDList(pidlBrowse, lpBuffer)) {
       lpResult = lpBuffer;
     }
     CoTaskMemFree(pidlBrowse);
@@ -99,12 +96,9 @@ HB_FUNC(HWG_SHELLNOTIFYICON)
   tnid.hIcon = hwg_par_HICON(3);
   HB_ITEMCOPYSTR(hb_param(4, HB_IT_ANY), tnid.szTip, HB_SIZEOFARRAY(tnid.szTip));
 
-  if ((BOOL)hb_parl(1))
-  {
+  if ((BOOL)hb_parl(1)) {
     Shell_NotifyIcon(NIM_ADD, &tnid);
-  }
-  else
-  {
+  } else {
     Shell_NotifyIcon(NIM_DELETE, &tnid);
   }
 }
@@ -122,13 +116,11 @@ HB_FUNC(HWG_SHELLMODIFYICON)
   tnid.cbSize = sizeof(NOTIFYICONDATA);
   tnid.hWnd = hwg_par_HWND(1);
   tnid.uID = ID_NOTIFYICON;
-  if (HB_ISNUM(2) || HB_ISPOINTER(2))
-  {
+  if (HB_ISNUM(2) || HB_ISPOINTER(2)) {
     tnid.uFlags |= NIF_ICON;
     tnid.hIcon = hwg_par_HICON(2);
   }
-  if (HB_ITEMCOPYSTR(hb_param(3, HB_IT_ANY), tnid.szTip, HB_SIZEOFARRAY(tnid.szTip)) > 0)
-  {
+  if (HB_ITEMCOPYSTR(hb_param(3, HB_IT_ANY), tnid.szTip, HB_SIZEOFARRAY(tnid.szTip)) > 0) {
     tnid.uFlags |= NIF_TIP;
   }
 
@@ -150,14 +142,13 @@ HB_FUNC(HWG_SHELLEXECUTE)
   LPCTSTR lpDirectory;
 
   lpDirectory = HB_PARSTR(4, &hDirectory, HWG_NULLPTR);
-  if (lpDirectory == HWG_NULLPTR)
-  {
+  if (lpDirectory == HWG_NULLPTR) {
     lpDirectory = TEXT("C:\\");
   }
 
-  hb_retnint((LONG_PTR)ShellExecute(GetActiveWindow(), HB_PARSTRDEF(2, &hOperation, HWG_NULLPTR), HB_PARSTR(1, &hFile, HWG_NULLPTR),
-                                    HB_PARSTR(3, &hParameters, HWG_NULLPTR), lpDirectory,
-                                    HB_ISNUM(5) ? hb_parni(5) : SW_SHOWNORMAL));
+  hb_retnint((LONG_PTR)ShellExecute(GetActiveWindow(), HB_PARSTRDEF(2, &hOperation, HWG_NULLPTR),
+                                    HB_PARSTR(1, &hFile, HWG_NULLPTR), HB_PARSTR(3, &hParameters, HWG_NULLPTR),
+                                    lpDirectory, HB_ISNUM(5) ? hb_parni(5) : SW_SHOWNORMAL));
 
   hb_strfree(hOperation);
   hb_strfree(hFile);

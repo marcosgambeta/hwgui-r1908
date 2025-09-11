@@ -40,8 +40,7 @@ static TRANSPARENTBLT s_pTransparentBlt = HWG_NULLPTR;
 void TransparentBmp(HDC hDC, int x, int y, int nWidthDest, int nHeightDest, HDC dcImage, int bmWidth, int bmHeight,
                     int trColor)
 {
-  if (s_pTransparentBlt == HWG_NULLPTR)
-  {
+  if (s_pTransparentBlt == HWG_NULLPTR) {
     s_pTransparentBlt = (TRANSPARENTBLT)GetProcAddress(LoadLibrary(TEXT("MSIMG32.DLL")), "TransparentBlt");
   }
   s_pTransparentBlt(hDC, x, y, nWidthDest, nHeightDest, dcImage, 0, 0, bmWidth, bmHeight, trColor);
@@ -49,16 +48,13 @@ void TransparentBmp(HDC hDC, int x, int y, int nWidthDest, int nHeightDest, HDC 
 
 BOOL Array2Rect(PHB_ITEM aRect, RECT *rc)
 {
-  if (HB_IS_ARRAY(aRect) && hb_arrayLen(aRect) == 4)
-  {
+  if (HB_IS_ARRAY(aRect) && hb_arrayLen(aRect) == 4) {
     rc->left = hb_arrayGetNL(aRect, 1);
     rc->top = hb_arrayGetNL(aRect, 2);
     rc->right = hb_arrayGetNL(aRect, 3);
     rc->bottom = hb_arrayGetNL(aRect, 4);
     return TRUE;
-  }
-  else
-  {
+  } else {
     rc->left = rc->top = rc->right = rc->bottom = 0;
   }
   return FALSE;
@@ -94,8 +90,7 @@ HB_FUNC(HWG_INVALIDATERECT)
 {
   RECT rc;
 
-  if (hb_pcount() > 2)
-  {
+  if (hb_pcount() > 2) {
     rc.left = hb_parni(3);
     rc.top = hb_parni(4);
     rc.right = hb_parni(5);
@@ -219,8 +214,7 @@ HB_FUNC(HWG_REDRAWWINDOW)
 {
   RECT rc;
 
-  if (hb_pcount() > 3)
-  {
+  if (hb_pcount() > 3) {
     int x = (hb_pcount() > 3 && !HB_ISNIL(3)) ? hb_parni(3) : 0;
     int y = (hb_pcount() >= 4 && !HB_ISNIL(4)) ? hb_parni(4) : 0;
     int w = (hb_pcount() >= 5 && !HB_ISNIL(5)) ? hb_parni(5) : 0;
@@ -248,12 +242,9 @@ HB_FUNC(HWG_DRAWBUTTON)
   rc.right = hb_parni(4);
   rc.bottom = hb_parni(5);
 
-  if (iType == 0)
-  {
+  if (iType == 0) {
     FillRect(hDC, &rc, (HBRUSH)(COLOR_3DFACE + 1));
-  }
-  else
-  {
+  } else {
     FillRect(hDC, &rc, (HBRUSH)(LONG_PTR)(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DHILIGHT) + 1));
     rc.left++;
     rc.top++;
@@ -264,8 +255,7 @@ HB_FUNC(HWG_DRAWBUTTON)
                                 1));
     rc.right--;
     rc.bottom--;
-    if (iType & 4)
-    {
+    if (iType & 4) {
       FillRect(hDC, &rc, (HBRUSH)(LONG_PTR)(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DLIGHT) + 1));
       rc.left++;
       rc.top++;
@@ -303,12 +293,9 @@ HWG_LOADICON(nIcon|cIcon) --> HICON
 */
 HB_FUNC(HWG_LOADICON)
 {
-  if (HB_ISNUM(1))
-  {
+  if (HB_ISNUM(1)) {
     hwg_ret_HICON(LoadIcon(HWG_NULLPTR, MAKEINTRESOURCE(hb_parni(1))));
-  }
-  else
-  {
+  } else {
     void *hString;
     hwg_ret_HICON(LoadIcon(GetModuleHandle(HWG_NULLPTR), HB_PARSTR(1, &hString, HWG_NULLPTR)));
     hb_strfree(hString);
@@ -322,8 +309,8 @@ HB_FUNC(HWG_LOADIMAGE)
 {
   void *hString = HWG_NULLPTR;
   hwg_ret_HANDLE(LoadImage(HB_ISNIL(1) ? GetModuleHandle(HWG_NULLPTR) : hwg_par_HINSTANCE(1),
-                           HB_ISNUM(2) ? MAKEINTRESOURCE(hb_parni(2)) : HB_PARSTR(2, &hString, HWG_NULLPTR), hwg_par_UINT(3),
-                           hwg_par_int(4), hwg_par_int(5), hwg_par_UINT(6)));
+                           HB_ISNUM(2) ? MAKEINTRESOURCE(hb_parni(2)) : HB_PARSTR(2, &hString, HWG_NULLPTR),
+                           hwg_par_UINT(3), hwg_par_int(4), hwg_par_int(5), hwg_par_UINT(6)));
   hb_strfree(hString);
 }
 
@@ -332,19 +319,13 @@ HWG_LOADBITMAP(nBitmap|cBitmap, lp2) --> HBITMAP
 */
 HB_FUNC(HWG_LOADBITMAP)
 {
-  if (HB_ISNUM(1))
-  {
-    if (!HB_ISNIL(2) && hb_parl(2))
-    {
+  if (HB_ISNUM(1)) {
+    if (!HB_ISNIL(2) && hb_parl(2)) {
       hwg_ret_HBITMAP(LoadBitmap(HWG_NULLPTR, MAKEINTRESOURCE(hb_parni(1))));
-    }
-    else
-    {
+    } else {
       hwg_ret_HBITMAP(LoadBitmap(GetModuleHandle(HWG_NULLPTR), MAKEINTRESOURCE(hb_parni(1))));
     }
-  }
-  else
-  {
+  } else {
     void *hString;
     hwg_ret_HBITMAP(LoadBitmap(GetModuleHandle(HWG_NULLPTR), HB_PARSTR(1, &hString, HWG_NULLPTR)));
     hb_strfree(hString);
@@ -367,12 +348,9 @@ HB_FUNC(HWG_WINDOW2BITMAP)
   HBITMAP hBitmap;
   RECT rc;
 
-  if (lFull)
-  {
+  if (lFull) {
     GetWindowRect(hWnd, &rc);
-  }
-  else
-  {
+  } else {
     GetClientRect(hWnd, &rc);
   }
 
@@ -406,14 +384,11 @@ HB_FUNC(HWG_DRAWBITMAP)
 
   SelectObject(hDCmem, hBitmap);
   GetObject(hBitmap, sizeof(BITMAP), (LPVOID)&bitmap);
-  if (nWidthDest && (nWidthDest != bitmap.bmWidth || nHeightDest != bitmap.bmHeight))
-  {
+  if (nWidthDest && (nWidthDest != bitmap.bmWidth || nHeightDest != bitmap.bmHeight)) {
     SetStretchBltMode(hDC, COLORONCOLOR);
     StretchBlt(hDC, hb_parni(4), hb_parni(5), nWidthDest, nHeightDest, hDCmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight,
                dwraster);
-  }
-  else
-  {
+  } else {
     BitBlt(hDC, hb_parni(4), hb_parni(5), bitmap.bmWidth, bitmap.bmHeight, hDCmem, 0, 0, dwraster);
   }
 
@@ -455,8 +430,7 @@ HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
   pOldBitmapTrans = (HBITMAP)SelectObject(dcTrans, bitmapTrans);
   // Build mask based on transparent colour
   SetBkColor(dcImage, trColor);
-  if (nWidthDest && (nWidthDest != bitmap.bmWidth || nHeightDest != bitmap.bmHeight))
-  {
+  if (nWidthDest && (nWidthDest != bitmap.bmWidth || nHeightDest != bitmap.bmHeight)) {
     /*
     BitBlt(dcTrans, 0, 0, bitmap.bmWidth, bitmap.bmHeight, dcImage, 0, 0, SRCCOPY);
     SetStretchBltMode(hDC, COLORONCOLOR);
@@ -466,9 +440,7 @@ HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
     */
     SetStretchBltMode(hDC, COLORONCOLOR);
     TransparentBmp(hDC, x, y, nWidthDest, nHeightDest, dcImage, bitmap.bmWidth, bitmap.bmHeight, trColor);
-  }
-  else
-  {
+  } else {
     /*
     BitBlt(dcTrans, 0, 0, bitmap.bmWidth, bitmap.bmHeight, dcImage, 0, 0, SRCCOPY);
     // Do the work - True Mask method - cool if not actual display
@@ -508,10 +480,8 @@ HB_FUNC(HWG_SPREADBITMAP)
   GetObject(hBitmap, sizeof(BITMAP), (LPVOID)&bitmap);
   GetClientRect(hwg_par_HWND(2), &rc);
 
-  while (rc.top < rc.bottom)
-  {
-    while (rc.left < rc.right)
-    {
+  while (rc.top < rc.bottom) {
+    while (rc.left < rc.right) {
       BitBlt(hDC, rc.left, rc.top, bitmap.bmWidth, bitmap.bmHeight, hDCmem, 0, 0, dwraster);
       rc.left += bitmap.bmWidth;
     }
@@ -626,8 +596,7 @@ HB_FUNC(HWG_OPENBITMAP)
   hfbm = CreateFile(HB_PARSTR(1, &hString, HWG_NULLPTR), GENERIC_READ, FILE_SHARE_READ, HWG_NULLPTR, OPEN_EXISTING,
                     FILE_ATTRIBUTE_READONLY, HWG_NULLPTR);
   hb_strfree(hString);
-  if (((long int)(LONG_PTR)hfbm) <= 0)
-  {
+  if (((long int)(LONG_PTR)hfbm) <= 0) {
     HB_RETHANDLE(HWG_NULLPTR);
     return;
   }
@@ -659,8 +628,7 @@ HB_FUNC(HWG_OPENBITMAP)
   /*  Retrieve the color table.
    * 1 << bmih.biBitCount == 2 ^ bmih.biBitCount
    */
-  switch (bmih.biBitCount)
-  {
+  switch (bmih.biBitCount) {
   case 1:
   case 4:
   case 8:
@@ -669,8 +637,7 @@ HB_FUNC(HWG_OPENBITMAP)
 
   case 16:
   case 32:
-    if (bmih.biCompression == BI_BITFIELDS)
-    {
+    if (bmih.biCompression == BI_BITFIELDS) {
       ReadFile(hfbm, lpbmi->bmiColors, (3 * sizeof(RGBQUAD)), &dwRead, HWG_NULLPTR);
     }
     break;
@@ -687,16 +654,14 @@ HB_FUNC(HWG_OPENBITMAP)
 
   ReadFile(hfbm, lpvBits, (bmfh.bfSize - bmfh.bfOffBits), &dwRead, HWG_NULLPTR);
 
-  if (!hDC)
-  {
+  if (!hDC) {
     hDC = GetDC(0);
   }
 
   /* Create a bitmap from the data stored in the .BMP file.  */
   hbm = CreateDIBitmap(hDC, &bmih, CBM_INIT, lpvBits, lpbmi, DIB_RGB_COLORS);
 
-  if (hb_pcount() < 2 || HB_ISNIL(2))
-  {
+  if (hb_pcount() < 2 || HB_ISNIL(2)) {
     ReleaseDC(HWG_NULLPTR, hDC);
   }
 
@@ -907,22 +872,17 @@ HB_FUNC(HWG_OPENIMAGE)
   HGLOBAL hG;
   HBITMAP hBitmap = 0;
 
-  if (lString)
-  {
+  if (lString) {
     iFileSize = (int)hb_parclen(1);
     hG = GlobalAlloc(GPTR, iFileSize);
-    if (!hG)
-    {
+    if (!hG) {
       HB_RETHANDLE(HWG_NULLPTR);
       return;
     }
     memcpy((void *)hG, (void *)cFileName, iFileSize);
-  }
-  else
-  {
+  } else {
     fp = fopen(cFileName, "rb");
-    if (!fp)
-    {
+    if (!fp) {
       HB_RETHANDLE(HWG_NULLPTR);
       return;
     }
@@ -930,8 +890,7 @@ HB_FUNC(HWG_OPENIMAGE)
     fseek(fp, 0, SEEK_END);
     iFileSize = ftell(fp);
     hG = GlobalAlloc(GPTR, iFileSize);
-    if (!hG)
-    {
+    if (!hG) {
       fclose(fp);
       HB_RETHANDLE(HWG_NULLPTR);
       return;
@@ -943,8 +902,7 @@ HB_FUNC(HWG_OPENIMAGE)
 
   CreateStreamOnHGlobal(hG, 0, &pStream);
 
-  if (!pStream)
-  {
+  if (!pStream) {
     GlobalFree(hG);
     HB_RETHANDLE(HWG_NULLPTR);
     return;
@@ -960,8 +918,7 @@ HB_FUNC(HWG_OPENIMAGE)
 
   GlobalFree(hG);
 
-  if (!pPic)
-  {
+  if (!pPic) {
     HB_RETHANDLE(HWG_NULLPTR);
     return;
   }
@@ -1099,8 +1056,7 @@ HB_FUNC(HWG_INFLATERECT)
 {
   RECT pRect;
 
-  if (HB_ISARRAY(1))
-  {
+  if (HB_ISARRAY(1)) {
     Array2Rect(hb_param(1, HB_IT_ARRAY), &pRect);
   }
 
@@ -1119,8 +1075,7 @@ HB_FUNC(HWG_FRAMERECT)
 {
   RECT pRect;
 
-  if (HB_ISARRAY(2))
-  {
+  if (HB_ISARRAY(2)) {
     Array2Rect(hb_param(2, HB_IT_ARRAY), &pRect);
   }
 
@@ -1134,8 +1089,7 @@ HB_FUNC(HWG_DRAWFRAMECONTROL)
 {
   RECT pRect;
 
-  if (HB_ISARRAY(2))
-  {
+  if (HB_ISARRAY(2)) {
     Array2Rect(hb_param(2, HB_IT_ARRAY), &pRect);
   }
 
@@ -1149,8 +1103,7 @@ HB_FUNC(HWG_OFFSETRECT)
 {
   RECT pRect;
 
-  if (HB_ISARRAY(1))
-  {
+  if (HB_ISARRAY(1)) {
     Array2Rect(hb_param(1, HB_IT_ARRAY), &pRect);
   }
 
@@ -1168,8 +1121,7 @@ HB_FUNC(HWG_DRAWFOCUSRECT)
 {
   RECT pRect;
 
-  if (HB_ISARRAY(2))
-  {
+  if (HB_ISARRAY(2)) {
     Array2Rect(hb_param(2, HB_IT_ARRAY), &pRect);
   }
 
@@ -1178,8 +1130,7 @@ HB_FUNC(HWG_DRAWFOCUSRECT)
 
 BOOL Array2Point(PHB_ITEM aPoint, POINT *pt)
 {
-  if (HB_IS_ARRAY(aPoint) && hb_arrayLen(aPoint) == 2)
-  {
+  if (HB_IS_ARRAY(aPoint) && hb_arrayLen(aPoint) == 2) {
     pt->x = hb_arrayGetNL(aPoint, 1);
     pt->y = hb_arrayGetNL(aPoint, 2);
     return TRUE;
