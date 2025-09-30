@@ -56,10 +56,8 @@ HB_FUNC(HWG_CREATERICHEDIT)
   hwg_ret_HWND(hCtrl);
 }
 
-/*
- * hwg_RE_SetCharFormat(hCtrl, n1, n2, nColor, cName, nHeight, lBold, lItalic,
-           lUnderline, nCharset, lSuperScript/lSubscript(.T./.F.), lProtected)
- */
+// hwg_RE_SetCharFormat(hCtrl, n1, n2, nColor, cName, nHeight, lBold, lItalic,
+//         lUnderline, nCharset, lSuperScript/lSubscript(.T./.F.), lProtected)
 HB_FUNC(HWG_RE_SETCHARFORMAT)
 {
   HWND hCtrl = hwg_par_HWND(1);
@@ -125,7 +123,7 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
       SendMessage(hCtrl, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
     }
   } else {
-    /*   Set new selection   */
+    // Set new selection
     chrNew.cpMin = hb_parnl(2) - 1;
     chrNew.cpMax = hb_parnl(3) - 1;
     SendMessage(hCtrl, EM_EXSETSEL, 0, (LPARAM)&chrNew);
@@ -178,14 +176,12 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
     SendMessage(hCtrl, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
   }
 
-  /*   Restore selection   */
+  // Restore selection
   SendMessage(hCtrl, EM_EXSETSEL, 0, (LPARAM)&chrOld);
   SendMessage(hCtrl, EM_HIDESELECTION, 0, 0);
 }
 
-/*
- * hwg_RE_SetDefault(hCtrl, nColor, cName, nHeight, lBold, lItalic, lUnderline, nCharset)
- */
+// hwg_RE_SetDefault(hCtrl, nColor, cName, nHeight, lBold, lItalic, lUnderline, nCharset)
 HB_FUNC(HWG_RE_SETDEFAULT)
 {
   HWND hCtrl = hwg_par_HWND(1);
@@ -228,9 +224,7 @@ HB_FUNC(HWG_RE_SETDEFAULT)
   SendMessage(hCtrl, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 }
 
-/*
- * hwg_RE_CharFromPos(hEdit, xPos, yPos) --> nPos
- */
+// hwg_RE_CharFromPos(hEdit, xPos, yPos) --> nPos
 HB_FUNC(HWG_RE_CHARFROMPOS)
 {
   HWND hCtrl = hwg_par_HWND(1);
@@ -245,9 +239,7 @@ HB_FUNC(HWG_RE_CHARFROMPOS)
   hb_retnl(ul);
 }
 
-/*
- * hwg_RE_GetTextRange(hEdit, n1, n2)
- */
+// hwg_RE_GetTextRange(hEdit, n1, n2)
 HB_FUNC(HWG_RE_GETTEXTRANGE)
 {
   HWND hCtrl = hwg_par_HWND(1);
@@ -263,9 +255,7 @@ HB_FUNC(HWG_RE_GETTEXTRANGE)
   hb_xfree(tr.lpstrText);
 }
 
-/*
- * hwg_RE_GetLine(hEdit, nLine)
- */
+// hwg_RE_GetLine(hEdit, nLine)
 HB_FUNC(HWG_RE_GETLINE)
 {
   HWND hCtrl = hwg_par_HWND(1);
@@ -287,9 +277,7 @@ HB_FUNC(HWG_RE_INSERTTEXT)
   hb_strfree(hString);
 }
 
-/*
- * hwg_RE_FindText(hEdit, cFind, nStart, bCase, bWholeWord, bSearchUp)
- */
+// hwg_RE_FindText(hEdit, cFind, nStart, bCase, bWholeWord, bSearchUp)
 HB_FUNC(HWG_RE_FINDTEXT)
 {
   HWND hCtrl = hwg_par_HWND(1);

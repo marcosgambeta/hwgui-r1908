@@ -265,7 +265,7 @@ METHOD HDialog:onEvent(msg, wParam, lParam)
       // prevent the screen flicker
        RETURN 1
    ELSEIF !::lActivated .AND. msg == WM_NCPAINT
-      /* triggered on activate the modal dialog is visible only when */
+      // triggered on activate the modal dialog is visible only when
       ::lActivated := .T.
       IF ::lModal .AND. hb_IsBlock(::bOnActivate)
          hwg_PostMessage(::handle, WM_ACTIVATE, hwg_MAKEWPARAM(WA_ACTIVE, 0), ::handle)
@@ -339,7 +339,7 @@ METHOD HDialog:onEvent(msg, wParam, lParam)
 
    CASE WM_NCPAINT
       IF !::lActivated
-         /* triggered on activate the modal dialog is visible only when */
+         // triggered on activate the modal dialog is visible only when
          ::lActivated := .T.
          IF ::lModal .AND. hb_IsBlock(::bOnActivate)
             hwg_PostMessage(::handle, WM_ACTIVATE, hwg_MAKEWPARAM(WA_ACTIVE, 0), ::handle)

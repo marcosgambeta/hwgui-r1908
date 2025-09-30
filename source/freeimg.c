@@ -228,9 +228,8 @@ HB_FUNC(FI_LOAD)
   }
 }
 
-/* 24/03/2006 - <maurilio.longo@libero.it>
-                As the original freeimage's fi_Load() that has the filetype as first parameter
-*/
+// 24/03/2006 - <maurilio.longo@libero.it>
+//              As the original freeimage's fi_Load() that has the filetype as first parameter
 HB_FUNC(FI_LOADTYPE)
 {
   pLoad = (FREEIMAGE_LOAD)s_getFunction((FARPROC)pLoad, "_FreeImage_Load@12");
@@ -257,9 +256,8 @@ HB_FUNC(FI_SAVE)
   }
 }
 
-/* 24/03/2006 - <maurilio.longo@libero.it>
-                As the original freeimage's fi_Save() that has the filetype as first parameter
-*/
+// 24/03/2006 - <maurilio.longo@libero.it>
+//              As the original freeimage's fi_Save() that has the filetype as first parameter
 HB_FUNC(FI_SAVETYPE)
 {
   pSave = (FREEIMAGE_SAVE)s_getFunction((FARPROC)pSave, "_FreeImage_Save@16");
@@ -315,9 +313,8 @@ HB_FUNC(FI_2BITMAP)
   ReleaseDC(HWG_NULLPTR, hDC);
 }
 
-/* 24/02/2005 - <maurilio.longo@libero.it>
-  from internet, possibly code from win32 sdk
-*/
+// 24/02/2005 - <maurilio.longo@libero.it>
+// from internet, possibly code from win32 sdk
 static HANDLE CreateDIB(DWORD dwWidth, DWORD dwHeight, WORD wBitCount)
 {
   BITMAPINFOHEADER bi;     // bitmap header
@@ -357,11 +354,11 @@ static HANDLE CreateDIB(DWORD dwWidth, DWORD dwHeight, WORD wBitCount)
   // table, and the bits
   dwBytesPerLine = (((wBitCount * dwWidth) + 31) / 32 * 4);
 
-  /*  only 24 bit DIBs supported */
+  // only 24 bit DIBs supported
   dwLen = bi.biSize + 0 /* PaletteSize((LPSTR)&bi) */ + (dwBytesPerLine * dwHeight);
 
-  /* 24/02/2005 - <maurilio.longo@libero.it>
-     needed to copy bits afterward */
+  // 24/02/2005 - <maurilio.longo@libero.it>
+  // needed to copy bits afterward
   bi.biSizeImage = dwBytesPerLine * dwHeight;
 
   // alloc memory block to store our bitmap
@@ -391,9 +388,8 @@ static HANDLE CreateDIB(DWORD dwWidth, DWORD dwHeight, WORD wBitCount)
 #define FI_RGBA_GREEN_MASK 0x0000FF00
 #define FI_RGBA_BLUE_MASK 0x000000FF
 
-/* 24/02/2005 - <maurilio.longo@libero.it>
-    Converts a FIBITMAP into a DIB, works OK only for 24bpp images, though
-*/
+// 24/02/2005 - <maurilio.longo@libero.it>
+// Converts a FIBITMAP into a DIB, works OK only for 24bpp images, though
 HB_FUNC(FI_FI2DIB)
 {
   FIBITMAP *dib = hwg_par_FIBITMAP(1);
@@ -408,7 +404,7 @@ HB_FUNC(FI_FI2DIB)
   hdib = CreateDIB((WORD)pGetwidth(dib), (WORD)pGetheight(dib), (WORD)pGetBPP(dib));
 
   if (hdib) {
-    /* int scan_width = pGetPitch(dib); unused */
+    // int scan_width = pGetPitch(dib); unused
     LPBITMAPINFO lpbi = (LPBITMAPINFO)GlobalLock(hdib);
     memcpy((LPBYTE)((BYTE *)lpbi) + lpbi->bmiHeader.biSize, pGetbits(dib), lpbi->bmiHeader.biSizeImage);
     GlobalUnlock(hdib);
@@ -418,9 +414,8 @@ HB_FUNC(FI_FI2DIB)
   }
 }
 
-/* 24/02/2005 - <maurilio.longo@libero.it>
-  This comes straight from freeimage fipWinImage::copyToHandle()
-*/
+// 24/02/2005 - <maurilio.longo@libero.it>
+// This comes straight from freeimage fipWinImage::copyToHandle()
 static void SET_FREEIMAGE_MARKER(BITMAPINFOHEADER *bmih, FIBITMAP *dib)
 {
 
@@ -556,7 +551,7 @@ HB_FUNC(FI_BMP2FI)
   hb_retnl(0);
 }
 
-/* Next three from EZTwain.c ( http://www.twain.org ) */
+// Next three from EZTwain.c ( http://www.twain.org )
 static int ColorCount(int bpp)
 {
   return 0xFFF & (1 << bpp);
@@ -588,9 +583,8 @@ static LPBYTE DibBits(LPBITMAPINFOHEADER lpdib)
   return lpBits;
 } // end DibBits
 
-/* 19/05/2005 - <maurilio.longo@libero.it>
-  Convert a windows DIB into a FIBITMAP
-*/
+// 19/05/2005 - <maurilio.longo@libero.it>
+// Convert a windows DIB into a FIBITMAP
 HB_FUNC(FI_DIB2FI)
 {
   HANDLE hdib = (HANDLE)(LONG_PTR)hb_parnl(1);
@@ -612,7 +606,7 @@ HB_FUNC(FI_DIB2FI)
       dib = pConvertFromRawBits(DibBits(lpbi), lpbi->biWidth, lpbi->biHeight, pitch, lpbi->biBitCount, FI_RGBA_RED_MASK,
                                 FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, hb_parl(2));
 
-      /* I can't print it with FI_DRAW, though, and I don't know why */
+      // I can't print it with FI_DRAW, though, and I don't know why
       if (pGetBPP(dib) <= 8) {
         // Convert palette entries
         RGBQUAD *pal = pGetPalette(dib);
@@ -645,7 +639,7 @@ HB_FUNC(FI_RESCALE)
                  : 0);
 }
 
-/* Channel is an enumerated type from freeimage.h passed as second parameter */
+// Channel is an enumerated type from freeimage.h passed as second parameter
 HB_FUNC(FI_REMOVECHANNEL)
 {
   FIBITMAP *dib = hwg_par_FIBITMAP(1);
@@ -667,9 +661,7 @@ HB_FUNC(FI_REMOVECHANNEL)
   }
 }
 
-/*
- * Set of functions for loading the image from memory
- */
+// Set of functions for loading the image from memory
 
 unsigned DLL_CALLCONV _ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle)
 {
@@ -696,7 +688,7 @@ unsigned DLL_CALLCONV _WriteProc(void *buffer, unsigned size, unsigned count, fi
 
 int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int origin)
 {
-  /* assert(origin != SEEK_END); */
+  // assert(origin != SEEK_END);
 
   g_load_address = ((origin == SEEK_SET) ? (BYTE *)handle : (BYTE *)g_load_address) + offset;
   return 0;
@@ -704,7 +696,7 @@ int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int origin)
 
 long DLL_CALLCONV _TellProc(fi_handle handle)
 {
-  /* assert((long int)handle >= (long int)g_load_address); */
+  // assert((long int)handle >= (long int)g_load_address);
 
   return ((long int)(LONG_PTR)g_load_address - (long int)(LONG_PTR)handle);
 }
@@ -825,7 +817,7 @@ HB_FUNC(FI_COPY)
                               hb_parnl(5)));       // bottom
 }
 
-/* just a test, should receive a RGBQUAD structure, a xharbour array */
+// just a test, should receive a RGBQUAD structure, a xharbour array
 HB_FUNC(FI_SETBACKGROUNDCOLOR)
 {
   RGBQUAD rgbquad = {255, 255, 255, 255};
@@ -902,7 +894,6 @@ HB_FUNC(FI_SETPIXELINDEX)
   hb_retl(pSetPixelIndex(hwg_par_FIBITMAP(1), hb_parni(2), hb_parni(3), &value));
 }
 
-/* todo
-typedef BOOL (WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
-typedef BOOL (WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
-*/
+// TODO:
+// typedef BOOL (WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
+// typedef BOOL (WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);

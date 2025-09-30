@@ -41,9 +41,7 @@ static int(CALLBACK BrowseCallbackProc)(HWND hwnd, UINT uMsg, LPARAM lParam, LPA
   return 0; // The function should always return 0.
 }
 
-/*
- *  hwg_SelectFolder(cTitle)
- */
+// hwg_SelectFolder(cTitle)
 
 HB_FUNC(HWG_SELECTFOLDER)
 {
@@ -78,9 +76,7 @@ HB_FUNC(HWG_SELECTFOLDER)
   hb_strfree(hFolderName);
 }
 
-/*
- *  hwg_ShellNotifyIcon(lAdd, hWnd, hIcon, cTooltip)
- */
+// hwg_ShellNotifyIcon(lAdd, hWnd, hIcon, cTooltip)
 
 HB_FUNC(HWG_SHELLNOTIFYICON)
 {
@@ -103,9 +99,7 @@ HB_FUNC(HWG_SHELLNOTIFYICON)
   }
 }
 
-/*
- *  hwg_ShellModifyIcon(hWnd, hIcon, cTooltip)
- */
+// hwg_ShellModifyIcon(hWnd, hIcon, cTooltip)
 
 HB_FUNC(HWG_SHELLMODIFYICON)
 {
@@ -127,9 +121,7 @@ HB_FUNC(HWG_SHELLMODIFYICON)
   Shell_NotifyIcon(NIM_MODIFY, &tnid);
 }
 
-/*
- * hwg_ShellExecute(cFile, cOperation, cParams, cDir, nFlag)
- */
+// hwg_ShellExecute(cFile, cOperation, cParams, cDir, nFlag)
 HB_FUNC(HWG_SHELLEXECUTE)
 {
 #if defined(HB_OS_WIN_CE)

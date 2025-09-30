@@ -96,9 +96,7 @@ HB_FUNC(HWG_MOVEWINDOW)
   );
 }
 
-/*
-   hwg_CreateProgressBar(hParentWindow, nRange)
-*/
+// hwg_CreateProgressBar(hParentWindow, nRange)
 HB_FUNC(HWG_CREATEPROGRESSBAR)
 {
   HWND hPBar, hParentWindow = hwg_par_HWND(1);
@@ -131,9 +129,7 @@ HB_FUNC(HWG_CREATEPROGRESSBAR)
   hwg_ret_HWND(hPBar);
 }
 
-/*
-   hwg_UpdateProgressBar(hPBar)
-*/
+// hwg_UpdateProgressBar(hPBar)
 HB_FUNC(HWG_UPDATEPROGRESSBAR)
 {
   SendMessage(hwg_par_HWND(1), PBM_STEPIT, 0, 0);
@@ -144,9 +140,7 @@ HB_FUNC(HWG_SETPROGRESSBAR)
   SendMessage(hwg_par_HWND(1), PBM_SETPOS, hwg_par_WPARAM(2), 0);
 }
 
-/*
-   hwg_CreatePanel(hParentWindow, nPanelControlID, nStyle, x1, y1, nWidth, nHeight)
-*/
+// hwg_CreatePanel(hParentWindow, nPanelControlID, nStyle, x1, y1, nWidth, nHeight)
 HB_FUNC(HWG_CREATEPANEL)
 {
   hwg_ret_HWND(CreateWindowEx(0, TEXT("PANEL"), HWG_NULLPTR,
@@ -155,9 +149,7 @@ HB_FUNC(HWG_CREATEPANEL)
                               hwg_par_HMENU_ID(2), GetModuleHandle(HWG_NULLPTR), HWG_NULLPTR));
 }
 
-/*
-   hwg_CreateOwnBtn(hParentWIndow, nBtnControlID, x, y, nWidth, nHeight)
-*/
+// hwg_CreateOwnBtn(hParentWIndow, nBtnControlID, x, y, nWidth, nHeight)
 HB_FUNC(HWG_CREATEOWNBTN)
 {
   hwg_ret_HWND(CreateWindowEx(0, TEXT("OWNBTN"), HWG_NULLPTR, WS_CHILD | WS_VISIBLE | SS_GRAYRECT | SS_OWNERDRAW,
@@ -165,9 +157,7 @@ HB_FUNC(HWG_CREATEOWNBTN)
                               hwg_par_HMENU_ID(2), GetModuleHandle(HWG_NULLPTR), HWG_NULLPTR));
 }
 
-/*
-   hwg_CreateStatic(hParentWyndow, nControlID, nStyle, x, y, nWidth, nHeight)
-*/
+// hwg_CreateStatic(hParentWyndow, nControlID, nStyle, x, y, nWidth, nHeight)
 HB_FUNC(HWG_CREATESTATIC)
 {
   DWORD ulStyle = hwg_par_DWORD(3);
@@ -188,9 +178,7 @@ HB_FUNC(HWG_CREATESTATIC)
    */
 }
 
-/*
-   hwg_CreateButton(hParentWIndow, nButtonID, nStyle, x, y, nWidth, nHeight, cCaption)
-*/
+// hwg_CreateButton(hParentWIndow, nButtonID, nStyle, x, y, nWidth, nHeight, cCaption)
 HB_FUNC(HWG_CREATEBUTTON)
 {
   void *hStr;
@@ -201,9 +189,7 @@ HB_FUNC(HWG_CREATEBUTTON)
   hb_strfree(hStr);
 }
 
-/*
-   hwg_CreateCombo(hParentWIndow, nComboID, nStyle, x, y, nWidth, nHeight, cInitialString)
-*/
+// hwg_CreateCombo(hParentWIndow, nComboID, nStyle, x, y, nWidth, nHeight, cInitialString)
 HB_FUNC(HWG_CREATECOMBO)
 {
   hwg_ret_HWND(CreateWindowEx(0, TEXT("COMBOBOX"), TEXT(""), WS_CHILD | WS_VISIBLE | hwg_par_DWORD(3), hwg_par_int(4),
@@ -211,10 +197,7 @@ HB_FUNC(HWG_CREATECOMBO)
                               GetModuleHandle(HWG_NULLPTR), HWG_NULLPTR));
 }
 
-/*
-   hwg_CreateBrowse(hParentWIndow, nControlID, nStyle, x, y, nWidth, nHeight,
-               cTitle)
-*/
+// hwg_CreateBrowse(hParentWIndow, nControlID, nStyle, x, y, nWidth, nHeight, cTitle)
 HB_FUNC(HWG_CREATEBROWSE)
 {
   DWORD dwStyle = hwg_par_DWORD(3);
@@ -226,15 +209,14 @@ HB_FUNC(HWG_CREATEBROWSE)
   hb_strfree(hStr);
 }
 
-/* hwg_CreateStatusWindow - creates a status window and divides it into
-     the specified number of parts.
- Returns the handle to the status window.
- hwndParent - parent window for the status window
- nStatusID - child window identifier
- nParts - number of parts into which to divide the status window
- pArray - Array with Lengths of parts, if first item == 0, status window
-          will be divided into equal parts.
-*/
+// hwg_CreateStatusWindow - creates a status window and divides it into
+//     the specified number of parts.
+// Returns the handle to the status window.
+// hwndParent - parent window for the status window
+// nStatusID - child window identifier
+// nParts - number of parts into which to divide the status window
+// pArray - Array with Lengths of parts, if first item == 0, status window
+//          will be divided into equal parts.
 HB_FUNC(HWG_CREATESTATUSWINDOW)
 {
   // Ensure that the common control DLL is loaded.
@@ -687,14 +669,12 @@ HB_FUNC(HWG_TREEADDNODE)
 /*
 HB_FUNC(TREEDELNODE)
 {
-
-   hb_parl(TreeView_DeleteItem(hwg_par_HWND(1), (HTREEITEM)HB_PARHANDLE(2)));
+  hb_parl(TreeView_DeleteItem(hwg_par_HWND(1), (HTREEITEM)HB_PARHANDLE(2)));
 }
 
 HB_FUNC(TREEDELALLNODES)
 {
-
-   TreeView_DeleteAllItems(hwg_par_HWND(1));
+  TreeView_DeleteAllItems(hwg_par_HWND(1));
 }
 */
 
@@ -717,17 +697,15 @@ HB_FUNC(HWG_TREEGETSELECTED)
 /*
 HB_FUNC(TREENODEHASCHILDREN)
 {
+  TV_ITEM TreeItem;
 
-   TV_ITEM TreeItem;
+  memset(&TreeItem, 0, sizeof(TV_ITEM));
+  TreeItem.mask = TVIF_HANDLE | TVIF_CHILDREN;
+  TreeItem.hItem = (HTREEITEM)HB_PARHANDLE(2);
 
-   memset(&TreeItem, 0, sizeof(TV_ITEM));
-   TreeItem.mask = TVIF_HANDLE | TVIF_CHILDREN;
-   TreeItem.hItem = (HTREEITEM) HB_PARHANDLE(2);
-
-   SendMessage(hwg_par_HWND(1), TVM_GETITEM, 0, (LPARAM)(&TreeItem));
-   hb_retni(TreeItem.cChildren);
+  SendMessage(hwg_par_HWND(1), TVM_GETITEM, 0, (LPARAM)(&TreeItem));
+  hb_retni(TreeItem.cChildren);
 }
-
 */
 
 HB_FUNC(HWG_TREEGETNODETEXT)
@@ -809,9 +787,7 @@ HB_FUNC(HWG_TREE_GETNOTIFY)
   }
 }
 
-/*
- * hwg_Tree_Hittest(hTree, x, y) --> oNode
- */
+// hwg_Tree_Hittest(hTree, x, y) --> oNode
 HB_FUNC(HWG_TREE_HITTEST)
 {
   TV_HITTESTINFO ht;
@@ -862,9 +838,7 @@ HB_FUNC(HWG_TREE_RELEASENODE)
   }
 }
 
-/*
- * hwg_CreateImagelist(array, cx, cy, nGrow, flags)
- */
+// hwg_CreateImagelist(array, cx, cy, nGrow, flags)
 HB_FUNC(HWG_CREATEIMAGELIST)
 {
   PHB_ITEM pArray = hb_param(1, HB_IT_ARRAY);
@@ -894,24 +868,19 @@ HB_FUNC(HWG_IMAGELIST_ADDMASKED)
   hb_retnl(ImageList_AddMasked(hwg_par_HIMAGELIST(1), hwg_par_HBITMAP(2), hwg_par_COLORREF(3)));
 }
 
-/*
- *  hwg_SetTimer(hWnd, idTimer, i_MilliSeconds)
- */
+// hwg_SetTimer(hWnd, idTimer, i_MilliSeconds)
 
-/* 22/09/2005 - <maurilio.longo@libero.it>
-      If I pass a fourth parameter as 0 (zero) I don't set
-      the TimerProc, this way I can receive WM_TIMER messages
-      inside an ON OTHER MESSAGES code block
-*/
+// 22/09/2005 - <maurilio.longo@libero.it>
+//    If I pass a fourth parameter as 0 (zero) I don't set
+//    the TimerProc, this way I can receive WM_TIMER messages
+//    inside an ON OTHER MESSAGES code block
 HB_FUNC(HWG_SETTIMER)
 {
   SetTimer(hwg_par_HWND(1), (UINT)hb_parni(2), hwg_par_UINT(3),
            hb_pcount() == 3 ? (TIMERPROC)s_timerProc : HWG_NULLPTR);
 }
 
-/*
- *  hwg_KillTimer(hWnd, idTimer)
- */
+// hwg_KillTimer(hWnd, idTimer)
 
 HB_FUNC(HWG_KILLTIMER)
 {
@@ -1050,12 +1019,12 @@ static void CALLBACK s_timerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dw
 
   if (hb_dynsymIsFunction(s_pSymTest)) {
     hb_vmPushDynSym(s_pSymTest);
-    hb_vmPushNil(); /* places NIL at self */
-                    //      hb_vmPushLong((LONG)hWnd);    /* pushes parameters on to the hvm stack */
+    hb_vmPushNil(); // places NIL at self
+    // hb_vmPushLong((LONG)hWnd); // pushes parameters on to the hvm stack
     HB_PUSHITEM(hWnd);
     hb_vmPushLong((LONG)idTimer);
     hb_vmPushLong((LONG)dwTime);
-    hb_vmDo(3); /* where iArgCount is the number of pushed parameters */
+    hb_vmDo(3); // where iArgCount is the number of pushed parameters
   }
 }
 
@@ -1398,7 +1367,7 @@ HB_FUNC(HWG_CREATETOOLBAR)
 HB_FUNC(HWG_TOOLBARADDBUTTONS)
 {
   HWND hWndCtrl = hwg_par_HWND(1);
-  /* HWND hToolTip = hwg_par_HWND(4); */
+  // HWND hToolTip = hwg_par_HWND(4);
   PHB_ITEM pArray = hb_param(2, HB_IT_ARRAY);
   int iButtons = hb_parni(3);
   TBBUTTON *tb = (struct _TBBUTTON *)hb_xgrab(iButtons * sizeof(TBBUTTON));
@@ -1492,7 +1461,7 @@ HB_FUNC(HWG_TOOLBAR_SETDISPINFO)
     HB_ITEMCOPYSTR(hb_param(2, HB_IT_ANY), pDispInfo->szText, HB_SIZEOFARRAY(pDispInfo->szText));
     pDispInfo->szText[HB_SIZEOFARRAY(pDispInfo->szText) - 1] = 0;
 #if 0
-      /* is it necessary? */
+      // is it necessary?
       if (!pDispInfo->hinst)
          pDispInfo->lpszText = pDispInfo->szText;
 #endif
@@ -1754,18 +1723,14 @@ HB_FUNC(HWG_COMBOBOXGETLBTEXT)
   HB_STORSTR(lpszText, 3);
 }
 
-/*
-HWG_DEFWINDOWPROC(HWND, nMsg, wParam, lParam) --> numeric
-*/
+// HWG_DEFWINDOWPROC(HWND, nMsg, wParam, lParam) --> numeric
 HB_FUNC(HWG_DEFWINDOWPROC)
 {
   // WNDPROC wpProc = (WNDPROC) hb_parnl(1);
   hwg_ret_LRESULT(DefWindowProc(hwg_par_HWND(1), hwg_par_UINT(2), hwg_par_WPARAM(3), hwg_par_LPARAM(4)));
 }
 
-/*
-HWG_CALLWINDOWPROC(WNDPROC, HWND, nMsg, wParam, lParam) --> numeric
-*/
+// HWG_CALLWINDOWPROC(WNDPROC, HWND, nMsg, wParam, lParam) --> numeric
 HB_FUNC(HWG_CALLWINDOWPROC)
 {
   hwg_ret_LRESULT(

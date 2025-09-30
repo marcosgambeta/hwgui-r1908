@@ -64,17 +64,15 @@ static void s_ClearKeyboard(void)
     ;
 }
 
-/* Consume all queued events, useful to update all the controls... I split in 2 parts because I feel
- * that s_doEvents should be called internally by some other functions...
- */
+// Consume all queued events, useful to update all the controls... I split in 2 parts because I feel
+// that s_doEvents should be called internally by some other functions...
 HB_FUNC(HWG_DOEVENTS)
 {
   s_doEvents();
 }
 
-/*  Creates main application window
-    InitMainWindow(szAppName, cTitle, cMenu, hIcon, nBkColor, nStyle, nLeft, nTop, nWidth, nHeight)
-*/
+// Creates main application window
+// InitMainWindow(szAppName, cTitle, cMenu, hIcon, nBkColor, nStyle, nLeft, nTop, nWidth, nHeight)
 
 HB_FUNC(HWG_INITMAINWINDOW)
 {
@@ -180,9 +178,7 @@ void ProcessMdiMessage(HWND hJanBase, HWND hJanClient, MSG msg, HACCEL hAcceler)
   }
 }
 
-/*
- *  HWG_ACTIVATEMAINWINDOW(lShow, hAccel, lMaximize, lMinimize)
- */
+// HWG_ACTIVATEMAINWINDOW(lShow, hAccel, lMaximize, lMinimize)
 HB_FUNC(HWG_ACTIVATEMAINWINDOW)
 {
   HACCEL hAcceler = (HB_ISNIL(2)) ? HWG_NULLPTR : (HACCEL)(LONG_PTR)hb_parnl(2);
@@ -212,10 +208,9 @@ HB_FUNC(HWG_PROCESSMESSAGE)
   SleepEx(nSleep, TRUE);
 }
 
-/* 22/09/2005 - <maurilio.longo@libero.it>
-      It can be used to see if there are messages awaiting of a certain
-      type, but it does not retrieve them
-*/
+// 22/09/2005 - <maurilio.longo@libero.it>
+//    It can be used to see if there are messages awaiting of a certain
+//    type, but it does not retrieve them
 HB_FUNC(HWG_PEEKMESSAGE)
 {
   MSG msg;
@@ -298,9 +293,8 @@ HB_FUNC(HWG_ACTIVATECHILDWINDOW)
                                   : ((HB_ISLOG(4) && hb_parl(4)) ? SW_SHOWMINIMIZED : SW_SHOWNORMAL));
 }
 
-/*  Creates frame MDI and client window
-    InitMainWindow(cTitle, cMenu, cBitmap, hIcon, nBkColor, nStyle, nLeft, nTop, nWidth, nHeight)
-*/
+// Creates frame MDI and client window
+// InitMainWindow(cTitle, cMenu, cBitmap, hIcon, nBkColor, nStyle, nLeft, nTop, nWidth, nHeight)
 HB_FUNC(HWG_INITMDIWINDOW)
 {
   HWND hWnd;
@@ -406,11 +400,10 @@ HB_FUNC(HWG_ACTIVATEMDIWINDOW)
   }
 }
 
-/*  Creates child MDI window
-    CreateMdiChildWindow(aChildWindow)
-    aChildWindow = {cWindowTitle, Nil, aActions, Nil, nStatusWindowID, bStatusWrite}
-    aActions = {{nMenuItemID, bAction}, ...}
-*/
+// Creates child MDI window
+// CreateMdiChildWindow(aChildWindow)
+// aChildWindow = {cWindowTitle, Nil, aActions, Nil, nStatusWindowID, bStatusWrite}
+// aActions = {{nMenuItemID, bAction}, ...}
 
 HB_FUNC(HWG_CREATEMDICHILDWINDOW)
 {
@@ -645,10 +638,8 @@ HB_FUNC(HWG_RESETWINDOWPOS)
   MoveWindow(hwg_par_HWND(1), rc.left, rc.top, rc.right - rc.left + 1, rc.bottom - rc.top, 0);
 }
 
-/*
-   s_MainWndProc alteradas na HWGUI. Agora as funcoes em hWindow.prg
-   retornam 0 para indicar que deve ser usado o processamento default.
-*/
+// s_MainWndProc alteradas na HWGUI. Agora as funcoes em hWindow.prg
+// retornam 0 para indicar que deve ser usado o processamento default.
 static LRESULT CALLBACK s_MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT res;
@@ -739,25 +730,22 @@ static LRESULT CALLBACK s_MDIChildWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, L
 
 PHB_ITEM GetObjectVar(PHB_ITEM pObject, const char *varname)
 {
-  /* ( char * ) casting is a hack for old [x]Harbour versions
-   * which used wrong hb_objSendMsg() declaration
-   */
+  // ( char * ) casting is a hack for old [x]Harbour versions
+  // which used wrong hb_objSendMsg() declaration
   return hb_objSendMsg(pObject, (char *)varname, 0);
 }
 
 void SetObjectVar(PHB_ITEM pObject, const char *varname, PHB_ITEM pValue)
 {
-  /* ( char * ) casting is a hack for old [x]Harbour versions
-   * which used wrong hb_objSendMsg() declaration
-   */
+  // ( char * ) casting is a hack for old [x]Harbour versions
+  // which used wrong hb_objSendMsg() declaration
   hb_objSendMsg(pObject, (char *)varname, 1, pValue);
 }
 
 #if !defined(HB_HAS_STR_FUNC)
 
-/* these are simple wrapper functions for xHarbour and older Harbour
- * versions which do not support automatic UNICODE conversions
- */
+// these are simple wrapper functions for xHarbour and older Harbour
+// versions which do not support automatic UNICODE conversions
 
 static const char s_szConstStr[1] = {0};
 
@@ -836,11 +824,11 @@ void hwg_strfree(void *hString)
     hb_xfree(hString);
   }
 }
-#endif /* !HB_HAS_STR_FUNC */
+#endif // !HB_HAS_STR_FUNC
 
 #if !defined(HB_EMULATE_STR_API)
 
-static int s_iVM_CP = CP_ACP; /* CP_OEMCP */
+static int s_iVM_CP = CP_ACP; // CP_OEMCP
 
 static const wchar_t s_wszConstStr[1] = {0};
 
@@ -976,7 +964,7 @@ void hwg_wstrfree(void *hString)
   }
 }
 
-#endif /* HB_EMULATE_STR_API */
+#endif // HB_EMULATE_STR_API
 
 HB_FUNC(HWG_SETUTF8)
 {

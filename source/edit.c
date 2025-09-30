@@ -65,9 +65,7 @@ LRESULT APIENTRY EditSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
   }
 }
 
-/*
-   hwg_CreateEdit(hParentWIndow, nEditControlID, nStyle, x, y, nWidth, nHeight, cInitialString)
-*/
+// hwg_CreateEdit(hParentWIndow, nEditControlID, nStyle, x, y, nWidth, nHeight, cInitialString)
 HB_FUNC(HWG_CREATEEDIT)
 {
   HWND hWndEdit;

@@ -13,9 +13,7 @@
 #include <hbvm.h>
 #include <hbstack.h>
 
-/*
- *  hwg_PlaySound(cName, lSync, lLoop)
- */
+// hwg_PlaySound(cName, lSync, lLoop)
 HB_FUNC(HWG_PLAYSOUND)
 {
   void *hSound;
@@ -53,7 +51,7 @@ HB_FUNC(HWG_MCISENDSTRING)
   hb_strfree(hCommand);
 }
 
-/* Functions bellow for play video's and wav's*/
+// Functions bellow for play video's and wav's
 
 HB_FUNC(HWG_MCISENDCOMMAND) // ()
 {

@@ -312,10 +312,8 @@ HB_FUNC(HWG_ACTIVATEKEYBOARDLAYOUT)
   hb_strfree(hLayout);
 }
 
-/*
- * hwg_Pts2Pix(nPoints [,hDC]) --> nPixels
- * Conversion from points to pixels, provided by Vic McClung.
- */
+// hwg_Pts2Pix(nPoints [,hDC]) --> nPixels
+// Conversion from points to pixels, provided by Vic McClung.
 
 HB_FUNC(HWG_PTS2PIX)
 {
@@ -336,7 +334,7 @@ HB_FUNC(HWG_PTS2PIX)
   }
 }
 
-/* Functions Contributed  By Luiz Rafael Culik Guimaraes (culikr@uol.com.br) */
+// Functions Contributed  By Luiz Rafael Culik Guimaraes (culikr@uol.com.br)
 
 HB_FUNC(HWG_GETWINDOWSDIR)
 {
@@ -367,9 +365,7 @@ HB_FUNC(HWG_POSTQUITMESSAGE)
   PostQuitMessage(hb_parni(1));
 }
 
-/*
-Contributed by Rodrigo Moreno rodrigo_moreno@yahoo.com base upon code minigui
-*/
+// Contributed by Rodrigo Moreno rodrigo_moreno@yahoo.com base upon code minigui
 
 HB_FUNC(HWG_SHELLABOUT)
 {
@@ -489,8 +485,7 @@ HB_FUNC(HWG_KEYB_EVENT) // TODO: a função da WinAPi se chama keybd_event
   }
 }
 
-/* hwg_SetScrollInfo(hWnd, nType, nRedraw, nPos, nPage, nmax)
- */
+// hwg_SetScrollInfo(hWnd, nType, nRedraw, nPos, nPage, nmax)
 HB_FUNC(HWG_SETSCROLLINFO)
 {
   SCROLLINFO si;
@@ -581,7 +576,7 @@ HB_FUNC(HWG_ISSCROLLLOCKACTIVE)
   hb_retl(GetKeyState(VK_SCROLL));
 }
 
-/* Added By Sandro Freire sandrorrfreire_nospam_yahoo.com.br*/
+// Added By Sandro Freire sandrorrfreire_nospam_yahoo.com.br
 
 HB_FUNC(HWG_CREATEDIRECTORY)
 {
@@ -625,7 +620,7 @@ HB_FUNC(HWG_SETFILEATTRIBUTES)
   hb_strfree(hStr);
 }
 
-/* Add by Richard Roesnadi (based on What32) */
+// Add by Richard Roesnadi (based on What32)
 // GETCOMPUTERNAME([@nLengthChar]) -> cComputerName
 HB_FUNC(HWG_GETCOMPUTERNAME)
 {

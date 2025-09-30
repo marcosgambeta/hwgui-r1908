@@ -25,7 +25,7 @@ extern "C"
 #else
 STDAPI OleLoadPicture(LPSTREAM, LONG, BOOL, REFIID, PVOID *);
 #endif
-#endif /* __BORLANDC__ */
+#endif // __BORLANDC__
 
 #ifdef __cplusplus
 #ifdef CINTERFACE
@@ -73,9 +73,7 @@ PHB_ITEM Rect2Array(RECT *rc)
   return aRect;
 }
 
-/*
-HWG_GETPPSRECT(PAINTSTRUCT) --> aRect
-*/
+// HWG_GETPPSRECT(PAINTSTRUCT) --> aRect
 HB_FUNC(HWG_GETPPSRECT)
 {
   PAINTSTRUCT *pps = hwg_par_PAINTSTRUCT(1);
@@ -83,9 +81,7 @@ HB_FUNC(HWG_GETPPSRECT)
   hb_itemReturnRelease(aMetr);
 }
 
-/*
-HWG_INVALIDATERECT(HWND, nEraseBackgroundFlag, nLeft, nTop, nRight, nBottom) -->
-*/
+// HWG_INVALIDATERECT(HWND, nEraseBackgroundFlag, nLeft, nTop, nRight, nBottom) -->
 HB_FUNC(HWG_INVALIDATERECT)
 {
   RECT rc;
@@ -101,25 +97,19 @@ HB_FUNC(HWG_INVALIDATERECT)
   InvalidateRect(hwg_par_HWND(1), (hb_pcount() > 2) ? &rc : HWG_NULLPTR, hb_parni(2));
 }
 
-/*
-HWG_MOVETO(HDC, nX, nY) -->
-*/
+// HWG_MOVETO(HDC, nX, nY) -->
 HB_FUNC(HWG_MOVETO) // TODO: sincronizar nome da função com função da WINAPI
 {
   MoveToEx(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), HWG_NULLPTR);
 }
 
-/*
-HWG_LINETO(HDC, nX, nY) -->
-*/
+// HWG_LINETO(HDC, nX, nY) -->
 HB_FUNC(HWG_LINETO)
 {
   LineTo(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3));
 }
 
-/*
-HWG_RECTANGLE(HDC, nX1, nY1, nX2, nY2) -->
-*/
+// HWG_RECTANGLE(HDC, nX1, nY1, nX2, nY2) -->
 HB_FUNC(HWG_RECTANGLE) // TODO: usar outro nome para esta função
 {
   HDC hDC = hwg_par_HDC(1);
@@ -134,17 +124,13 @@ HB_FUNC(HWG_RECTANGLE) // TODO: usar outro nome para esta função
   LineTo(hDC, x1, y1);
 }
 
-/*
-HWG_BOX(HDC, nLeft, nTop, nRight, nBottom) -->
-*/
+// HWG_BOX(HDC, nLeft, nTop, nRight, nBottom) -->
 HB_FUNC(HWG_BOX) // TODO: sincronizar nome da função com função da WINAPI
 {
   Rectangle(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5));
 }
 
-/*
-HWG_DRAWLINE(HDC, nX1, nY1, nX2, nY2) -->
-*/
+// HWG_DRAWLINE(HDC, nX1, nY1, nX2, nY2) -->
 HB_FUNC(HWG_DRAWLINE)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -152,9 +138,7 @@ HB_FUNC(HWG_DRAWLINE)
   LineTo(hDC, hb_parni(4), hb_parni(5));
 }
 
-/*
-HWG_PIE(HDC, nLeft, nTop, nRight, nBottom, nXR1, nYR1, nXR2, nYR2) --> numeric
-*/
+// HWG_PIE(HDC, nLeft, nTop, nRight, nBottom, nXR1, nYR1, nXR2, nYR2) --> numeric
 HB_FUNC(HWG_PIE)
 {
   int res = Pie(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
@@ -162,18 +146,14 @@ HB_FUNC(HWG_PIE)
   hb_retnl(res ? 0 : (LONG)GetLastError()); // TODO: o retorno da função é BOOL
 }
 
-/*
-HWG_ELLIPSE(HDC, nLeft, nTop, nRight, nBottom) --> numeric
-*/
+// HWG_ELLIPSE(HDC, nLeft, nTop, nRight, nBottom) --> numeric
 HB_FUNC(HWG_ELLIPSE)
 {
   int res = Ellipse(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5));
   hb_retnl(res ? 0 : (LONG)GetLastError()); // TODO: o retorno da função é BOOL
 }
 
-/*
-HWG_FILLRECT(HDC, nLeft, nTop, nRight, nBottom, HBRUSH) -->
-*/
+// HWG_FILLRECT(HDC, nLeft, nTop, nRight, nBottom, HBRUSH) -->
 HB_FUNC(HWG_FILLRECT)
 {
   RECT rc;
@@ -187,9 +167,7 @@ HB_FUNC(HWG_FILLRECT)
   FillRect(HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)(LONG_PTR)hb_parnl(1), &rc, hwg_par_HBRUSH(6));
 }
 
-/*
-HWG_ROUNDRECT(HDC, nLeft, nTop, nRight, nBottom, nWidth, nHeight) --> .T.|.F.
-*/
+// HWG_ROUNDRECT(HDC, nLeft, nTop, nRight, nBottom, nWidth, nHeight) --> .T.|.F.
 HB_FUNC(HWG_ROUNDRECT)
 {
   hwg_ret_BOOL(RoundRect(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
@@ -207,9 +185,7 @@ HB_FUNC(REDRAWWINDOW)
 }
 #endif
 
-/*
-HWG_REDRAWWINDOW(HWND, nFlags, nX, nY, nWidth, nHeight) -->
-*/
+// HWG_REDRAWWINDOW(HWND, nFlags, nX, nY, nWidth, nHeight) -->
 HB_FUNC(HWG_REDRAWWINDOW)
 {
   RECT rc;
@@ -228,9 +204,7 @@ HB_FUNC(HWG_REDRAWWINDOW)
   RedrawWindow(hwg_par_HWND(1), (hb_pcount() > 3) ? &rc : HWG_NULLPTR, HWG_NULLPTR, hwg_par_UINT(2));
 }
 
-/*
-HWG_DRAWBUTTON(HDC, nLeft, nTop, nRight, nBottom, nType) -->
-*/
+// HWG_DRAWBUTTON(HDC, nLeft, nTop, nRight, nBottom, nType) -->
 HB_FUNC(HWG_DRAWBUTTON)
 {
   RECT rc;
@@ -267,13 +241,9 @@ HB_FUNC(HWG_DRAWBUTTON)
   }
 }
 
-/*
- * hwg_DrawEdge(hDC, x1, y1, x2, y2, nFlag, nBorder)
- */
+// hwg_DrawEdge(hDC, x1, y1, x2, y2, nFlag, nBorder)
 
-/*
-HWG_DRAWEDGE(HDC, nLeft, nTop, nRight, nBottom, nEdge, nGrfFlags) --> .T.|.F.
-*/
+// HWG_DRAWEDGE(HDC, nLeft, nTop, nRight, nBottom, nEdge, nGrfFlags) --> .T.|.F.
 HB_FUNC(HWG_DRAWEDGE)
 {
   RECT rc;
@@ -288,9 +258,7 @@ HB_FUNC(HWG_DRAWEDGE)
   hwg_ret_BOOL(DrawEdge(hwg_par_HDC(1), &rc, edge, grfFlags));
 }
 
-/*
-HWG_LOADICON(nIcon|cIcon) --> HICON
-*/
+// HWG_LOADICON(nIcon|cIcon) --> HICON
 HB_FUNC(HWG_LOADICON)
 {
   if (HB_ISNUM(1)) {
@@ -302,9 +270,7 @@ HB_FUNC(HWG_LOADICON)
   }
 }
 
-/*
-HWG_LOADIMAGE(HINSTANCE, nImage|cImage, nType, nWidth, nHeight, nLoadFlags) --> HANDLE
-*/
+// HWG_LOADIMAGE(HINSTANCE, nImage|cImage, nType, nWidth, nHeight, nLoadFlags) --> HANDLE
 HB_FUNC(HWG_LOADIMAGE)
 {
   void *hString = HWG_NULLPTR;
@@ -314,9 +280,7 @@ HB_FUNC(HWG_LOADIMAGE)
   hb_strfree(hString);
 }
 
-/*
-HWG_LOADBITMAP(nBitmap|cBitmap, lp2) --> HBITMAP
-*/
+// HWG_LOADBITMAP(nBitmap|cBitmap, lp2) --> HBITMAP
 HB_FUNC(HWG_LOADBITMAP)
 {
   if (HB_ISNUM(1)) {
@@ -332,13 +296,9 @@ HB_FUNC(HWG_LOADBITMAP)
   }
 }
 
-/*
- * hwg_Window2Bitmap(hWnd)
- */
+// hwg_Window2Bitmap(hWnd)
 
-/*
-HWG_WINDOW2BITMAP(HWND, lFull) --> HBITMAP
-*/
+// HWG_WINDOW2BITMAP(HWND, lFull) --> HBITMAP
 HB_FUNC(HWG_WINDOW2BITMAP)
 {
   HWND hWnd = hwg_par_HWND(1);
@@ -365,13 +325,9 @@ HB_FUNC(HWG_WINDOW2BITMAP)
   hwg_ret_HBITMAP(hBitmap);
 }
 
-/*
- * hwg_DrawBitmap(hDC, hBitmap, style, x, y, width, height)
- */
+// hwg_DrawBitmap(hDC, hBitmap, style, x, y, width, height)
 
-/*
-HWG_DRAWBITMAP(HDC, HBITMAP, np3, nX, nY, nWidth, nHeight) -->
-*/
+// HWG_DRAWBITMAP(HDC, HBITMAP, np3, nX, nY, nWidth, nHeight) -->
 HB_FUNC(HWG_DRAWBITMAP)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -395,13 +351,9 @@ HB_FUNC(HWG_DRAWBITMAP)
   DeleteDC(hDCmem);
 }
 
-/*
- * hwg_DrawTransparentBitmap(hDC, hBitmap, x, y [,trColor])
- */
+// hwg_DrawTransparentBitmap(hDC, hBitmap, x, y [,trColor])
 
-/*
-HWG_DRAWTRANSPARENTBITMAP(HDC, HBITMAP, nX, nY, nTrColor, nWidthDest, nHeightDest) -->
-*/
+// HWG_DRAWTRANSPARENTBITMAP(HDC, HBITMAP, nX, nY, nTrColor, nWidthDest, nHeightDest) -->
 HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -461,12 +413,9 @@ HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
   DeleteDC(dcTrans);
 }
 
-/*  hwg_SpreadBitmap(hDC, hWnd, hBitmap, style)
- */
+// hwg_SpreadBitmap(hDC, hWnd, hBitmap, style)
 
-/*
-HWG_SPREADBITMAP(HDC, HWND, HBITMAP, np4) -->
-*/
+// HWG_SPREADBITMAP(HDC, HWND, HBITMAP, np4) -->
 HB_FUNC(HWG_SPREADBITMAP)
 {
   HDC hDC = HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)(LONG_PTR)hb_parnl(1); // TODO: revisar e usar somente hwg_par_HDC
@@ -492,12 +441,9 @@ HB_FUNC(HWG_SPREADBITMAP)
   DeleteDC(hDCmem);
 }
 
-/*  hwg_CenterBitmap(hDC, hWnd, hBitmap, style, brush)
- */
+// hwg_CenterBitmap(hDC, hWnd, hBitmap, style, brush)
 
-/*
-HWG_CENTERBITMAP(HDC, HWND, HBITMAP, np4, HBRUSH) -->
-*/
+// HWG_CENTERBITMAP(HDC, HWND, HBITMAP, np4, HBRUSH) -->
 HB_FUNC(HWG_CENTERBITMAP)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -519,9 +465,7 @@ HB_FUNC(HWG_CENTERBITMAP)
   DeleteDC(hDCmem);
 }
 
-/*
-HWG_GETBITMAPSIZE(HBITMAP) --> aInfo[4]
-*/
+// HWG_GETBITMAPSIZE(HBITMAP) --> aInfo[4]
 HB_FUNC(HWG_GETBITMAPSIZE)
 {
   BITMAP bitmap;
@@ -550,9 +494,7 @@ HB_FUNC(HWG_GETBITMAPSIZE)
   hb_itemReturnRelease(aMetr);
 }
 
-/*
-HWG_GETICONSIZE(HICON) --> aInfo[3]
-*/
+// HWG_GETICONSIZE(HICON) --> aInfo[3]
 HB_FUNC(HWG_GETICONSIZE)
 {
   ICONINFO iinfo;
@@ -577,9 +519,7 @@ HB_FUNC(HWG_GETICONSIZE)
   hb_itemReturnRelease(aMetr);
 }
 
-/*
-HWG_OPENBITMAP(cFileName, HDC) --> HBITMAP
-*/
+// HWG_OPENBITMAP(cFileName, HDC) --> HBITMAP
 HB_FUNC(HWG_OPENBITMAP)
 {
   BITMAPFILEHEADER bmfh;
@@ -600,18 +540,18 @@ HB_FUNC(HWG_OPENBITMAP)
     HB_RETHANDLE(HWG_NULLPTR);
     return;
   }
-  /* Retrieve the BITMAPFILEHEADER structure. */
+  // Retrieve the BITMAPFILEHEADER structure.
   ReadFile(hfbm, &bmfh, sizeof(BITMAPFILEHEADER), &dwRead, HWG_NULLPTR);
 
-  /* Retrieve the BITMAPFILEHEADER structure. */
+  // Retrieve the BITMAPFILEHEADER structure.
   ReadFile(hfbm, &bmih, sizeof(BITMAPINFOHEADER), &dwRead, HWG_NULLPTR);
 
-  /* Allocate memory for the BITMAPINFO structure. */
+  // Allocate memory for the BITMAPINFO structure.
 
   hmem1 = GlobalAlloc(GHND, sizeof(BITMAPINFOHEADER) + ((1 << bmih.biBitCount) * sizeof(RGBQUAD)));
   lpbmi = (LPBITMAPINFO)GlobalLock(hmem1);
 
-  /*  Load BITMAPINFOHEADER into the BITMAPINFO  structure. */
+  // Load BITMAPINFOHEADER into the BITMAPINFO  structure.
   lpbmi->bmiHeader.biSize = bmih.biSize;
   lpbmi->bmiHeader.biWidth = bmih.biWidth;
   lpbmi->bmiHeader.biHeight = bmih.biHeight;
@@ -625,9 +565,8 @@ HB_FUNC(HWG_OPENBITMAP)
   lpbmi->bmiHeader.biClrUsed = bmih.biClrUsed;
   lpbmi->bmiHeader.biClrImportant = bmih.biClrImportant;
 
-  /*  Retrieve the color table.
-   * 1 << bmih.biBitCount == 2 ^ bmih.biBitCount
-   */
+  //  Retrieve the color table.
+  // 1 << bmih.biBitCount == 2 ^ bmih.biBitCount
   switch (bmih.biBitCount) {
   case 1:
   case 4:
@@ -646,11 +585,11 @@ HB_FUNC(HWG_OPENBITMAP)
     break;
   }
 
-  /* Allocate memory for the required number of  bytes. */
+  // Allocate memory for the required number of  bytes.
   hmem2 = GlobalAlloc(GHND, (bmfh.bfSize - bmfh.bfOffBits));
   lpvBits = GlobalLock(hmem2);
 
-  /* Retrieve the bitmap data. */
+  // Retrieve the bitmap data.
 
   ReadFile(hfbm, lpvBits, (bmfh.bfSize - bmfh.bfOffBits), &dwRead, HWG_NULLPTR);
 
@@ -658,14 +597,14 @@ HB_FUNC(HWG_OPENBITMAP)
     hDC = GetDC(0);
   }
 
-  /* Create a bitmap from the data stored in the .BMP file.  */
+  // Create a bitmap from the data stored in the .BMP file.
   hbm = CreateDIBitmap(hDC, &bmih, CBM_INIT, lpvBits, lpbmi, DIB_RGB_COLORS);
 
   if (hb_pcount() < 2 || HB_ISNIL(2)) {
     ReleaseDC(HWG_NULLPTR, hDC);
   }
 
-  /* Unlock the global memory objects and close the .BMP file. */
+  // Unlock the global memory objects and close the .BMP file.
   GlobalUnlock(hmem1);
   GlobalUnlock(hmem2);
   GlobalFree(hmem1);
@@ -675,90 +614,68 @@ HB_FUNC(HWG_OPENBITMAP)
   hwg_ret_HBITMAP(hbm);
 }
 
-/*
-HWG_DRAWICON(HDC, HICON, nX, nY) -->
-*/
+// HWG_DRAWICON(HDC, HICON, nX, nY) -->
 HB_FUNC(HWG_DRAWICON) // TODO: ordem dos parâmetros não segue a função da WINAPI
 {
   DrawIcon(hwg_par_HDC(1), hwg_par_int(3), hwg_par_int(4), hwg_par_HICON(2)); // TODO: o retorno é BOOL
 }
 
-/*
-HWG_GETSYSCOLOR(nIndex) --> color
-*/
+// HWG_GETSYSCOLOR(nIndex) --> color
 HB_FUNC(HWG_GETSYSCOLOR)
 {
   hwg_ret_DWORD(GetSysColor(hwg_par_int(1)));
 }
 
-/*
-HWG_GETSYSCOLORBRUSH(nIndex) --> HBRUSH
-*/
+// HWG_GETSYSCOLORBRUSH(nIndex) --> HBRUSH
 HB_FUNC(HWG_GETSYSCOLORBRUSH)
 {
   hwg_ret_HBRUSH(GetSysColorBrush(hwg_par_int(1)));
 }
 
-/*
-HWG_CREATEPEN(nStyle, nWidth, nColor) --> HPEN
-*/
+// HWG_CREATEPEN(nStyle, nWidth, nColor) --> HPEN
 HB_FUNC(HWG_CREATEPEN)
 {
   hwg_ret_HPEN(CreatePen(hwg_par_int(1), hwg_par_int(2), hwg_par_COLORREF(3)));
 }
 
-/*
-HWG_CREATESOLIDBRUSH(nColor) --> HBRUSH
-*/
+// HWG_CREATESOLIDBRUSH(nColor) --> HBRUSH
 HB_FUNC(HWG_CREATESOLIDBRUSH)
 {
   hwg_ret_HBRUSH(CreateSolidBrush(hwg_par_COLORREF(1)));
 }
 
-/*
-HWG_CREATEHATCHBRUSH(nHatch, nColor) --> HBRUSH
-*/
+// HWG_CREATEHATCHBRUSH(nHatch, nColor) --> HBRUSH
 HB_FUNC(HWG_CREATEHATCHBRUSH)
 {
   hwg_ret_HBRUSH(CreateHatchBrush(hwg_par_int(1), hwg_par_COLORREF(2)));
 }
 
-/*
-HWG_SELECTOBJECT(HDC, HGDIOBJ) --> HGDIOBJ
-*/
+// HWG_SELECTOBJECT(HDC, HGDIOBJ) --> HGDIOBJ
 HB_FUNC(HWG_SELECTOBJECT)
 {
   hwg_ret_HGDIOBJ(SelectObject(hwg_par_HDC(1), hwg_par_HGDIOBJ(2)));
 }
 
-/*
-DELETEOBJECT(HGDIOBJ) -->
-*/
+// DELETEOBJECT(HGDIOBJ) -->
 HB_FUNC(HWG_DELETEOBJECT)
 {
   // TODO: retorno BOOL
   DeleteObject(hwg_par_HGDIOBJ(1));
 }
 
-/*
-GETDC(HWND) --> HDC
-*/
+// GETDC(HWND) --> HDC
 HB_FUNC(HWG_GETDC)
 {
   hwg_ret_HDC(GetDC(hwg_par_HWND(1)));
 }
 
-/*
-RELEASEDC(HWND, HDC) --> numeric
-*/
+// RELEASEDC(HWND, HDC) --> numeric
 HB_FUNC(HWG_RELEASEDC)
 {
   hwg_ret_int(ReleaseDC(hwg_par_HWND(1), hwg_par_HDC(2)));
 }
 
-/*
-GETDRAWITEMINFO(DRAWITEMSTRUCT) --> aInfo[9]
-*/
+// GETDRAWITEMINFO(DRAWITEMSTRUCT) --> aInfo[9]
 HB_FUNC(HWG_GETDRAWITEMINFO)
 {
   DRAWITEMSTRUCT *lpdis = (DRAWITEMSTRUCT *)HB_PARHANDLE(1); // hb_parnl(1);
@@ -804,13 +721,9 @@ HB_FUNC(HWG_GETDRAWITEMINFO)
   hb_itemReturnRelease(aMetr);
 }
 
-/*
- * hwg_DrawGrayBitmap(hDC, hBitmap, x, y)
- */
+// hwg_DrawGrayBitmap(hDC, hBitmap, x, y)
 
-/*
-HWG_DRAWGRAYBITMAP(HDC, HBITMAP, nX, nY) -->
-*/
+// HWG_DRAWGRAYBITMAP(HDC, HBITMAP, nX, nY) -->
 HB_FUNC(HWG_DRAWGRAYBITMAP)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -857,9 +770,7 @@ HB_FUNC(HWG_DRAWGRAYBITMAP)
 #include <ole2.h>
 #include <ocidl.h>
 
-/*
-HWG_OPENIMAGE(cFileName, lp2) --> HANDLE
-*/
+// HWG_OPENIMAGE(cFileName, lp2) --> HANDLE
 HB_FUNC(HWG_OPENIMAGE)
 {
   const char *cFileName = hb_parc(1);
@@ -938,120 +849,92 @@ HB_FUNC(HWG_OPENIMAGE)
 #endif
 }
 
-/*
-HWG_PATBLT(HDC, nX, nY, nWidth, nHeight, nRop) --> .T.|.F.
-*/
+// HWG_PATBLT(HDC, nX, nY, nWidth, nHeight, nRop) --> .T.|.F.
 HB_FUNC(HWG_PATBLT)
 {
   hwg_ret_BOOL(
       PatBlt(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_DWORD(6)));
 }
 
-/*
-SAVEDC(HDC) --> .T.|.F.
-*/
+// SAVEDC(HDC) --> .T.|.F.
 HB_FUNC(HWG_SAVEDC)
 {
   // TODO: o valor de retorno deve ser numérico e não lógico
   hb_retl(SaveDC(hwg_par_HDC(1)));
 }
 
-/*
-RESTOREDC(HDC, nSavedDC) --> .T.|.F.
-*/
+// RESTOREDC(HDC, nSavedDC) --> .T.|.F.
 HB_FUNC(HWG_RESTOREDC)
 {
   hwg_ret_BOOL(RestoreDC(hwg_par_HDC(1), hwg_par_int(2)));
 }
 
-/*
-CREATECOMPATIBLEDC(HDC) --> HDC
-*/
+// CREATECOMPATIBLEDC(HDC) --> HDC
 HB_FUNC(HWG_CREATECOMPATIBLEDC)
 {
   hwg_ret_HDC(CreateCompatibleDC(hwg_par_HDC(1)));
 }
 
-/*
-HWG_SETMAPMODE(HDC, nMode) --> numeric
-*/
+// HWG_SETMAPMODE(HDC, nMode) --> numeric
 HB_FUNC(HWG_SETMAPMODE)
 {
   hwg_ret_int(SetMapMode(hwg_par_HDC(1), hwg_par_int(2)));
 }
 
-/*
-HWG_SETWINDOWORGEX(HDC, nX, nY) -->
-*/
+// HWG_SETWINDOWORGEX(HDC, nX, nY) -->
 HB_FUNC(HWG_SETWINDOWORGEX) // TODO: o retorno é BOOL
 {
   SetWindowOrgEx(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), HWG_NULLPTR);
   hb_stornl(0, 4);
 }
 
-/*
-HWG_SETWINDOWEXTEX(HDC, nX, nY) -->
-*/
+// HWG_SETWINDOWEXTEX(HDC, nX, nY) -->
 HB_FUNC(HWG_SETWINDOWEXTEX) // TODO: o retorno é BOOL
 {
   SetWindowExtEx(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), HWG_NULLPTR);
   hb_stornl(0, 4);
 }
 
-/*
-HWG_SETVIEWPORTORGEX(HDC, nX, nY) -->
-*/
+// HWG_SETVIEWPORTORGEX(HDC, nX, nY) -->
 HB_FUNC(HWG_SETVIEWPORTORGEX) // TODO: o retorno é BOOL
 {
   SetViewportOrgEx(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), HWG_NULLPTR);
   hb_stornl(0, 4);
 }
 
-/*
-HWG_SETVIEWPORTEXTEX(HDC, nX, nY) -->
-*/
+// HWG_SETVIEWPORTEXTEX(HDC, nX, nY) -->
 HB_FUNC(HWG_SETVIEWPORTEXTEX) // TODO: o retorno é BOOL
 {
   SetViewportExtEx(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), HWG_NULLPTR);
   hb_stornl(0, 4);
 }
 
-/*
-HWG_SETARCDIRECTION(HDC, nDir) --> numeric
-*/
+// HWG_SETARCDIRECTION(HDC, nDir) --> numeric
 HB_FUNC(HWG_SETARCDIRECTION)
 {
   hwg_ret_int(SetArcDirection(hwg_par_HDC(1), hwg_par_int(2)));
 }
 
-/*
-HWG_SETROP2(HDC, nRop2) --> numeric
-*/
+// HWG_SETROP2(HDC, nRop2) --> numeric
 HB_FUNC(HWG_SETROP2)
 {
   hwg_ret_int(SetROP2(hwg_par_HDC(1), hwg_par_int(2)));
 }
 
-/*
-HWG_BITBLT(HDC, nX, nY, nWidth, nHeight, HDCSRC, nX, nY, nRop) --> .T.|.F.
-*/
+// HWG_BITBLT(HDC, nX, nY, nWidth, nHeight, HDCSRC, nX, nY, nRop) --> .T.|.F.
 HB_FUNC(HWG_BITBLT)
 {
   hwg_ret_BOOL(BitBlt(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_HDC(6),
                       hwg_par_int(7), hwg_par_int(8), hwg_par_DWORD(9)));
 }
 
-/*
-HWG_CREATECOMPATIBLEBITMAP(HDC, nWidth, nHeight) --> HBITMAP
-*/
+// HWG_CREATECOMPATIBLEBITMAP(HDC, nWidth, nHeight) --> HBITMAP
 HB_FUNC(HWG_CREATECOMPATIBLEBITMAP)
 {
   hwg_ret_HBITMAP(CreateCompatibleBitmap(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3)));
 }
 
-/*
-HWG_INFLATERECT(aRect, nDX, nDY) --> .T.|.F.
-*/
+// HWG_INFLATERECT(aRect, nDX, nDY) --> .T.|.F.
 HB_FUNC(HWG_INFLATERECT)
 {
   RECT pRect;
@@ -1068,9 +951,7 @@ HB_FUNC(HWG_INFLATERECT)
   hb_storvni(pRect.bottom, 1, 4);
 }
 
-/*
-HWG_FRAMERECT(HDC, aRect) --> numeric
-*/
+// HWG_FRAMERECT(HDC, aRect) --> numeric
 HB_FUNC(HWG_FRAMERECT)
 {
   RECT pRect;
@@ -1082,9 +963,7 @@ HB_FUNC(HWG_FRAMERECT)
   hb_retni(FrameRect(hwg_par_HDC(1), &pRect, hwg_par_HBRUSH(3)));
 }
 
-/*
-HWG_DRAWFRAMECONTROL(HDC, aRect, nType, nState) --> .T.|.F.
-*/
+// HWG_DRAWFRAMECONTROL(HDC, aRect, nType, nState) --> .T.|.F.
 HB_FUNC(HWG_DRAWFRAMECONTROL)
 {
   RECT pRect;
@@ -1096,9 +975,7 @@ HB_FUNC(HWG_DRAWFRAMECONTROL)
   hwg_ret_BOOL(DrawFrameControl(hwg_par_HDC(1), &pRect, hwg_par_UINT(3), hwg_par_UINT(4)));
 }
 
-/*
-HWG_OFFSETRECT(aRect, nX, nY) --> .T.|.F.
-*/
+// HWG_OFFSETRECT(aRect, nX, nY) --> .T.|.F.
 HB_FUNC(HWG_OFFSETRECT)
 {
   RECT pRect;
@@ -1114,9 +991,7 @@ HB_FUNC(HWG_OFFSETRECT)
   hb_storvni(pRect.bottom, 1, 4);
 }
 
-/*
-HWG_DRAWFOCUSRECT(HDC, aRect) --> .T.|.F.
-*/
+// HWG_DRAWFOCUSRECT(HDC, aRect) --> .T.|.F.
 HB_FUNC(HWG_DRAWFOCUSRECT)
 {
   RECT pRect;
@@ -1139,9 +1014,7 @@ BOOL Array2Point(PHB_ITEM aPoint, POINT *pt)
   return FALSE;
 }
 
-/*
-HWG_PTINRECT(aRect, aPoint) --> .T.|.F.
-*/
+// HWG_PTINRECT(aRect, aPoint) --> .T.|.F.
 HB_FUNC(HWG_PTINRECT)
 {
   POINT pt;
@@ -1152,9 +1025,7 @@ HB_FUNC(HWG_PTINRECT)
   hwg_ret_BOOL(PtInRect(&rect, pt));
 }
 
-/*
-HWG_GETMEASUREITEMINFO(MEASUREITEMSTRUCT) --> array
-*/
+// HWG_GETMEASUREITEMINFO(MEASUREITEMSTRUCT) --> array
 HB_FUNC(HWG_GETMEASUREITEMINFO)
 {
   MEASUREITEMSTRUCT *lpdis = (MEASUREITEMSTRUCT *)HB_PARHANDLE(1); // hb_parnl(1);
@@ -1183,9 +1054,7 @@ HB_FUNC(HWG_GETMEASUREITEMINFO)
   hb_itemReturnRelease(aMetr);
 }
 
-/*
-HWG_COPYRECT(aRect) --> aRect
-*/
+// HWG_COPYRECT(aRect) --> aRect
 HB_FUNC(HWG_COPYRECT)
 {
   RECT p;
@@ -1193,17 +1062,13 @@ HB_FUNC(HWG_COPYRECT)
   hb_itemReturnRelease(Rect2Array(&p));
 }
 
-/*
-GETWINDOWDC(HWND) --> HDC
-*/
+// GETWINDOWDC(HWND) --> HDC
 HB_FUNC(HWG_GETWINDOWDC)
 {
   hwg_ret_HDC(GetWindowDC(hwg_par_HWND(1)));
 }
 
-/*
-HWG_MODIFYSTYLE(HWND, np2, np3) -->
-*/
+// HWG_MODIFYSTYLE(HWND, np2, np3) -->
 HB_FUNC(HWG_MODIFYSTYLE)
 {
   HWND hWnd = hwg_par_HWND(1);

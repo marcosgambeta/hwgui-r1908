@@ -96,7 +96,7 @@ HB_FUNC(HWG_GETDEFAULTPRINTER)
     HB_RETSTR(pinfo5->pPrinterName);
     hb_xfree(pinfo5);
   } else if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-    if (osvi.dwMajorVersion >= 5) /* Windows 2000 or later */
+    if (osvi.dwMajorVersion >= 5) // Windows 2000 or later
     {
       TCHAR PrinterDefault[256] = {0};
       DWORD BuffSize = 256;
@@ -183,14 +183,14 @@ HB_FUNC(HWG_SETPRINTERMODE)
   }
 
   if (hPrinter) {
-    /* Determine the size of DEVMODE structure */
+    // Determine the size of DEVMODE structure
     nSize = DocumentProperties(HWG_NULLPTR, hPrinter, (LPTSTR)lpPrinterName, HWG_NULLPTR, HWG_NULLPTR, 0);
     pdm = (PDEVMODE)GlobalAlloc(GPTR, nSize);
 
-    /* Get the printer mode */
+    // Get the printer mode
     DocumentProperties(HWG_NULLPTR, hPrinter, (LPTSTR)lpPrinterName, pdm, HWG_NULLPTR, DM_OUT_BUFFER);
 
-    /* Changing of values */
+    // Changing of values
     if (!HB_ISNIL(3)) {
       pdm->dmOrientation = (short)hb_parni(3);
       pdm->dmFields = pdm->dmFields | DM_ORIENTATION;
@@ -249,15 +249,12 @@ HB_FUNC(HWG_ENDPAGE)
   hb_retnl((LONG)EndPage(hwg_par_HDC(1)));
 }
 
-/*
- * HORZRES	Width, in pixels, of the screen.
- * VERTRES	Height, in raster lines, of the screen.
- * HORZSIZE	Width, in millimeters, of the physical screen.
- * VERTSIZE	Height, in millimeters, of the physical screen.
- * LOGPIXELSX	Number of pixels per logical inch along the screen width.
- * LOGPIXELSY	Number of pixels per logical inch along the screen height.
- *
- */
+// HORZRES      Width, in pixels, of the screen.
+// VERTRES      Height, in raster lines, of the screen.
+// HORZSIZE     Width, in millimeters, of the physical screen.
+// VERTSIZE     Height, in millimeters, of the physical screen.
+// LOGPIXELSX   Number of pixels per logical inch along the screen width.
+// LOGPIXELSY   Number of pixels per logical inch along the screen height.
 HB_FUNC(HWG_GETDEVICEAREA)
 {
   HDC hDC = hwg_par_HDC(1);
@@ -320,35 +317,30 @@ HB_FUNC(HWG_CREATEENHMETAFILE)
   RECT rc;
   // char cres[80];
 
-  /* Determine the picture frame dimensions.
-   * iWidthMM is the display width in millimeters.
-   * iHeightMM is the display height in millimeters.
-   * iWidthPels is the display width in pixels.
-   * iHeightPels is the display height in pixels
-   */
+  // Determine the picture frame dimensions.
+  // iWidthMM is the display width in millimeters.
+  // iHeightMM is the display height in millimeters.
+  // iWidthPels is the display width in pixels.
+  // iHeightPels is the display height in pixels
 
   iWidthMM = GetDeviceCaps(hDCref, HORZSIZE);
   iHeightMM = GetDeviceCaps(hDCref, VERTSIZE);
   iWidthPels = GetDeviceCaps(hDCref, HORZRES);
   iHeightPels = GetDeviceCaps(hDCref, VERTRES);
 
-  /*
-   * Retrieve the coordinates of the client
-   * rectangle, in pixels.
-   */
+  // Retrieve the coordinates of the client
+  // rectangle, in pixels.
 
   GetClientRect(hWnd, &rc);
   // sprintf( cres,"%d %d %d %d %d %d %d %d",iWidthMM, iHeightMM, iWidthPels,
   // iHeightPels,rc.left,rc.top,rc.right,rc.bottom ); MessageBox(GetActiveWindow(), cres, "", MB_OK |
   // MB_ICONINFORMATION);
 
-  /*
-   * Convert client coordinates to .01-mm units.
-   * Use iWidthMM, iWidthPels, iHeightMM, and
-   * iHeightPels to determine the number of
-   * .01-millimeter units per pixel in the x-
-   *  and y-directions.
-   */
+  // Convert client coordinates to .01-mm units.
+  // Use iWidthMM, iWidthPels, iHeightMM, and
+  // iHeightPels to determine the number of
+  // .01-millimeter units per pixel in the x-
+  // and y-directions.
 
   rc.left = (rc.left * iWidthMM * 100) / iWidthPels;
   rc.top = (rc.top * iHeightMM * 100) / iHeightPels;
@@ -368,23 +360,20 @@ HB_FUNC(HWG_CREATEMETAFILE)
   int iWidthMM, iHeightMM;
   RECT rc;
 
-  /* Determine the picture frame dimensions.
-   * iWidthMM is the display width in millimeters.
-   * iHeightMM is the display height in millimeters.
-   * iWidthPels is the display width in pixels.
-   * iHeightPels is the display height in pixels
-   */
+  // Determine the picture frame dimensions.
+  // iWidthMM is the display width in millimeters.
+  // iHeightMM is the display height in millimeters.
+  // iWidthPels is the display width in pixels.
+  // iHeightPels is the display height in pixels
 
   iWidthMM = GetDeviceCaps(hDCref, HORZSIZE);
   iHeightMM = GetDeviceCaps(hDCref, VERTSIZE);
 
-  /*
-   * Convert client coordinates to .01-mm units.
-   * Use iWidthMM, iWidthPels, iHeightMM, and
-   * iHeightPels to determine the number of
-   * .01-millimeter units per pixel in the x-
-   *  and y-directions.
-   */
+  // Convert client coordinates to .01-mm units.
+  // Use iWidthMM, iWidthPels, iHeightMM, and
+  // iHeightPels to determine the number of
+  // .01-millimeter units per pixel in the x-
+  // and y-directions.
 
   rc.left = 0;
   rc.top = 0;
@@ -428,13 +417,11 @@ HB_FUNC(HWG_PRINTENHMETAFILE)
   // DOCINFO di;
   RECT rc;
 
-  /*
-     di.cbSize = sizeof(DOCINFO);
-     di.lpszDocName = hb_parc(3);
-     di.lpszOutput = HWG_NULLPTR;
-     di.lpszDatatype = HWG_NULLPTR;
-     di.fwType = 0;
-   */
+  // di.cbSize = sizeof(DOCINFO);
+  // di.lpszDocName = hb_parc(3);
+  // di.lpszOutput = HWG_NULLPTR;
+  // di.lpszDatatype = HWG_NULLPTR;
+  // di.fwType = 0;
 
   SetRect(&rc, 0, 0, GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
 
@@ -542,11 +529,10 @@ HB_FUNC(HWG_SETDOCUMENTPROPERTIES)
 
           pDevMode->dmFields = dInit;
 
-          /* NOTES:
-             For unknown reasons, Windows98/ME returns IDCANCEL if user clicks OK without changing anything in
-             DocumentProperties. Therefore, we ignore the return value in Win9x, and assume user clicks OK. IOW,
-             DocumentProperties is not cancelable in Win9X.
-           */
+          // NOTES:
+          // For unknown reasons, Windows98/ME returns IDCANCEL if user clicks OK without changing anything in
+          // DocumentProperties. Therefore, we ignore the return value in Win9x, and assume user clicks OK. IOW,
+          // DocumentProperties is not cancelable in Win9X.
           if (DocumentProperties(0, hPrinter, (LPTSTR)lpPrinterName, pDevMode, pDevMode, fMode) == IDOK || bW9X) {
             if (HB_ISBYREF(3) && !bCustomFormSize) {
               if (HB_ISCHAR(3)) {

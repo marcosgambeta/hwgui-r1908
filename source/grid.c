@@ -433,7 +433,7 @@ LRESULT ProcessCustomDraw(LPARAM lParam, PHB_ITEM pArray)
 
 HB_FUNC(HWG_PROCESSCUSTU)
 {
-  /* HWND hWnd = hwg_par_HWND(1); */
+  // HWND hWnd = hwg_par_HWND(1);
   LPARAM lParam = (LPARAM)HB_PARHANDLE(2);
   PHB_ITEM pColor = hb_param(3, HB_IT_ARRAY);
 

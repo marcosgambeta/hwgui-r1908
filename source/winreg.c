@@ -65,9 +65,7 @@ __inline long PtrToLong(const void *p)
 
 #define hwg_par_HKEY(n) (HKEY)(ULONG_PTR) hb_parnint(n)
 
-/*
-HWG_REGCLOSEKEY(HKEY) --> numeric
-*/
+// HWG_REGCLOSEKEY(HKEY) --> numeric
 HB_FUNC(HWG_REGCLOSEKEY)
 {
   if (RegCloseKey(hwg_par_HKEY(1)) == ERROR_SUCCESS) {
@@ -77,9 +75,7 @@ HB_FUNC(HWG_REGCLOSEKEY)
   }
 }
 
-/*
-HWG_REGOPENKEYEX(HKEY, cSubKey) --> numeric
-*/
+// HWG_REGOPENKEYEX(HKEY, cSubKey) --> numeric
 HB_FUNC(HWG_REGOPENKEYEX)
 {
   void *hValue;
@@ -96,9 +92,7 @@ HB_FUNC(HWG_REGOPENKEYEX)
   hb_strfree(hValue);
 }
 
-/*
-HWG_REGQUERYVALUEEX(HKEY, cValueName, NIL, nType, cData) --> numeric
-*/
+// HWG_REGQUERYVALUEEX(HKEY, cValueName, NIL, nType, cData) --> numeric
 HB_FUNC(HWG_REGQUERYVALUEEX)
 {
   HKEY hwKey = hwg_par_HKEY(1);
@@ -124,9 +118,7 @@ HB_FUNC(HWG_REGQUERYVALUEEX)
   hb_strfree(hValue);
 }
 
-/*
-HWG_REGENUMKEYEX(HKEY, nIndex, cBuffer, nBufferSize, NIL, cClass, nClassBufferSize) --> numeric
-*/
+// HWG_REGENUMKEYEX(HKEY, nIndex, cBuffer, nBufferSize, NIL, cClass, nClassBufferSize) --> numeric
 HB_FUNC(HWG_REGENUMKEYEX)
 {
   FILETIME ft;
@@ -147,9 +139,7 @@ HB_FUNC(HWG_REGENUMKEYEX)
   hb_retnl(nErr);
 }
 
-/*
-HWG_REGSETVALUEEX(HKEY, cValueName, NIL, nType, cData) --> numeric
-*/
+// HWG_REGSETVALUEEX(HKEY, cValueName, NIL, nType, cData) --> numeric
 HB_FUNC(HWG_REGSETVALUEEX)
 {
   void *hValue;
@@ -158,9 +148,7 @@ HB_FUNC(HWG_REGSETVALUEEX)
   hb_strfree(hValue);
 }
 
-/*
-HWG_REGCREATEKEY(HKEY, cSubKey, nHKResult) --> numeric
-*/
+// HWG_REGCREATEKEY(HKEY, cSubKey, nHKResult) --> numeric
 HB_FUNC(HWG_REGCREATEKEY)
 {
   HKEY hKey;
@@ -174,10 +162,7 @@ HB_FUNC(HWG_REGCREATEKEY)
   hb_strfree(hValue);
 }
 
-/*
-HWG_REGCREATEKEYEX(HKEY, cSubKey, NIL, cClass, nOptions, nSamDesired, cSecurityAttributes, nHKResult, nDisposition) -->
-numeric
-*/
+// HWG_REGCREATEKEYEX(HKEY, cSubKey, NIL, cClass, nOptions, nSamDesired, cSecurityAttributes, nHKResult, nDisposition) --> numeric
 HB_FUNC(HWG_REGCREATEKEYEX)
 {
   HKEY hkResult;
@@ -203,9 +188,7 @@ HB_FUNC(HWG_REGCREATEKEYEX)
   hb_strfree(hClass);
 }
 
-/*
-HWG_REGDELETEKEY(HKEY, cKey) --> numeric
-*/
+// HWG_REGDELETEKEY(HKEY, cKey) --> numeric
 HB_FUNC(HWG_REGDELETEKEY)
 {
   void *hValue;
@@ -216,9 +199,7 @@ HB_FUNC(HWG_REGDELETEKEY)
 //  For strange reasons this function is not working properly
 //  May be I am missing something. Pritpal Bedi.
 
-/*
-HWG_REGDELETEVALUE(HKEY, cValueName) --> numeric
-*/
+// HWG_REGDELETEVALUE(HKEY, cValueName) --> numeric
 HB_FUNC(HWG_REGDELETEVALUE)
 {
   void *hValue;

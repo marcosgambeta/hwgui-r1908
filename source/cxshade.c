@@ -295,7 +295,7 @@ static void cxdib_SetPixelIndex(PCXDIB pdib, long x, long y, BYTE i)
   iDst[(pdib->m_bi.biHeight - y - 1) * pdib->m_LineWidth + x] = i;
 }
 
-/*  --------------------------------------------------------------  */
+// --------------------------------------------------------------
 
 static PCXSHADE cxshade_New(RECT *prect, BOOL lFlat)
 {
@@ -646,11 +646,9 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, BYTE palette, BYTE g
   cxdib_Clone(&(pshade->m_dDown), &(pshade->m_dOver));
 }
 
-/* --------------------------------------------------------------- */
+// ---------------------------------------------------------------
 
-/*
- * shade_New(nLeft, nTop, nRight, nBottom, lFlat) -> pshade
- */
+// shade_New(nLeft, nTop, nRight, nBottom, lFlat) -> pshade
 HB_FUNC(HWG_SHADE_NEW)
 {
   RECT rect;
@@ -661,17 +659,13 @@ HB_FUNC(HWG_SHADE_NEW)
   HB_RETHANDLE(pshade);
 }
 
-/*
- * shade_Release(pshade)
- */
+// shade_Release(pshade)
 HB_FUNC(HWG_SHADE_RELEASE)
 {
   cxshade_Release((PCXSHADE)HB_PARHANDLE(1));
 }
 
-/*
- * shade_Set(pshade, shadeID, palette, granularity, highlight, coloring, color, nLeft, nTop, nRight, nBottom)
- */
+// shade_Set(pshade, shadeID, palette, granularity, highlight, coloring, color, nLeft, nTop, nRight, nBottom)
 HB_FUNC(HWG_SHADE_SET)
 {
   PCXSHADE pshade = (PCXSHADE)HB_PARHANDLE(1);
@@ -691,9 +685,7 @@ HB_FUNC(HWG_SHADE_SET)
                    (HB_ISNIL(8)) ? HWG_NULLPTR : &rect);
 }
 
-/*
- * shade_Draw(pshade, hDC, nState)
- */
+// shade_Draw(pshade, hDC, nState)
 HB_FUNC(HWG_SHADE_DRAW)
 {
   cxshade_Draw((PCXSHADE)HB_PARHANDLE(1), hwg_par_HDC(2), (short)hb_parni(3));

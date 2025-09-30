@@ -1539,9 +1539,7 @@ static void DrawTheIcon(HWND hButtonWnd, HDC dc, BOOL bHasTitle, RECT *rpItem, R
 
 } // End of DrawTheIcon
 
-/*
-HWG_OPENTHEMEDATA(HWND, cText) --> HTHEME
-*/
+// HWG_OPENTHEMEDATA(HWND, cText) --> HTHEME
 HB_FUNC(HWG_OPENTHEMEDATA)
 {
   LPCSTR pText = hb_parc(2);
@@ -1558,17 +1556,13 @@ HB_FUNC(HWG_OPENTHEMEDATA)
   hwg_ret_HTHEME(p);
 }
 
-/*
-HWG_ISTHEMEDLOAD() --> .T.|.F.
-*/
+// HWG_ISTHEMEDLOAD() --> .T.|.F.
 HB_FUNC(HWG_ISTHEMEDLOAD)
 {
   hb_retl(ThemeLibLoaded);
 }
 
-/*
-HWG_DRAWTHEMEBACKGROUND(HTHEME, HDC, nPartId, nStateId) --> numeric
-*/
+// HWG_DRAWTHEMEBACKGROUND(HTHEME, HDC, nPartId, nStateId) --> numeric
 HB_FUNC(HWG_DRAWTHEMEBACKGROUND)
 {
   RECT pRect;
@@ -1585,9 +1579,7 @@ HB_FUNC(HWG_DRAWTHEMEBACKGROUND)
       hb_DrawThemeBackground(hwg_par_HTHEME(1), hwg_par_HDC(2), hwg_par_int(3), hwg_par_int(4), &pRect, HWG_NULLPTR));
 }
 
-/*
-HWG_DRAWTHEICON(HWND, HDC, lHasTitle, aRectItem, aRectTitle, lIsPressed, lIsDisabled, HICON, HBITMAP, nStyle) -->
-*/
+// HWG_DRAWTHEICON(HWND, HDC, lHasTitle, aRectItem, aRectTitle, lIsPressed, lIsDisabled, HICON, HBITMAP, nStyle) -->
 HB_FUNC(HWG_DRAWTHEICON)
 {
   RECT rpItem;
@@ -1614,13 +1606,9 @@ HB_FUNC(HWG_DRAWTHEICON)
   hb_storvni(rpTitle.bottom, 5, 4);
 }
 
-/*
-//hwg_PrepareImageRect(::handle, dc, bHasTitle, @itemRect, @captionRect, bIsPressed, ::hIcon, ::hbitmap, ::iStyle)
-*/
+// hwg_PrepareImageRect(::handle, dc, bHasTitle, @itemRect, @captionRect, bIsPressed, ::hIcon, ::hbitmap, ::iStyle)
 
-/*
-HWG_PREPAREIMAGERECT(p1, p2, p3, p4, p5, p6, p7, p8, p9) -->
-*/
+// HWG_PREPAREIMAGERECT(p1, p2, p3, p4, p5, p6, p7, p8, p9) -->
 HB_FUNC(HWG_PREPAREIMAGERECT)
 {
   HWND hButtonWnd = hwg_par_HWND(1);
@@ -1665,9 +1653,7 @@ HB_FUNC(HWG_PREPAREIMAGERECT)
   hb_itemReturnRelease(Rect2Array(&rImage));
 }
 
-/*
-HWG_DRAWTHEMETEXT(HTHEME, HDC, nPartId, nStateId, cText, nTextFlags, nTextFlags2, aRect) -->
-*/
+// HWG_DRAWTHEMETEXT(HTHEME, HDC, nPartId, nStateId, cText, nTextFlags, nTextFlags2, aRect) -->
 HB_FUNC(HWG_DRAWTHEMETEXT)
 {
   LPCSTR pText = hb_parc(5);
@@ -1684,17 +1670,13 @@ HB_FUNC(HWG_DRAWTHEMETEXT)
   hb_xfree(output);
 }
 
-/*
-HWG_CLOSETHEMEDATA(HTHEME) -->
-*/
+// HWG_CLOSETHEMEDATA(HTHEME) -->
 HB_FUNC(HWG_CLOSETHEMEDATA)
 {
   hb_CloseThemeData(hwg_par_HTHEME(1));
 }
 
-/*
-HWG_TRACKMOUSEVENT(HWND, nFlags, nHoverTime) -->
-*/
+// HWG_TRACKMOUSEVENT(HWND, nFlags, nHoverTime) -->
 HB_FUNC(HWG_TRACKMOUSEVENT) // TODO: deveria ser HWG_TRACKMOUSEEVENT e não HWG_TRACKMOUSEVENT
 {
   HWND m_hWnd = hwg_par_HWND(1);
@@ -1709,9 +1691,7 @@ HB_FUNC(HWG_TRACKMOUSEVENT) // TODO: deveria ser HWG_TRACKMOUSEEVENT e não HWG_T
   _TrackMouseEvent(&csTME);
 }
 
-/*
-HWG_BUTTONEXONSETSTYLE(wParam, lParam, HWND, @lFlag) -->
-*/
+// HWG_BUTTONEXONSETSTYLE(wParam, lParam, HWND, @lFlag) -->
 HB_FUNC(HWG_BUTTONEXONSETSTYLE)
 {
   WPARAM wParam = hwg_par_WPARAM(1);
@@ -1735,9 +1715,7 @@ HB_FUNC(HWG_BUTTONEXONSETSTYLE)
   hb_retnint(DefWindowProc(hwg_par_HWND(3), BM_SETSTYLE, (wParam & ~BS_TYPEMASK) | BS_OWNERDRAW, lParam));
 } // End of OnSetStyle
 
-/*
-HWG_GETTHESTYLE(np1, np2) --> numeric
-*/
+// HWG_GETTHESTYLE(np1, np2) --> numeric
 HB_FUNC(HWG_GETTHESTYLE)
 {
   LONG nBS = hb_parnl(1);
@@ -1745,9 +1723,7 @@ HB_FUNC(HWG_GETTHESTYLE)
   hb_retnl(nBS & nBS1);
 }
 
-/*
-HWG_MODSTYLE(np1, np2, np3) --> numeric
-*/
+// HWG_MODSTYLE(np1, np2, np3) --> numeric
 HB_FUNC(HWG_MODSTYLE)
 {
   LONG nbs = hb_parnl(1);
@@ -1756,9 +1732,7 @@ HB_FUNC(HWG_MODSTYLE)
   hb_retnl((nbs & ~b) | c);
 }
 
-/*
-HWG_DRAWTHEMEPARENTBACKGROUND(HWND, HDC, aRect) --> numeric
-*/
+// HWG_DRAWTHEMEPARENTBACKGROUND(HWND, HDC, aRect) --> numeric
 HB_FUNC(HWG_DRAWTHEMEPARENTBACKGROUND)
 {
   RECT pRect;
@@ -1770,27 +1744,21 @@ HB_FUNC(HWG_DRAWTHEMEPARENTBACKGROUND)
   hb_retnl(hb_DrawThemeParentBackground(hwg_par_HWND(1), hwg_par_HDC(2), &pRect));
 }
 
-/*
-HWG_ISTHEMEACTIVE() --> .T.|.F.
-*/
+// HWG_ISTHEMEACTIVE() --> .T.|.F.
 HB_FUNC(HWG_ISTHEMEACTIVE)
 {
   hb_retl(hb_IsThemeActive());
 }
 
-/*
-HWG_GETTHEMESYSCOLOR(HTHEME, nColorId) --> COLORREF
-*/
+// HWG_GETTHEMESYSCOLOR(HTHEME, nColorId) --> COLORREF
 HB_FUNC(HWG_GETTHEMESYSCOLOR)
 {
   HB_RETHANDLE(hb_GetThemeSysColor(hwg_par_HTHEME(1), hwg_par_int(2))); // TODO: retorno é COLORREF
 }
 
-/* NANDO  18/09/2011 */
+// NANDO  18/09/2011
 
-/*
-HWG_SETWINDOWTHEME(HWND, nEnable) -->
-*/
+// HWG_SETWINDOWTHEME(HWND, nEnable) -->
 HB_FUNC(HWG_SETWINDOWTHEME)
 {
   HWND hwnd = hwg_par_HWND(1);
@@ -1814,9 +1782,7 @@ HB_FUNC(HWG_SETWINDOWTHEME)
   }
 }
 
-/*
-HWG_GETWINDOWTHEME(HWND) --> HTHEME
-*/
+// HWG_GETWINDOWTHEME(HWND) --> HTHEME
 HB_FUNC(HWG_GETWINDOWTHEME)
 {
   // BOOL ret = FALSE;
