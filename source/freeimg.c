@@ -20,28 +20,28 @@ typedef char *(WINAPI *FREEIMAGE_GETVERSION)(void);
 
 #if defined(__cplusplus)
 typedef FIBITMAP *(WINAPI *FREEIMAGE_LOADFROMHANDLE)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle,
-                                                     int flags);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int flags);
-typedef BOOL(WINAPI *FREEIMAGE_SAVE)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const char *filename, int flags);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int width, int height, int bpp, unsigned red_mask, unsigned green_mask,
+                                                     int32_t flags);
+typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int32_t flags);
+typedef BOOL(WINAPI *FREEIMAGE_SAVE)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const char *filename, int32_t flags);
+typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, unsigned red_mask, unsigned green_mask,
                                                unsigned blue_mask);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(BYTE *bits, int width, int height, int pitch, unsigned bpp,
+typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(BYTE *bits, int32_t width, int32_t height, int32_t pitch, unsigned bpp,
                                                          unsigned red_mask, unsigned green_mask, unsigned blue_mask,
                                                          BOOL topdown);
-typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask,
+typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(BYTE *bits, FIBITMAP *dib, int32_t pitch, unsigned bpp, unsigned red_mask,
                                                  unsigned green_mask, unsigned blue_mask, BOOL topdown);
 #else
 typedef FIBITMAP *(WINAPI *FREEIMAGE_LOADFROMHANDLE)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle,
-                                                     int flags FI_DEFAULT(0));
-typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int flags FI_DEFAULT(0));
-typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int width, int height, int bpp, unsigned red_mask FI_DEFAULT(0),
+                                                     int32_t flags FI_DEFAULT(0));
+typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int32_t flags FI_DEFAULT(0));
+typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, unsigned red_mask FI_DEFAULT(0),
                                                unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
 typedef BOOL(WINAPI *FREEIMAGE_SAVE)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const char *filename,
-                                     int flags FI_DEFAULT(0));
-typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(BYTE *bits, int width, int height, int pitch, unsigned bpp,
+                                     int32_t flags FI_DEFAULT(0));
+typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(BYTE *bits, int32_t width, int32_t height, int32_t pitch, unsigned bpp,
                                                          unsigned red_mask, unsigned green_mask, unsigned blue_mask,
                                                          BOOL topdown FI_DEFAULT(FALSE));
-typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask,
+typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(BYTE *bits, FIBITMAP *dib, int32_t pitch, unsigned bpp, unsigned red_mask,
                                                  unsigned green_mask, unsigned blue_mask,
                                                  BOOL topdown FI_DEFAULT(FALSE));
 #endif
@@ -53,11 +53,11 @@ typedef ULONG(WINAPI *FREEIMAGE_GETHEIGHT)(FIBITMAP *dib);
 typedef BYTE *(WINAPI *FREEIMAGE_GETBITS)(FIBITMAP *dib);
 typedef BITMAPINFO *(WINAPI *FREEIMAGE_GETINFO)(FIBITMAP *dib);
 typedef BITMAPINFOHEADER *(WINAPI *FREEIMAGE_GETINFOHEADER)(FIBITMAP *dib);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_RESCALE)(FIBITMAP *dib, int dst_width, int dst_height, FREE_IMAGE_FILTER filter);
+typedef FIBITMAP *(WINAPI *FREEIMAGE_RESCALE)(FIBITMAP *dib, int32_t dst_width, int32_t dst_height, FREE_IMAGE_FILTER filter);
 typedef RGBQUAD *(WINAPI *FREEIMAGE_GETPALETTE)(FIBITMAP *dib);
 typedef ULONG(WINAPI *FREEIMAGE_GETBPP)(FIBITMAP *dib);
 typedef BOOL(WINAPI *FREEIMAGE_SETCHANNEL)(FIBITMAP *dib, FIBITMAP *dib8, FREE_IMAGE_COLOR_CHANNEL channel);
-typedef BYTE *(WINAPI *FREEIMAGE_GETSCANLINE)(FIBITMAP *dib, int scanline);
+typedef BYTE *(WINAPI *FREEIMAGE_GETSCANLINE)(FIBITMAP *dib, int32_t scanline);
 typedef unsigned(WINAPI *FREEIMAGE_GETPITCH)(FIBITMAP *dib);
 typedef short(WINAPI *FREEIMAGE_GETIMAGETYPE)(FIBITMAP *dib);
 typedef unsigned(WINAPI *FREEIMAGE_GETCOLORSUSED)(FIBITMAP *dib);
@@ -66,8 +66,8 @@ typedef unsigned(WINAPI *FREEIMAGE_GETDOTSPERMETERX)(FIBITMAP *dib);
 typedef unsigned(WINAPI *FREEIMAGE_GETDOTSPERMETERY)(FIBITMAP *dib);
 typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERX)(FIBITMAP *dib, unsigned res);
 typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERY)(FIBITMAP *dib, unsigned res);
-typedef BOOL(WINAPI *FREEIMAGE_PASTE)(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_COPY)(FIBITMAP *dib, int left, int top, int right, int bottom);
+typedef BOOL(WINAPI *FREEIMAGE_PASTE)(FIBITMAP *dst, FIBITMAP *src, int32_t left, int32_t top, int32_t alpha);
+typedef FIBITMAP *(WINAPI *FREEIMAGE_COPY)(FIBITMAP *dib, int32_t left, int32_t top, int32_t right, int32_t bottom);
 typedef BOOL(WINAPI *FREEIMAGE_SETBACKGROUNDCOLOR)(FIBITMAP *dib, RGBQUAD *bkcolor);
 typedef BOOL(WINAPI *FREEIMAGE_INVERT)(FIBITMAP *dib);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTTO8BITS)(FIBITMAP *dib);
@@ -404,7 +404,7 @@ HB_FUNC(FI_FI2DIB)
   hdib = CreateDIB((WORD)pGetwidth(dib), (WORD)pGetheight(dib), (WORD)pGetBPP(dib));
 
   if (hdib) {
-    // int scan_width = pGetPitch(dib); unused
+    // int32_t scan_width = pGetPitch(dib); unused
     LPBITMAPINFO lpbi = (LPBITMAPINFO)GlobalLock(hdib);
     memcpy((LPBYTE)((BYTE *)lpbi) + lpbi->bmiHeader.biSize, pGetbits(dib), lpbi->bmiHeader.biSizeImage);
     GlobalUnlock(hdib);
@@ -490,8 +490,8 @@ HB_FUNC(FI_DRAW)
 {
   FIBITMAP *dib = hwg_par_FIBITMAP(1);
   HDC hDC = hwg_par_HDC(2);
-  int nWidth = (int)hb_parnl(3), nHeight = (int)hb_parnl(4);
-  int nDestWidth, nDestHeight;
+  int32_t nWidth = (int32_t)hb_parnl(3), nHeight = (int32_t)hb_parnl(4); // TODO: parnl -> parni
+  int32_t nDestWidth, nDestHeight;
   POINT pp[2];
   // char cres[40];
   // BOOL l;
@@ -552,12 +552,12 @@ HB_FUNC(FI_BMP2FI)
 }
 
 // Next three from EZTwain.c ( http://www.twain.org )
-static int ColorCount(int bpp)
+static int32_t ColorCount(int32_t bpp)
 {
   return 0xFFF & (1 << bpp);
 }
 
-static int BmiColorCount(LPBITMAPINFOHEADER lpbi)
+static int32_t BmiColorCount(LPBITMAPINFOHEADER lpbi)
 {
   if (lpbi->biSize == sizeof(BITMAPCOREHEADER)) {
     LPBITMAPCOREHEADER lpbc = ((LPBITMAPCOREHEADER)lpbi);
@@ -565,11 +565,11 @@ static int BmiColorCount(LPBITMAPINFOHEADER lpbi)
   } else if (lpbi->biClrUsed == 0) {
     return ColorCount(lpbi->biBitCount);
   } else {
-    return (int)lpbi->biClrUsed;
+    return (int32_t)lpbi->biClrUsed;
   }
 } // BmiColorCount
 
-static int DibNumColors(VOID FAR *pv)
+static int32_t DibNumColors(VOID FAR *pv)
 {
   return BmiColorCount((LPBITMAPINFOHEADER)pv);
 } // DibNumColors
@@ -588,7 +588,7 @@ static LPBYTE DibBits(LPBITMAPINFOHEADER lpdib)
 HB_FUNC(FI_DIB2FI)
 {
   HANDLE hdib = (HANDLE)(LONG_PTR)hb_parnl(1);
-  int i;
+  int32_t i;
 
   if (hdib) {
     FIBITMAP *dib;
@@ -600,8 +600,8 @@ HB_FUNC(FI_DIB2FI)
     pGetBPP = (FREEIMAGE_GETBPP)s_getFunction((FARPROC)pGetBPP, "_FreeImage_GetBPP@4");
 
     if (pConvertFromRawBits && lpbi) {
-      // int pitch = ((((lpbi->biWidth * lpbi->biBitCount) + 31) &~31) >> 3);
-      int pitch = ((((lpbi->biBitCount * lpbi->biWidth) + 31) / 32) * 4);
+      // int32_t pitch = ((((lpbi->biWidth * lpbi->biBitCount) + 31) &~31) >> 3);
+      int32_t pitch = ((((lpbi->biBitCount * lpbi->biWidth) + 31) / 32) * 4);
 
       dib = pConvertFromRawBits(DibBits(lpbi), lpbi->biWidth, lpbi->biHeight, pitch, lpbi->biBitCount, FI_RGBA_RED_MASK,
                                 FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, hb_parl(2));
@@ -686,7 +686,7 @@ unsigned DLL_CALLCONV _WriteProc(void *buffer, unsigned size, unsigned count, fi
   return size;
 }
 
-int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int origin)
+int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int32_t origin)
 {
   // assert(origin != SEEK_END);
 

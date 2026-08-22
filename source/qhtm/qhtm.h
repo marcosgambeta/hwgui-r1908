@@ -43,8 +43,8 @@ class CQHTMImageABC
 public:
   //
   //	Two drawing methods QHTM needs.
-  virtual BOOL DrawFrame(UINT nFrame, HDC hdc, int left, int top) const = 0;
-  virtual BOOL StretchFrame(UINT nFrame, HDC hdc, int left, int top, int right, int bottom) const = 0;
+  virtual BOOL DrawFrame(UINT nFrame, HDC hdc, int32_t left, int32_t top) const = 0;
+  virtual BOOL StretchFrame(UINT nFrame, HDC hdc, int32_t left, int32_t top, int32_t right, int32_t bottom) const = 0;
 
   //
   //	Return the number of frames in this image
@@ -56,7 +56,7 @@ public:
 
   //
   //	Return the time, in milliseconds, an individual frame remains on screen
-  virtual int GetFrameTime(UINT nFrame) const = 0;
+  virtual int32_t GetFrameTime(UINT nFrame) const = 0;
 
   //
   //	Destroy this image
@@ -86,7 +86,7 @@ extern "C"
 
   typedef struct tagQHTMFORMSubmit
   {
-    int cbSize;
+    int32_t cbSize;
     LPCTSTR pcszMethod;
     LPCTSTR pcszAction; //	URL
     LPCTSTR pcszName;
@@ -258,7 +258,7 @@ extern "C"
 #define QHTM_GetTooltips(hwnd) ((BOOL)QHTM_SENDMESSAGE(hwnd, QHTM_GET_OPTION, QHTM_OPT_TOOLTIPS, 0))
 #define QHTM_SetZoomLevel(hwnd, nLevel)                                                                                \
   ((void)QHTM_SENDMESSAGE(hwnd, QHTM_SET_OPTION, QHTM_OPT_ZOOMLEVEL, (LPARAM)nLevel))
-#define QHTM_GetZoomLevel(hwnd) ((int)QHTM_SENDMESSAGE(hwnd, QHTM_GET_OPTION, QHTM_OPT_ZOOMLEVEL, 0))
+#define QHTM_GetZoomLevel(hwnd) ((int32_t)QHTM_SENDMESSAGE(hwnd, QHTM_GET_OPTION, QHTM_OPT_ZOOMLEVEL, 0))
 #define QHTM_GotoLink(hwnd, pcszLinkName) ((void)QHTM_SENDMESSAGE((hwnd), QHTM_GOTO_LINK, 0, (LPARAM)(pcszLinkName)))
 #define QHTM_GetTitleLength(hwnd) ((UINT)QHTM_SENDMESSAGE((hwnd), QHTM_GET_HTML_TITLE_LENGTH, 0, 0))
 #define QHTM_GetTitle(hwnd, pszBuffer, uBufferLength)                                                                  \
@@ -339,7 +339,7 @@ extern "C"
   BOOL WINAPI QHTM_PrintPage(QHTMCONTEXT ctx, HDC hDC, UINT nPage, LPCRECT prDest);
 
   //	Using a zoom level
-  int WINAPI QHTM_PrintGetHTMLHeight(HDC hDC, LPCTSTR pcszText, int nMaxWidth, UINT uZoomLevel);
+  int32_t WINAPI QHTM_PrintGetHTMLHeight(HDC hDC, LPCTSTR pcszText, int32_t nMaxWidth, UINT uZoomLevel);
 
   //	Set where QHTM gets it's resources for the hand cursor and the "no image" image. Maybe
   //	more later.
@@ -347,7 +347,7 @@ extern "C"
 
   //
   //	MessageBox() API replacement - use HTML for lpText, everything else is the same
-  int WINAPI QHTM_MessageBox(HWND hwnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
+  int32_t WINAPI QHTM_MessageBox(HWND hwnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 
 #ifdef __cplusplus
 }
@@ -391,16 +391,16 @@ public:
   }
 
   //	Enable/disable tooltips on the control
-  inline void SetZoomLevel(int nLevel)
+  inline void SetZoomLevel(int32_t nLevel)
   {
     //	If this fires then either the window is invalid or teh zoom level is out of bounds!
     VERIFY(SendMessage(QHTM_SET_OPTION, QHTM_OPT_ZOOMLEVEL, (WPARAM)nLevel));
   }
 
   //	Get the current zoom level
-  inline int GetZoomLevel()
+  inline int32_t GetZoomLevel()
   {
-    return (int)SendMessage(QHTM_GET_OPTION, QHTM_OPT_ZOOMLEVEL);
+    return (int32_t)SendMessage(QHTM_GET_OPTION, QHTM_OPT_ZOOMLEVEL);
   }
 
   //	Jump to a link
@@ -409,7 +409,7 @@ public:
     SendMessage(QHTM_GOTO_LINK, 0, (LPARAM)pcszLink);
   }
 
-  void AddHTML(LPCTSTR pcszHTML, int nScroll)
+  void AddHTML(LPCTSTR pcszHTML, int32_t nScroll)
   {
     QHTM_AddHTML2(GetSafeHwnd(), pcszHTML, nScroll);
   }

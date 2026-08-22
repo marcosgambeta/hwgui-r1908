@@ -21,7 +21,7 @@
 #include "hwingui.h"
 
 extern BOOL WINAPI QHTM_Initialize(HINSTANCE hInst);
-extern int WINAPI QHTM_MessageBox(HWND hwnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
+extern int32_t WINAPI QHTM_MessageBox(HWND hwnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 
 typedef BOOL(WINAPI *QHTM_INITIALIZE)(HINSTANCE hInst);
 typedef int(WINAPI *QHTM_MESSAGEBOX)(HWND hwnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
@@ -107,9 +107,9 @@ void CALLBACK FormCallback(HWND hWndQHTM, LPQHTMFORMSubmit pFormSubmit, LPARAM l
   PHB_DYNS pSymTest;
   PHB_ITEM aMetr = hb_itemArrayNew(pFormSubmit->uFieldCount);
   PHB_ITEM temp;
-  int i;
+  int32_t i;
 
-  for (i = 0; i < (int)pFormSubmit->uFieldCount; i++) {
+  for (i = 0; i < (int32_t)pFormSubmit->uFieldCount; i++) {
     temp = hb_itemArrayNew(2);
 
     HB_ARRAYSETSTR(temp, 1, (pFormSubmit->parrFields + i)->pcszName);
@@ -161,14 +161,14 @@ HB_FUNC(QHTM_MESSAGE)
 HB_FUNC(QHTM_LOADFILE)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
-    hb_retl((int)SendMessage(hwg_par_HWND(1), QHTM_LOAD_FROM_FILE, 0, (LPARAM)hb_parc(2)));
+    hb_retl((int32_t)SendMessage(hwg_par_HWND(1), QHTM_LOAD_FROM_FILE, 0, (LPARAM)hb_parc(2)));
   }
 }
 
 HB_FUNC(QHTM_LOADRES)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
-    hb_retl((int)SendMessage(hwg_par_HWND(1), QHTM_LOAD_FROM_RESOURCE, (WPARAM)GetModuleHandle(HWG_NULLPTR),
+    hb_retl((int32_t)SendMessage(hwg_par_HWND(1), QHTM_LOAD_FROM_RESOURCE, (WPARAM)GetModuleHandle(HWG_NULLPTR),
                              (LPARAM)hb_parc(2)));
   }
 }
@@ -216,7 +216,7 @@ HB_FUNC(QHTM_GETSIZE)
 HB_FUNC(QHTM_FORMCALLBACK)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
-    hb_retl((int)SendMessage(hwg_par_HWND(1), QHTM_SET_OPTION, (WPARAM)QHTM_OPT_SET_FORM_SUBMIT_CALLBACK,
+    hb_retl((int32_t)SendMessage(hwg_par_HWND(1), QHTM_SET_OPTION, (WPARAM)QHTM_OPT_SET_FORM_SUBMIT_CALLBACK,
                              (LPARAM)FormCallback));
   } else {
     hb_retl(FALSE);
@@ -307,7 +307,7 @@ HB_FUNC(QHTM_PRINTLAYOUT)
     HDC hDC = (HDC)(ULONG_PTR)hb_parnl(1);
     QHTMCONTEXT qhtmCtx = (QHTMCONTEXT)hb_parnl(2);
     RECT rcPage;
-    int nNumberOfPages;
+    int32_t nNumberOfPages;
     QHTM_PRINTLAYOUT pFunc = (QHTM_PRINTLAYOUT)GetProcAddress(s_hQhtmDll, "QHTM_PrintLayout");
 
     rcPage.left = rcPage.top = 0;

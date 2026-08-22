@@ -166,7 +166,7 @@ HB_FUNC(HWG_SETMONTHCALENDARDATE) // adaptation of function SetDatePicker of fil
   {
     SYSTEMTIME sysTime;
     #ifndef HARBOUR_OLD_VERSION
-    int lYear, lMonth, lDay;
+    int32_t lYear, lMonth, lDay;
     #else
     long lYear, lMonth, lDay;
     #endif

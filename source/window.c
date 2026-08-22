@@ -86,8 +86,8 @@ HB_FUNC(HWG_INITMAINWINDOW)
   LPCTSTR lpTitle = HB_PARSTR(3, &hTitle, HWG_NULLPTR);
   LPCTSTR lpMenu = HB_PARSTR(4, &hMenu, HWG_NULLPTR);
   DWORD nStyle = hwg_par_DWORD(7);
-  int width = hwg_par_int(10);
-  int height = hwg_par_int(11);
+  int32_t width = hwg_par_int(10);
+  int32_t height = hwg_par_int(11);
 
   if (!aWindows[0]) {
     wndclass.style = CS_OWNDC | CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
@@ -126,7 +126,7 @@ HB_FUNC(HWG_INITMAINWINDOW)
 HB_FUNC(HWG_CENTERWINDOW)
 {
   RECT rect, rectcli;
-  int w, h, x, y;
+  int32_t w, h, x, y;
 
   GetWindowRect(hwg_par_HWND(1), &rect);
 
@@ -148,7 +148,7 @@ HB_FUNC(HWG_CENTERWINDOW)
 
 void ProcessMessage(MSG msg, HACCEL hAcceler, BOOL lMdi)
 {
-  int i;
+  int32_t i;
   HWND hwndGoto;
 
   for (i = 0; i < iDialogs; i++) {
@@ -199,7 +199,7 @@ HB_FUNC(HWG_PROCESSMESSAGE)
 {
   MSG msg;
   BOOL lMdi = (HB_ISNIL(1)) ? 0 : hb_parl(1);
-  int nSleep = (HB_ISNIL(2)) ? 1 : hb_parni(2);
+  int32_t nSleep = (HB_ISNIL(2)) ? 1 : hb_parni(2);
 
   if (PeekMessage(&msg, HWG_NULLPTR, 0, 0, PM_REMOVE)) {
     ProcessMessage(msg, 0, lMdi);
@@ -232,8 +232,8 @@ HB_FUNC(HWG_INITCHILDWINDOW)
   LPCTSTR lpTitle = HB_PARSTR(3, &hTitle, HWG_NULLPTR);
   LPCTSTR lpMenu = HB_PARSTR(4, &hMenu, HWG_NULLPTR);
   DWORD nStyle = hwg_par_DWORD(7);
-  int width = hwg_par_int(10);
-  int height = hwg_par_int(11);
+  int32_t width = hwg_par_int(10);
+  int32_t height = hwg_par_int(11);
   HWND hParent = hwg_par_HWND(12);
   BOOL fRegistered = TRUE;
 
@@ -305,8 +305,8 @@ HB_FUNC(HWG_INITMDIWINDOW)
   LPCTSTR lpAppName = HB_PARSTR(2, &hAppName, HWG_NULLPTR);
   LPCTSTR lpTitle = HB_PARSTR(3, &hTitle, HWG_NULLPTR);
   LPCTSTR lpMenu = HB_PARSTR(4, &hMenu, HWG_NULLPTR);
-  int width = hwg_par_int(10);
-  int height = hwg_par_int(11);
+  int32_t width = hwg_par_int(10);
+  int32_t height = hwg_par_int(11);
 
   if (aWindows[0]) {
     hb_retni(-1);
@@ -368,7 +368,7 @@ HB_FUNC(HWG_INITCLIENTWINDOW)
 {
   HWND hWnd;
   CLIENTCREATESTRUCT ccs;
-  int nPos = (hb_pcount() > 1 && !HB_ISNIL(2)) ? hb_parni(2) : 0;
+  int32_t nPos = (hb_pcount() > 1 && !HB_ISNIL(2)) ? hb_parni(2) : 0;
 
   // Create client window
   ccs.hWindowMenu = GetSubMenu(GetMenu(aWindows[0]), nPos);
@@ -410,10 +410,10 @@ HB_FUNC(HWG_CREATEMDICHILDWINDOW)
   HWND hWnd = HWG_NULLPTR;
   PHB_ITEM pObj = hb_param(1, HB_IT_OBJECT);
   DWORD style = (DWORD)hb_itemGetNL(GetObjectVar(pObj, "STYLE"));
-  int y = (int)hb_itemGetNL(GetObjectVar(pObj, "NTOP"));
-  int x = (int)hb_itemGetNL(GetObjectVar(pObj, "NLEFT"));
-  int width = (int)hb_itemGetNL(GetObjectVar(pObj, "NWIDTH"));
-  int height = (int)hb_itemGetNL(GetObjectVar(pObj, "NHEIGHT"));
+  int32_t y = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NTOP")); // TODO: GetNL -> GetNI
+  int32_t x = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NLEFT")); // TODO: GetNL -> GetNI
+  int32_t width = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NWIDTH")); // TODO: GetNL -> GetNI
+  int32_t height = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NHEIGHT")); // TODO: GetNL -> GetNI
   void *hTitle;
   LPCTSTR lpTitle = HB_ITEMGETSTR(GetObjectVar(pObj, "TITLE"), &hTitle, HWG_NULLPTR);
 
@@ -421,9 +421,9 @@ HB_FUNC(HWG_CREATEMDICHILDWINDOW)
   //    style = WS_VISIBLE | WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
 
   if (!style) {
-    style = WS_CHILD | WS_OVERLAPPEDWINDOW | (int)hb_parnl(2); // WS_VISIBLE | WS_MAXIMIZE;
+    style = WS_CHILD | WS_OVERLAPPEDWINDOW | (int32_t)hb_parnl(2); // WS_VISIBLE | WS_MAXIMIZE;
   } else {
-    style = style | (int)hb_parnl(2);
+    style = style | (int32_t)hb_parnl(2);
   }
 
   if (aWindows[0]) {
@@ -828,7 +828,7 @@ void hwg_strfree(void *hString)
 
 #if !defined(HB_EMULATE_STR_API)
 
-static int s_iVM_CP = CP_ACP; // CP_OEMCP
+static int32_t s_iVM_CP = CP_ACP; // CP_OEMCP
 
 static const wchar_t s_wszConstStr[1] = {0};
 
@@ -846,7 +846,7 @@ const wchar_t *hwg_wstrget(PHB_ITEM pItem, void **phStr, HB_SIZE *pnLen)
     const char *pszText = hb_itemGetCPtr(pItem);
 
     if (nLen) {
-      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int)nLen, HWG_NULLPTR, 0);
+      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int32_t)nLen, HWG_NULLPTR, 0);
     }
 
     if (nDest == 0) {
@@ -856,7 +856,7 @@ const wchar_t *hwg_wstrget(PHB_ITEM pItem, void **phStr, HB_SIZE *pnLen)
       wchar_t *pResult = (wchar_t *)hb_xgrab((nDest + 1) * sizeof(wchar_t));
 
       pResult[nDest] = 0;
-      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int)nLen, pResult, (int)nDest);
+      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int32_t)nLen, pResult, (int32_t)nDest);
       *phStr = (void *)pResult;
       pStr = pResult;
     }
@@ -879,13 +879,13 @@ void hwg_wstrlenset(PHB_ITEM pItem, const wchar_t *pStr, HB_SIZE nLen)
     HB_SIZE nDest = 0;
 
     if (pStr != HWG_NULLPTR && nLen > 0) {
-      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int)nLen, HWG_NULLPTR, 0, HWG_NULLPTR, HWG_NULLPTR);
+      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int32_t)nLen, HWG_NULLPTR, 0, HWG_NULLPTR, HWG_NULLPTR);
     }
 
     if (nDest) {
       char *pResult = (char *)hb_xgrab(nDest + 1);
 
-      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int)nLen, pResult, (int)nDest, HWG_NULLPTR, HWG_NULLPTR);
+      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int32_t)nLen, pResult, (int32_t)nDest, HWG_NULLPTR, HWG_NULLPTR);
       hb_itemPutCLPtr(pItem, pResult, nDest);
     } else {
       hb_itemPutC(pItem, HWG_NULLPTR);
@@ -921,12 +921,12 @@ HB_SIZE hwg_wstrcopy(PHB_ITEM pItem, wchar_t *pStr, HB_SIZE nLen)
     HB_SIZE size = hb_itemGetCLen(pItem);
 
     if (pStr) {
-      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int)size, pStr, (int)nLen);
+      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int32_t)size, pStr, (int32_t)nLen);
       if (size < nLen) {
         pStr[size] = '\0';
       }
     } else {
-      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int)size, HWG_NULLPTR, 0);
+      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int32_t)size, HWG_NULLPTR, 0);
       if (nLen && size > nLen) {
         size = nLen;
       }
@@ -1062,10 +1062,10 @@ HB_FUNC(HWG_SETWINDOWPOS)
 {
   HWND hWnd = (HB_ISNUM(1) || HB_ISPOINTER(1)) ? hwg_par_HWND(1) : HWG_NULLPTR;
   HWND hWndInsertAfter = (HB_ISNUM(2) || HB_ISPOINTER(2)) ? hwg_par_HWND(2) : HWG_NULLPTR;
-  int X = hb_parni(3);
-  int Y = hb_parni(4);
-  int cx = hb_parni(5);
-  int cy = hb_parni(6);
+  int32_t X = hb_parni(3);
+  int32_t Y = hb_parni(4);
+  int32_t cx = hb_parni(5);
+  int32_t cy = hb_parni(6);
   UINT uFlags = hb_parni(7);
 
   hwg_ret_BOOL(SetWindowPos(hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags));
@@ -1165,9 +1165,9 @@ HB_FUNC(HWG_GETFONTDIALOGUNITS)
   hb_retnl(GetFontDialogUnits(hwg_par_HWND(1), hwg_par_HFONT(2)));
 }
 
-LRESULT CALLBACK KbdHook(int code, WPARAM wp, LPARAM lp)
+LRESULT CALLBACK KbdHook(int32_t code, WPARAM wp, LPARAM lp)
 {
-  int nId, nBtnNo;
+  int32_t nId, nBtnNo;
   UINT uId;
   BOOL bPressed;
 
@@ -1177,8 +1177,8 @@ LRESULT CALLBACK KbdHook(int code, WPARAM wp, LPARAM lp)
 
   switch (code) {
   case HC_ACTION:
-    nBtnNo = (int)SendMessage(s_hMytoolMenu, TB_BUTTONCOUNT, 0, 0);
-    nId = (int)SendMessage(s_hMytoolMenu, TB_GETHOTITEM, 0, 0);
+    nBtnNo = (int32_t)SendMessage(s_hMytoolMenu, TB_BUTTONCOUNT, 0, 0);
+    nId = (int32_t)SendMessage(s_hMytoolMenu, TB_GETHOTITEM, 0, 0);
 
     bPressed = (HIWORD(lp) & KF_UP) ? FALSE : TRUE;
 
@@ -1302,7 +1302,7 @@ HB_FUNC(HWG_GETWINDOWPLACEMENT)
 HB_FUNC(HWG_FLASHWINDOW)
 {
   HWND hWnd = hwg_par_HWND(1);
-  int itrue = hb_parni(2);
+  int32_t itrue = hb_parni(2);
   FlashWindow(hWnd, itrue);
 }
 

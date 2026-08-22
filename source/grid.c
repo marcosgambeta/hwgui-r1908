@@ -38,7 +38,7 @@
 typedef struct tagSortInfo
 {
   HWND pListControl;
-  int nColumnNo;
+  int32_t nColumnNo;
   BOOL nAscendingSortOrder;
 } SortInfo, *PSORTINFO;
 
@@ -63,7 +63,7 @@ HB_FUNC(HWG_LISTVIEW_CREATE)
 
 HB_FUNC(HWG_LISTVIEW_INIT)
 {
-  int style = 0;
+  int32_t style = 0;
 
   if (!hb_parl(3)) {
     style = style | LVS_EX_GRIDLINES;
@@ -83,7 +83,7 @@ HB_FUNC(HWG_LISTVIEW_SETITEMCOUNT)
 HB_FUNC(HWG_LISTVIEW_ADDCOLUMN)
 {
   LV_COLUMN COL;
-  int iImage = hb_parni(6);
+  int32_t iImage = hb_parni(6);
   void *hText;
 
   COL.mask = LVCF_WIDTH | LVCF_TEXT | LVCF_FMT | LVCF_SUBITEM;
@@ -136,8 +136,8 @@ HB_FUNC(HWG_LISTVIEW_GETDISPINFO)
 {
   LV_DISPINFO *pDispInfo = (LV_DISPINFO *)HB_PARHANDLE(1);
 
-  int iItem = pDispInfo->item.iItem;
-  int iSubItem = pDispInfo->item.iSubItem;
+  int32_t iItem = pDispInfo->item.iItem;
+  int32_t iSubItem = pDispInfo->item.iSubItem;
 
   hb_reta(2);
   hb_storvni(iItem + 1, -1, 1);
@@ -219,7 +219,7 @@ HB_FUNC(HWG_LISTVIEW_HITTEST)
 HB_FUNC(HWG_GETWINDOWROW)
 {
   RECT rect;
-  int y;
+  int32_t y;
 
   GetWindowRect(hwg_par_HWND(1), &rect);
   y = rect.top;
@@ -230,7 +230,7 @@ HB_FUNC(HWG_GETWINDOWROW)
 HB_FUNC(HWG_GETWINDOWCOL)
 {
   RECT rect;
-  int x;
+  int32_t x;
 
   GetWindowRect(hwg_par_HWND(1), &rect);
   x = rect.left;
@@ -291,9 +291,9 @@ HB_FUNC(HWG_LISTVIEW_ADDCOLUMNEX)
   HWND hwndListView = hwg_par_HWND(1);
   LONG lCol = hb_parnl(2) - 1;
   void *hText;
-  int iImage = hb_parni(6);
+  int32_t iImage = hb_parni(6);
   LVCOLUMN lvcolumn;
-  int iResult;
+  int32_t iResult;
 
   memset(&lvcolumn, 0, sizeof(lvcolumn));
 
@@ -309,7 +309,7 @@ HB_FUNC(HWG_LISTVIEW_ADDCOLUMNEX)
   lvcolumn.fmt = hb_parni(5);
   lvcolumn.iImage = iImage > 0 ? lCol : -1;
 
-  if (SendMessage(hwndListView, (UINT)LVM_INSERTCOLUMN, (WPARAM)(int)lCol, (LPARAM)&lvcolumn) == -1) {
+  if (SendMessage(hwndListView, (UINT)LVM_INSERTCOLUMN, (WPARAM)(int32_t)lCol, (LPARAM)&lvcolumn) == -1) {
     iResult = 0;
   } else {
     iResult = 1;
@@ -327,11 +327,11 @@ HB_FUNC(HWG_LISTVIEW_INSERTITEMEX)
   HWND hwndListView = hwg_par_HWND(1);
   LONG lLin = hb_parnl(2) - 1;
   LONG lCol = hb_parnl(3) - 1;
-  int iSubItemYesNo = lCol == 0 ? 0 : 1;
+  int32_t iSubItemYesNo = lCol == 0 ? 0 : 1;
   void *hText;
-  int iBitMap = hb_parni(5);
+  int32_t iBitMap = hb_parni(5);
   LVITEM lvi;
-  int iResult = 0;
+  int32_t iResult = 0;
   RECT rect;
 
   GetClientRect(hwndListView, &rect);
@@ -389,9 +389,9 @@ HB_FUNC(HWG_LISTVIEWSELECTALL)
 HB_FUNC(HWG_LISTVIEWSELECTLASTITEM)
 {
   HWND hList = hwg_par_HWND(1);
-  int items;
+  int32_t items;
 
-  items = (int)SendMessage(hList, LVM_GETITEMCOUNT, 0, 0);
+  items = (int32_t)SendMessage(hList, LVM_GETITEMCOUNT, 0, 0);
   items--;
   ListView_SetItemState(hList, -1, 0, LVIS_SELECTED);
   SendMessage(hList, LVM_ENSUREVISIBLE, (WPARAM)items, FALSE);
@@ -443,8 +443,8 @@ HB_FUNC(HWG_PROCESSCUSTU)
 HB_FUNC(HWG_LISTVIEWGETITEM)
 {
   HWND hList = hwg_par_HWND(1);
-  int Index = hb_parni(2);
-  int Index2 = hb_parni(3);
+  int32_t Index = hb_parni(2);
+  int32_t Index2 = hb_parni(3);
   LVITEM Item;
   TCHAR Buffer[256] = {0};
 
@@ -463,16 +463,16 @@ HB_FUNC(HWG_LISTVIEWGETITEM)
   }
 }
 
-int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+int32_t CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
   PSORTINFO pSortInfo = (PSORTINFO)lParamSort;
-  // int nResult      = 0;
-  int nColumnNo = pSortInfo->nColumnNo;
+  // int32_t nResult      = 0;
+  int32_t nColumnNo = pSortInfo->nColumnNo;
   HWND pListControl = pSortInfo->pListControl;
   BOOL nAscendingSortOrder = pSortInfo->nAscendingSortOrder;
   TCHAR szA[256] = {0};
   TCHAR szB[256] = {0};
-  int rc;
+  int32_t rc;
 
   ListView_GetItemText(pListControl, (INT)lParam1, nColumnNo, szA, HB_SIZEOFARRAY(szA));
   ListView_GetItemText(pListControl, (INT)lParam2, nColumnNo, szB, HB_SIZEOFARRAY(szB));

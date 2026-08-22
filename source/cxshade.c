@@ -79,7 +79,7 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, BYTE palette, BYTE g
 static void Draw3dRect(HDC hDC, RECT *lprect, COLORREF clrTopLeft, COLORREF clrBottomRight)
 {
   RECT r;
-  int x, y, cx, cy;
+  int32_t x, y, cx, cy;
 
   x = lprect->left;
   y = lprect->top;
@@ -323,8 +323,8 @@ static void cxshade_Release(PCXSHADE pshade)
 
 static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, short state)
 {
-  int cx = pshade->m_rect.right - pshade->m_rect.left;
-  int cy = pshade->m_rect.bottom - pshade->m_rect.top;
+  int32_t cx = pshade->m_rect.right - pshade->m_rect.left;
+  int32_t cy = pshade->m_rect.bottom - pshade->m_rect.top;
   RECT r;
 
   HBITMAP hBitmap; // create a destination for raster operations
@@ -427,7 +427,7 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, BYTE palette, BYTE g
   long r, g, b;
   long a, x, y, d, xs, idxmax, idxmin;
   long aa, bb;
-  int grainx2;
+  int32_t grainx2;
 
   if (prect) {
     SetRect(&(pshade->m_rect), prect->left, prect->top, prect->right, prect->bottom);

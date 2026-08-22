@@ -48,7 +48,7 @@ HB_FUNC(HWG_TEXTOUT)
   void *hText;
   HB_SIZE nLen;
   LPCTSTR lpText = HB_PARSTR(4, &hText, &nLen);
-  TextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), lpText, (int)nLen); // TODO: o retorno é BOOL
+  TextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), lpText, (int32_t)nLen); // TODO: o retorno é BOOL
   hb_strfree(hText);
 }
 
@@ -61,8 +61,8 @@ HB_FUNC(HWG_DRAWTEXT)
   LPCTSTR lpText = HB_PARSTR(2, &hText, &nLen);
   RECT rc;
   UINT uFormat = hb_pcount() == 4 ? hwg_par_UINT(4) : hwg_par_UINT(7);
-  // int uiPos = (hb_pcount() == 4 ? 3 : hb_parni(8));
-  int heigh;
+  // int32_t uiPos = (hb_pcount() == 4 ? 3 : hb_parni(8));
+  int32_t heigh;
 
   if (hb_pcount() > 4) {
     rc.left = hb_parni(3);
@@ -73,7 +73,7 @@ HB_FUNC(HWG_DRAWTEXT)
     Array2Rect(hb_param(3, HB_IT_ARRAY), &rc);
   }
 
-  heigh = DrawText(hwg_par_HDC(1), lpText, (int)nLen, &rc, uFormat);
+  heigh = DrawText(hwg_par_HDC(1), lpText, (int32_t)nLen, &rc, uFormat);
   hb_strfree(hText);
 
   // if (HB_ISBYREF(uiPos))
@@ -140,7 +140,7 @@ HB_FUNC(HWG_GETTEXTSIZE)
   PHB_ITEM aMetr = hb_itemArrayNew(2);
   PHB_ITEM temp;
 
-  GetTextExtentPoint32(hwg_par_HDC(1), lpText, (int)nLen, &sz); // TODO: o retorno é BOOL
+  GetTextExtentPoint32(hwg_par_HDC(1), lpText, (int32_t)nLen, &sz); // TODO: o retorno é BOOL
   hb_strfree(hText);
 
   temp = hb_itemPutNL(HWG_NULLPTR, sz.cx);
@@ -251,7 +251,7 @@ HB_FUNC(HWG_SETBKCOLOR)
 // HWG_SETTRANSPARENTMODE(HDC, lTransparent) --> .T.|.F.
 HB_FUNC(HWG_SETTRANSPARENTMODE)
 {
-  int iMode = SetBkMode(hwg_par_HDC(1), hb_parl(2) ? TRANSPARENT : OPAQUE);
+  int32_t iMode = SetBkMode(hwg_par_HDC(1), hb_parl(2) ? TRANSPARENT : OPAQUE);
   hb_retl(iMode == TRANSPARENT);
 }
 
@@ -330,7 +330,7 @@ HB_FUNC(HWG_WINDOWFROMDC)
 HB_FUNC(HWG_CREATEFONT)
 {
   HFONT hFont;
-  int fnWeight = (HB_ISNIL(4)) ? 0 : hwg_par_int(4);
+  int32_t fnWeight = (HB_ISNIL(4)) ? 0 : hwg_par_int(4);
   DWORD fdwCharSet = (HB_ISNIL(5)) ? 0 : hwg_par_DWORD(5);
   DWORD fdwItalic = (HB_ISNIL(6)) ? 0 : hwg_par_DWORD(6);
   DWORD fdwUnderline = (HB_ISNIL(7)) ? 0 : hwg_par_DWORD(7);

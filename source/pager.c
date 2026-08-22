@@ -66,7 +66,7 @@ HB_FUNC(HWG_PAGERGETBKCOLOR)
 HB_FUNC(HWG_PAGERSETBORDER)
 {
   HWND m_hWnd = hwg_par_HWND(1);
-  int iBorder = hb_parni(2);
+  int32_t iBorder = hb_parni(2);
 
 #ifndef __GNUC__
   hb_retni(Pager_SetBorder(m_hWnd, iBorder));
@@ -89,7 +89,7 @@ HB_FUNC(HWG_PAGERGETBORDER)
 HB_FUNC(HWG_PAGERSETPOS)
 {
   HWND m_hWnd = hwg_par_HWND(1);
-  int iPos = hb_parni(2);
+  int32_t iPos = hb_parni(2);
 
 #ifndef __GNUC__
   hb_retni(Pager_SetPos(m_hWnd, iPos));
@@ -112,7 +112,7 @@ HB_FUNC(HWG_PAGERGETPOS)
 HB_FUNC(HWG_PAGERSETBUTTONSIZE)
 {
   HWND m_hWnd = hwg_par_HWND(1);
-  int iSize = hb_parni(2);
+  int32_t iSize = hb_parni(2);
 
 #ifndef __GNUC__
   hb_retni(Pager_SetButtonSize(m_hWnd, iSize));
@@ -135,7 +135,7 @@ HB_FUNC(HWG_PAGERGETBUTTONSIZE)
 HB_FUNC(HWG_PAGERGETBUTTONSTATE)
 {
   HWND m_hWnd = hwg_par_HWND(1);
-  int iButton = hb_parni(1);
+  int32_t iButton = hb_parni(1);
 
 #ifndef __GNUC__
   hb_retnl(Pager_GetButtonState(m_hWnd, iButton));

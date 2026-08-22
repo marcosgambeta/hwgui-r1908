@@ -300,7 +300,7 @@ static ULONG STDMETHODCALLTYPE Invoke(IEventHandler *this, DISPID dispid, REFIID
                                       DISPPARAMS *params, VARIANT *result, EXCEPINFO *pexcepinfo, UINT *puArgErr)
 {
   PHB_ITEM pItem;
-  int iArg, i;
+  int32_t iArg, i;
   PHB_ITEM pItemArray[32]; // max 32 parameters?
   PHB_ITEM *pItems;
   ULONG ulRefMask = 0;

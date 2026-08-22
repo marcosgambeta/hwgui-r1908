@@ -31,8 +31,8 @@ static LRESULT CALLBACK s_PSPProcRelease(HWND, UINT, LPPROPSHEETPAGE);
 // #define WND_DLG_NORESOURCE 11
 
 HWND *aDialogs = HWG_NULLPTR;
-static int s_nDialogs = 0;
-int iDialogs = 0;
+static int32_t s_nDialogs = 0;
+int32_t iDialogs = 0;
 
 // HWG_DIALOGBOX() --> NIL
 HB_FUNC(HWG_DIALOGBOX)
@@ -107,7 +107,7 @@ HB_FUNC(HWG_SETDLGITEMINT)
 // GETDLGITEMTEXT(HWND, nId, nLen) --> cText
 HB_FUNC(HWG_GETDLGITEMTEXT)
 {
-  int iLen = hb_parni(3);
+  int32_t iLen = hb_parni(3);
   LPTSTR lpText = (LPTSTR)hb_xgrab((iLen + 1) * sizeof(TCHAR));
   GetDlgItemText(hwg_par_HWND(1), hwg_par_int(2), lpText, iLen);
   HB_RETSTR(lpText);
@@ -118,7 +118,7 @@ HB_FUNC(HWG_GETDLGITEMTEXT)
 HB_FUNC(HWG_GETEDITTEXT)
 {
   HWND hDlg = hwg_par_HWND(1);
-  int id = hwg_par_int(2);
+  int32_t id = hwg_par_int(2);
   USHORT uiLen = (USHORT)SendMessage(GetDlgItem(hDlg, id), WM_GETTEXTLENGTH, 0, 0);
   LPTSTR lpText = (LPTSTR)hb_xgrab((uiLen + 2) * sizeof(TCHAR));
   GetDlgItemText(hDlg, id, lpText, uiLen + 1);
@@ -204,22 +204,22 @@ static HB_SIZE s_nCopyAnsiToWideChar(LPWORD lpWCStr, PHB_ITEM pItem, HB_SIZE siz
 #endif
 }
 
-static int s_nWideStringLen(PHB_ITEM pItem)
+static int32_t s_nWideStringLen(PHB_ITEM pItem)
 {
 #if defined(HB_HAS_STR_FUNC)
-  return (int)hb_itemCopyStrU16(pItem, HB_CDP_ENDIAN_NATIVE, HWG_NULLPTR, 0) + 1;
+  return (int32_t)hb_itemCopyStrU16(pItem, HB_CDP_ENDIAN_NATIVE, HWG_NULLPTR, 0) + 1;
 #else
   return MultiByteToWideChar(GetACP(), 0, hb_itemGetCPtr(pItem), -1, HWG_NULLPTR, 0);
 #endif
 }
 
-static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int x1, int y1, int dwidth, int dheight, ULONG ulStyle)
+static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, int32_t dwidth, int32_t dheight, ULONG ulStyle)
 {
   HGLOBAL hgbl;
   PWORD p, pend;
   PHB_ITEM pControls, pControl, temp;
   LONG baseUnit = GetDialogBaseUnits();
-  int baseunitX = LOWORD(baseUnit), baseunitY = HIWORD(baseUnit);
+  int32_t baseunitX = LOWORD(baseUnit), baseunitY = HIWORD(baseUnit);
   long lTemplateSize = 15;
   LONG lExtStyle;
   ULONG ul, ulControls;
@@ -406,7 +406,7 @@ HB_FUNC(HWG__CREATEPROPERTYSHEETPAGE)
 HB_FUNC(HWG__PROPERTYSHEET)
 {
   PHB_ITEM pArr = hb_param(2, HB_IT_ARRAY);
-  int nPages = hb_parni(3), i;
+  int32_t nPages = hb_parni(3), i;
   HPROPSHEETPAGE psp[10];
   PROPSHEETHEADER psh;
   void *hCaption;
@@ -482,7 +482,7 @@ HB_FUNC(HWG_DLGBOXINDIRECT)
   ULONG ulStyle =
       ((hb_pcount() > 6 && !HB_ISNIL(7)) ? (ULONG)hb_parnl(7)
                                          : WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU); // | DS_SETFONT;
-  int x1 = hb_parni(3), y1 = hb_parni(4), dwidth = hb_parni(5), dheight = hb_parni(6);
+  int32_t x1 = hb_parni(3), y1 = hb_parni(4), dwidth = hb_parni(5), dheight = hb_parni(6);
   LPDLGTEMPLATE pdlgtemplate = s_CreateDlgTemplate(pObject, x1, y1, dwidth, dheight, ulStyle);
 
   DialogBoxIndirectParam(hModule, pdlgtemplate, hwg_par_HWND(1), (DLGPROC)s_ModalDlgProc, (LPARAM)pObject);
@@ -569,7 +569,7 @@ static LRESULT CALLBACK s_DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
     }
     aDialogs[iDialogs++] = hDlg;
   } else if (uMsg == WM_DESTROY) {
-    int i;
+    int32_t i;
     for (i = 0; i < iDialogs; i++) {
       if (aDialogs[i] == hDlg) {
         break;
@@ -642,7 +642,7 @@ static LRESULT CALLBACK s_PSPProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
   } else if (uMsg == WM_NOTIFY) {
     uMsg = WM_PSPNOTIFY;
   } else if (uMsg == WM_DESTROY) {
-    int i;
+    int32_t i;
     for (i = 0; i < iDialogs; i++) {
       if (aDialogs[i] == hDlg) {
         break;

@@ -10,10 +10,10 @@
 #include <commctrl.h>
 #include <richedit.h>
 
-static int s_msgbox(UINT uType)
+static int32_t s_msgbox(UINT uType)
 {
   void *hText, *hTitle;
-  int iResult;
+  int32_t iResult;
 
   iResult =
       MessageBox(GetActiveWindow(), HB_PARSTR(1, &hText, HWG_NULLPTR), HB_PARSTRDEF(2, &hTitle, HWG_NULLPTR), uType);

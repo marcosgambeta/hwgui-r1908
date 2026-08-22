@@ -577,7 +577,7 @@ FUNCTION hwg_regenfile(o, new)
 //----------------------------------------------------------------------------//
 static HB_BOOL file_read(FILE *stream, char *string)
 {
-   int ch, cnbr = 0;
+   int32_t ch, cnbr = 0;
 
    memset (string, ' ', LINE_MAX);
 

@@ -44,7 +44,7 @@ LRESULT CALLBACK NiceButtProc(HWND, UINT, WPARAM, LPARAM);
 
 static GRADIENTFILL s_pGradientfill = HWG_NULLPTR;
 
-static void Draw_Gradient(HDC hdc, int x, int y, int w, int h, int r, int g, int b)
+static void Draw_Gradient(HDC hdc, int32_t x, int32_t y, int32_t w, int32_t h, int32_t r, int32_t g, int32_t b)
 {
   TRIVERTEX Vert[2];
   GRADIENT_RECT Rect;
@@ -90,12 +90,12 @@ static void Draw_Gradient(HDC hdc, int x, int y, int w, int h, int r, int g, int
   s_pGradientfill(hdc, Vert, 2, &Rect, 1, GRADIENT_FILL_RECT_V);
 }
 
-static void Gradient(HDC hdc, int x, int y, int w, int h, int color1, int color2,
-                     int nmode) // int , int g, int b, int nMode )
+static void Gradient(HDC hdc, int32_t x, int32_t y, int32_t w, int32_t h, int32_t color1, int32_t color2,
+                     int32_t nmode) // int32_t , int32_t g, int32_t b, int32_t nMode )
 {
   TRIVERTEX Vert[2];
   GRADIENT_RECT Rect;
-  int r, g, b, r2, g2, b2;
+  int32_t r, g, b, r2, g2, b2;
   HB_SYMBOL_UNUSED(x);
   HB_SYMBOL_UNUSED(y);
 
@@ -225,7 +225,7 @@ HB_FUNC(HWG_GRADIENT)
   if (s_pGradientfill == HWG_NULLPTR) {
     s_pGradientfill = (GRADIENTFILL)GetProcAddress(LoadLibrary(TEXT("MSIMG32.DLL")), "GradientFill");
   }
-  // void Gradient(HDC hdc, int x, int y, int w, int h, int color1, int color2, int nmode)
+  // void Gradient(HDC hdc, int32_t x, int32_t y, int32_t w, int32_t h, int32_t color1, int32_t color2, int32_t nmode)
 
   Gradient(hwg_par_HDC(1), hb_parni(2), hb_parni(3), hb_parni(4), hb_parni(5),
            (hb_pcount() > 5 && !HB_ISNIL(6)) ? hb_parni(6) : 16777215,

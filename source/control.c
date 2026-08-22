@@ -102,8 +102,8 @@ HB_FUNC(HWG_CREATEPROGRESSBAR)
   HWND hPBar, hParentWindow = hwg_par_HWND(1);
   RECT rcClient;
   DWORD ulStyle;
-  int cyVScroll = GetSystemMetrics(SM_CYVSCROLL);
-  int x1, y1, nwidth, nheight;
+  int32_t cyVScroll = GetSystemMetrics(SM_CYVSCROLL);
+  int32_t x1, y1, nwidth, nheight;
 
   if (hb_pcount() > 2) {
     ulStyle = hwg_par_DWORD(3);
@@ -235,11 +235,11 @@ HB_FUNC(HWG_INITSTATUS)
   RECT rcClient;
   HLOCAL hloc;
   LPINT lpParts;
-  int i, nWidth, j, nParts = hb_parni(3);
+  int32_t i, nWidth, j, nParts = hb_parni(3);
   PHB_ITEM pArray = hb_param(4, HB_IT_ARRAY);
 
   // Allocate an array for holding the right edge coordinates.
-  hloc = LocalAlloc(LHND, sizeof(int) * nParts);
+  hloc = LocalAlloc(LHND, sizeof(int32_t) * nParts);
   lpParts = (LPINT)LocalLock(hloc);
 
   if (!pArray || hb_arrayGetNI(pArray, 1) == 0) {
@@ -378,7 +378,7 @@ HB_FUNC(HWG_SETRANGEUPDOWN)
 
 HB_FUNC(HWG_GETNOTIFYDELTAPOS)
 {
-  int iItem = hb_parnl(2);
+  int32_t iItem = hb_parnl(2);
   if (iItem < 2) {
     hb_retni((LONG)(((NMUPDOWN *)HB_PARHANDLE(1))->iPos));
   } else {
@@ -403,17 +403,17 @@ HB_FUNC(HWG_SETDATEPICKER)
   if (pDate) {
     SYSTEMTIME sysTime, st;
 #ifndef HARBOUR_OLD_VERSION
-    int lYear, lMonth, lDay;
-    int lHour, lMinute;
+    int32_t lYear, lMonth, lDay;
+    int32_t lHour, lMinute;
 #else
     long lYear, lMonth, lDay;
     long lHour, lMinute;
 #endif
-    int lMilliseconds = 0;
+    int32_t lMilliseconds = 0;
 #ifdef __XHARBOUR__
     double lSecond;
 #else
-    int lSecond;
+    int32_t lSecond;
 #endif
 
     hb_dateDecode(hb_itemGetDL(pDate), &lYear, &lMonth, &lDay);
@@ -490,7 +490,7 @@ HB_FUNC(HWG_INITTABCONTROL)
 {
   HWND hTab = hwg_par_HWND(1);
   PHB_ITEM pArr = hb_param(2, HB_IT_ARRAY);
-  int iItems = hb_parnl(3);
+  int32_t iItems = hb_parnl(3);
   TC_ITEM tie;
   ULONG ul, ulTabs = (ULONG)hb_arrayLen(pArr);
 
@@ -574,7 +574,7 @@ HB_FUNC(HWG_TAB_HITTEST)
 {
   TC_HITTESTINFO ht;
   HWND hTab = hwg_par_HWND(1);
-  int res;
+  int32_t res;
 
   if (hb_pcount() > 1 && HB_ISNUM(2) && HB_ISNUM(3)) {
     ht.pt.x = hb_parni(2);
@@ -584,7 +584,7 @@ HB_FUNC(HWG_TAB_HITTEST)
     ScreenToClient(hTab, &(ht.pt));
   }
 
-  res = (int)SendMessage(hTab, TCM_HITTEST, 0, (LPARAM)&ht);
+  res = (int32_t)SendMessage(hTab, TCM_HITTEST, 0, (LPARAM)&ht);
 
   hb_storni(ht.flags, 4);
   hb_retni(res);
@@ -616,7 +616,7 @@ HB_FUNC(HWG_TREEADDNODE)
   TV_ITEM tvi;
   TV_INSERTSTRUCT is;
 
-  int nPos = hb_parni(5);
+  int32_t nPos = hb_parni(5);
   PHB_ITEM pObject = hb_param(1, HB_IT_OBJECT);
   void *hStr;
 
@@ -729,7 +729,7 @@ HB_FUNC(HWG_TREEGETNODETEXT)
 HB_FUNC(HWG_TREESETITEM)
 {
   TV_ITEM TreeItem;
-  int iType = hb_parni(3);
+  int32_t iType = hb_parni(3);
   void *hStr = HWG_NULLPTR;
 
   memset(&TreeItem, 0, sizeof(TV_ITEM));
@@ -760,7 +760,7 @@ HB_FUNC(HWG_TREESETITEM)
 
 HB_FUNC(HWG_TREE_GETNOTIFY)
 {
-  int iType = hb_parni(2);
+  int32_t iType = hb_parni(2);
 
   if (iType == TREE_GETNOTIFY_HANDLE) {
     hb_retnint((LONG_PTR)(((NM_TREEVIEW *)HB_PARHANDLE(1))->itemNew.hItem)); // TODO: retorno é HTREEITEM
@@ -815,7 +815,7 @@ HB_FUNC(HWG_TREE_HITTEST)
     oNode = (PHB_ITEM)TreeItem.lParam;
     hb_itemReturn(oNode);
     if (hb_pcount() > 3) {
-      hb_storni((int)ht.flags, 4);
+      hb_storni((int32_t)ht.flags, 4);
     }
   } else {
     hb_ret();
@@ -1331,8 +1331,8 @@ typedef struct tagNMTBGETINFOTIPA
 {
   NMHDR hdr;
   LPSTR pszText;
-  int cchTextMax;
-  int iItem;
+  int32_t cchTextMax;
+  int32_t iItem;
   LPARAM lParam;
 } NMTBGETINFOTIPA, *LPNMTBGETINFOTIPA;
 
@@ -1340,8 +1340,8 @@ typedef struct tagNMTBGETINFOTIPW
 {
   NMHDR hdr;
   LPWSTR pszText;
-  int cchTextMax;
-  int iItem;
+  int32_t cchTextMax;
+  int32_t iItem;
   LPARAM lParam;
 } NMTBGETINFOTIPW, *LPNMTBGETINFOTIPW;
 
@@ -1369,7 +1369,7 @@ HB_FUNC(HWG_TOOLBARADDBUTTONS)
   HWND hWndCtrl = hwg_par_HWND(1);
   // HWND hToolTip = hwg_par_HWND(4);
   PHB_ITEM pArray = hb_param(2, HB_IT_ARRAY);
-  int iButtons = hb_parni(3);
+  int32_t iButtons = hb_parni(3);
   TBBUTTON *tb = (struct _TBBUTTON *)hb_xgrab(iButtons * sizeof(TBBUTTON));
   PHB_ITEM pTemp;
 
@@ -1389,7 +1389,7 @@ HB_FUNC(HWG_TOOLBARADDBUTTONS)
     if (hb_arrayGetNI(pTemp, 4) == TBSTYLE_SEP) {
       tb[ulCount].iBitmap = 8;
     } else {
-      tb[ulCount].iBitmap = ulID - 1; // ulID > 0 ? (int)ulCount : -1;
+      tb[ulCount].iBitmap = ulID - 1; // ulID > 0 ? (int32_t)ulCount : -1;
     }
     tb[ulCount].idCommand = hb_arrayGetNI(pTemp, 2);
     tb[ulCount].fsState = (BYTE)hb_arrayGetNI(pTemp, 3);
@@ -1408,7 +1408,7 @@ HB_FUNC(HWG_TOOLBAR_SETBUTTONINFO)
 {
   TBBUTTONINFO tb;
   HWND hWndCtrl = hwg_par_HWND(1);
-  int iIDB = hb_parni(2);
+  int32_t iIDB = hb_parni(2);
   void *hStr;
 
   tb.cbSize = sizeof(tb);
@@ -1423,7 +1423,7 @@ HB_FUNC(HWG_TOOLBAR_LOADIMAGE)
 {
   TBADDBITMAP tbab;
   HWND hWndCtrl = hwg_par_HWND(1);
-  int iIDB = hb_parni(2);
+  int32_t iIDB = hb_parni(2);
 
   tbab.hInst = HWG_NULLPTR;
   tbab.nID = iIDB;
@@ -1435,7 +1435,7 @@ HB_FUNC(HWG_TOOLBAR_LOADSTANDARTIMAGE)
 {
   TBADDBITMAP tbab;
   HWND hWndCtrl = hwg_par_HWND(1);
-  int iIDB = hb_parni(2);
+  int32_t iIDB = hb_parni(2);
   HIMAGELIST himl;
 
   tbab.hInst = HINST_COMMCTRL;
@@ -1443,7 +1443,7 @@ HB_FUNC(HWG_TOOLBAR_LOADSTANDARTIMAGE)
 
   SendMessage(hWndCtrl, TB_ADDBITMAP, 0, (LPARAM)&tbab);
   himl = (HIMAGELIST)SendMessage(hWndCtrl, TB_GETIMAGELIST, 0, 0);
-  hb_retni((int)ImageList_GetImageCount(himl));
+  hb_retni((int32_t)ImageList_GetImageCount(himl));
 }
 
 HB_FUNC(HWG_IMAGELIST_GETIMAGECOUNT)
@@ -1684,7 +1684,7 @@ HB_FUNC(HWG_COMBOGETITEMRECT)
 {
   HWND hWnd = hwg_par_HWND(1);
 
-  int nIndex = hb_parnl(2);
+  int32_t nIndex = hb_parnl(2);
   RECT rcItem;
   SendMessage(hWnd, LB_GETITEMRECT, nIndex, (LONG_PTR)(VOID *)&rcItem);
   hb_itemReturnRelease(Rect2Array(&rcItem));
@@ -1693,7 +1693,7 @@ HB_FUNC(HWG_COMBOGETITEMRECT)
 HB_FUNC(HWG_COMBOBOXGETITEMDATA)
 {
   HWND hWnd = hwg_par_HWND(1);
-  int nIndex = hb_parnl(2);
+  int32_t nIndex = hb_parnl(2);
   DWORD_PTR p;
   p = (DWORD_PTR)SendMessage(hWnd, CB_GETITEMDATA, nIndex, 0);
   hb_retnl((long)p);
@@ -1702,7 +1702,7 @@ HB_FUNC(HWG_COMBOBOXGETITEMDATA)
 HB_FUNC(HWG_COMBOBOXSETITEMDATA)
 {
   HWND hWnd = hwg_par_HWND(1);
-  int nIndex = hb_parnl(2);
+  int32_t nIndex = hb_parnl(2);
   DWORD_PTR dwItemData = (DWORD_PTR)hb_parnl(3);
   hb_retnl((long)SendMessage(hWnd, CB_SETITEMDATA, nIndex, (LPARAM)dwItemData));
 }
@@ -1717,9 +1717,9 @@ HB_FUNC(HWG_GETLOCALEINFO)
 HB_FUNC(HWG_COMBOBOXGETLBTEXT)
 {
   HWND hWnd = hwg_par_HWND(1);
-  int nIndex = hb_parnl(2);
+  int32_t nIndex = hb_parnl(2);
   TCHAR lpszText[255] = {0};
-  hb_retni((int)SendMessage(hWnd, CB_GETLBTEXT, nIndex, (LPARAM)lpszText));
+  hb_retni((int32_t)SendMessage(hWnd, CB_GETLBTEXT, nIndex, (LPARAM)lpszText));
   HB_STORSTR(lpszText, 3);
 }
 

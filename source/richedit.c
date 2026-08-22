@@ -228,8 +228,8 @@ HB_FUNC(HWG_RE_SETDEFAULT)
 HB_FUNC(HWG_RE_CHARFROMPOS)
 {
   HWND hCtrl = hwg_par_HWND(1);
-  int x = hb_parni(2);
-  int y = hb_parni(3);
+  int32_t x = hb_parni(2);
+  int32_t y = hb_parni(3);
   ULONG ul;
   POINTL pp;
 
@@ -259,7 +259,7 @@ HB_FUNC(HWG_RE_GETTEXTRANGE)
 HB_FUNC(HWG_RE_GETLINE)
 {
   HWND hCtrl = hwg_par_HWND(1);
-  int nLine = hb_parni(2);
+  int32_t nLine = hb_parni(2);
   ULONG uLineIndex = (ULONG)SendMessage(hCtrl, EM_LINEINDEX, (WPARAM)nLine, 0);
   ULONG ul = (ULONG)SendMessage(hCtrl, EM_LINELENGTH, (WPARAM)uLineIndex, 0);
   LPTSTR lpBuf = (LPTSTR)hb_xgrab((ul + 4) * sizeof(TCHAR));
@@ -299,8 +299,8 @@ HB_FUNC(HWG_RE_FINDTEXT)
 HB_FUNC(HWG_RE_SETZOOM)
 {
   HWND hwnd = hwg_par_HWND(1);
-  int nNum = hb_parni(2);
-  int nDen = hb_parni(3);
+  int32_t nNum = hb_parni(2);
+  int32_t nDen = hb_parni(3);
   hb_retnl((BOOL)SendMessage(hwnd, EM_SETZOOM, nNum, nDen));
 }
 
@@ -313,8 +313,8 @@ HB_FUNC(HWG_RE_ZOOMOFF)
 HB_FUNC(HWG_RE_GETZOOM)
 {
   HWND hwnd = hwg_par_HWND(1);
-  int nNum = hb_parni(2);
-  int nDen = hb_parni(3);
+  int32_t nNum = hb_parni(2);
+  int32_t nDen = hb_parni(3);
   hb_retnl((BOOL)SendMessage(hwnd, EM_GETZOOM, (WPARAM)&nNum, (LPARAM)&nDen));
   hb_storni(nNum, 2);
   hb_storni(nDen, 3);
@@ -326,13 +326,13 @@ HB_FUNC(HWG_PRINTRTF)
   HDC hdc = hwg_par_HDC(2);
   FORMATRANGE fr;
   BOOL fSuccess = TRUE;
-  int cxPhysOffset = GetDeviceCaps(hdc, PHYSICALOFFSETX);
-  int cyPhysOffset = GetDeviceCaps(hdc, PHYSICALOFFSETY);
-  int cxPhys = GetDeviceCaps(hdc, PHYSICALWIDTH);
-  int cyPhys = GetDeviceCaps(hdc, PHYSICALHEIGHT);
-  int ppi_x = GetDeviceCaps(hdc, LOGPIXELSX);
-  int ppi_y = GetDeviceCaps(hdc, LOGPIXELSX);
-  int cpMin;
+  int32_t cxPhysOffset = GetDeviceCaps(hdc, PHYSICALOFFSETX);
+  int32_t cyPhysOffset = GetDeviceCaps(hdc, PHYSICALOFFSETY);
+  int32_t cxPhys = GetDeviceCaps(hdc, PHYSICALWIDTH);
+  int32_t cyPhys = GetDeviceCaps(hdc, PHYSICALHEIGHT);
+  int32_t ppi_x = GetDeviceCaps(hdc, LOGPIXELSX);
+  int32_t ppi_y = GetDeviceCaps(hdc, LOGPIXELSX);
+  int32_t cpMin;
 
   SendMessage(hwnd, EM_SETTARGETDEVICE, (WPARAM)hdc, cxPhys / 2);
   fr.hdc = hdc;

@@ -41,7 +41,7 @@ HB_FUNC(HWG__ADDMENUITEM) // TODO: revisar retorno
   UINT uFlags = MF_BYPOSITION;
   void *hNewItem;
   LPCTSTR lpNewItem;
-  int nPos;
+  int32_t nPos;
   MENUITEMINFO mii;
 
   if (!HB_ISNIL(6) && (hb_parni(6) & FLAG_DISABLED)) {
@@ -293,7 +293,7 @@ HB_FUNC(HWG_CREATEACCELERATORTABLE)
     lpaccl[ul - 1].key = (WORD)hb_arrayGetNL(pSubArr, 2);
     lpaccl[ul - 1].cmd = (WORD)hb_arrayGetNL(pSubArr, 3);
   }
-  h = CreateAcceleratorTable(lpaccl, (int)ulEntries);
+  h = CreateAcceleratorTable(lpaccl, (int32_t)ulEntries);
 
   hb_xfree(lpaccl);
   hwg_ret_HACCEL(h);

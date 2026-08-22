@@ -145,11 +145,11 @@ HB_FUNC(HWG_GETPRINTERS)
     }
   }
   if (dwReturned) {
-    int i;
+    int32_t i;
 
     aMetr = hb_itemArrayNew(dwReturned);
 
-    for (i = 0; i < (int)dwReturned; i++) {
+    for (i = 0; i < (int32_t)dwReturned; i++) {
       if (pinfo4) {
         temp = HB_ITEMPUTSTR(HWG_NULLPTR, pinfo4->pPrinterName);
         pinfo4++;
@@ -313,7 +313,7 @@ HB_FUNC(HWG_CREATEENHMETAFILE)
   HWND hWnd = hwg_par_HWND(1);
   HDC hDCref = GetDC(hWnd), hDCmeta;
   void *hFileName;
-  int iWidthMM, iHeightMM, iWidthPels, iHeightPels;
+  int32_t iWidthMM, iHeightMM, iWidthPels, iHeightPels;
   RECT rc;
   // char cres[80];
 
@@ -357,7 +357,7 @@ HB_FUNC(HWG_CREATEMETAFILE)
 {
   HDC hDCref = hwg_par_HDC(1), hDCmeta;
   void *hFileName;
-  int iWidthMM, iHeightMM;
+  int32_t iWidthMM, iHeightMM;
   RECT rc;
 
   // Determine the picture frame dimensions.

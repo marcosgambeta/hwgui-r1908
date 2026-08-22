@@ -7,6 +7,11 @@
 // www - http://www.geocities.com/alkresin/
 //
 
+#include <hbapi.h>
+#include <hbvm.h>
+#include <hbapiitm.h>
+#include "guilib.h"
+
 #define MAXKEYBYTES 56 /* 448 bits */
 #define N 16
 
@@ -240,9 +245,9 @@ void Blowfish_Decrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
   *xr = Xr;
 }
 
-void Blowfish_Init(BLOWFISH_CTX *ctx, unsigned char *key, int keyLen)
+void Blowfish_Init(BLOWFISH_CTX *ctx, unsigned char *key, int32_t keyLen)
 {
-  int i, j, k;
+  int32_t i, j, k;
   unsigned long data, datal, datar;
 
   for (i = 0; i < 4; i++) {
@@ -285,11 +290,6 @@ void Blowfish_Init(BLOWFISH_CTX *ctx, unsigned char *key, int keyLen)
 #undef MAXKEYBYTES
 #undef N
 
-#include <hbapi.h>
-#include <hbvm.h>
-#include <hbapiitm.h>
-#include "guilib.h"
-
 HB_FUNC(HWG_BF_ENCRYPT)
 {
 
@@ -298,14 +298,14 @@ HB_FUNC(HWG_BF_ENCRYPT)
   const char *ptri = hb_parc(1);
   unsigned char *ptro;
   unsigned char *key;
-  int iKeylen, iDiff;
+  int32_t iKeylen, iDiff;
   unsigned long int ul, ulLen, ulPairs;
 
   if (HB_ISNIL(2)) {
     key = (unsigned char *)hb_xgrab(5);
     hb_strncpy((char *)key, keyDefault, sizeof(key) - 1);
     iKeylen = 4;
-  } else if ((iKeylen = (int)hb_parclen(2)) < 4) {
+  } else if ((iKeylen = (int32_t)hb_parclen(2)) < 4) {
     key = (unsigned char *)hb_xgrab(5);
     hb_strncpy((char *)key, hb_parc(2), sizeof(key) - 1);
     hb_strncat((char *)key, keyDefault, 4 - iKeylen);
@@ -325,7 +325,7 @@ HB_FUNC(HWG_BF_ENCRYPT)
 
   ulPairs = (ulLen + 2) / 8 + (((ulLen + 2) % 8) ? 1 : 0);
   ptro = (unsigned char *)hb_xgrab(ulPairs * 8 + 1);
-  iDiff = (int)(ulPairs * 8 - ulLen);
+  iDiff = (int32_t)(ulPairs * 8 - ulLen);
   *ptro = ((unsigned char)iDiff) & 0x0f;
   *(ptro + 1) = '\0';
   memcpy(ptro + 2, ptri, ulLen);
@@ -350,14 +350,14 @@ HB_FUNC(HWG_BF_DECRYPT)
   const char *ptri = hb_parc(1);
   unsigned char *ptro;
   unsigned char *key;
-  int iKeylen, iDiff;
+  int32_t iKeylen, iDiff;
   unsigned long int ul, ulLen, ulPairs;
 
   if (HB_ISNIL(2)) {
     key = (unsigned char *)hb_xgrab(5);
     hb_strncpy((char *)key, keyDefault, sizeof(key) - 1);
     iKeylen = 4;
-  } else if ((iKeylen = (int)hb_parclen(2)) < 4) {
+  } else if ((iKeylen = (int32_t)hb_parclen(2)) < 4) {
     key = (unsigned char *)hb_xgrab(5);
     hb_strncpy((char *)key, hb_parc(2), sizeof(key) - 1);
     hb_strncat((char *)key, keyDefault, 4 - iKeylen);
@@ -383,7 +383,7 @@ HB_FUNC(HWG_BF_DECRYPT)
     Blowfish_Decrypt(&ctx, (unsigned long *)(ptro + ul * 8), (unsigned long *)(ptro + ul * 8 + 4));
   }
 
-  iDiff = (int)(*ptro);
+  iDiff = (int32_t)(*ptro);
   if (iDiff > 10 || *(ptro + 1)) {
     hb_ret();
   } else {

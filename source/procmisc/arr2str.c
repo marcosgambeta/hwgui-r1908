@@ -44,10 +44,10 @@ static const char *ReadArray(const char *ptr, PHB_ITEM pItem)
       ptr += 4;
     } else if (*ptr == '\3') // Numeric
     {
-      int iWidth, iDec;
+      int32_t iWidth, iDec;
       ptr++;
-      iWidth = (int)*ptr++;
-      iDec = (int)*ptr++;
+      iWidth = (int32_t)*ptr++;
+      iDec = (int32_t)*ptr++;
       hb_itemPutNDLen(hb_arrayGetItemPtr(pItem, ul), HB_GET_LE_DOUBLE(ptr), iWidth, iDec);
       ptr += 8;
     } else if (*ptr == '\4') // Date
@@ -127,7 +127,7 @@ static HB_ULONG ArrayMemoSize(PHB_ITEM pArray)
 static char *WriteArray(char *ptr, PHB_ITEM pArray)
 {
   HB_ULONG ulArrLen = (HB_ULONG)hb_arrayLen(pArray), ulVal, ul;
-  int iDec, iWidth;
+  int32_t iDec, iWidth;
   double dVal;
 
   if (ulArrLen > 0xFFFF) {

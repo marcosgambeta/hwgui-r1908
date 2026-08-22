@@ -45,7 +45,7 @@
 #define HBXML_TYPE_PI 4
 
 static unsigned char *cBuffer;
-static int nParseError;
+static int32_t nParseError;
 static HB_ULONG ulOffset;
 
 #define HBXML_PREDEFS_KOL 6
@@ -54,7 +54,7 @@ static unsigned char *predefinedEntity1[] = {(unsigned char *)"lt;",   (unsigned
                                              (unsigned char *)"apos;", (unsigned char *)"nbsp;"};
 static unsigned char *predefinedEntity2 = (unsigned char *)"<>&\"\' ";
 
-void hbxml_error(int nError, unsigned char *ptr)
+void hbxml_error(int32_t nError, unsigned char *ptr)
 {
   nParseError = nError;
   ulOffset = (HB_ULONG)(ptr - cBuffer);
@@ -66,13 +66,13 @@ HB_FUNC(HBXML_TRANSFORM)
   unsigned char *pBuffer = (unsigned char *)hb_parc(1), *pNew;
   unsigned char *ptr, *ptr1, *ptrs, c;
   HB_ULONG ulLen = (HB_ULONG)hb_parclen(1);
-  int iLenAdd = 0, iLen;
+  int32_t iLenAdd = 0, iLen;
 
   ptr = pBuffer;
   while ((c = *ptr) != 0) {
     for (ptrs = predefinedEntity2; *ptrs; ptrs++) {
       if (*ptrs == c) {
-        iLenAdd += (int)strlen((char *)predefinedEntity1[ptrs - predefinedEntity2]);
+        iLenAdd += (int32_t)strlen((char *)predefinedEntity1[ptrs - predefinedEntity2]);
         break;
       }
     }
@@ -86,7 +86,7 @@ HB_FUNC(HBXML_TRANSFORM)
       *ptr1 = *ptr;
       for (ptrs = predefinedEntity2; *ptrs; ptrs++) {
         if (*ptrs == c) {
-          iLen = (int)strlen((char *)predefinedEntity1[ptrs - predefinedEntity2]);
+          iLen = (int32_t)strlen((char *)predefinedEntity1[ptrs - predefinedEntity2]);
           *ptr1++ = '&';
           memcpy(ptr1, predefinedEntity1[ptrs - predefinedEntity2], iLen);
           ptr1 += iLen - 1;
@@ -111,13 +111,13 @@ HB_FUNC(HBXML_TRANSFORM)
 PHB_ITEM hbxml_pp(unsigned char *ptr, HB_ULONG ulLen)
 {
   unsigned char *ptrStart = ptr;
-  int i, nlen;
+  int32_t i, nlen;
   HB_ULONG ul = 0, ul1;
 
   while (ul < ulLen) {
     if (*ptr == '&') {
       if (*(ptr + 1) == '#') {
-        int iChar;
+        int32_t iChar;
         sscanf((char *)ptr + 2, "%d", &iChar);
         *ptr = (unsigned char)iChar;
         i = 1;
@@ -133,7 +133,7 @@ PHB_ITEM hbxml_pp(unsigned char *ptr, HB_ULONG ulLen)
         }
       } else {
         for (i = 0; i < HBXML_PREDEFS_KOL; i++) {
-          nlen = (int)strlen((char *)predefinedEntity1[i]);
+          nlen = (int32_t)strlen((char *)predefinedEntity1[i]);
           if (!memcmp(ptr + 1, predefinedEntity1[i], nlen)) {
             *ptr = predefinedEntity2[i];
             ulLen -= nlen;
@@ -170,7 +170,7 @@ PHB_ITEM hbxml_getattr(unsigned char **pBuffer, HB_BOOL *lSingle)
 {
 
   unsigned char *ptr, cQuo;
-  int nlen;
+  int32_t nlen;
   PHB_ITEM pArray = hb_itemNew(HWG_NULLPTR);
   PHB_ITEM pSubArray = HWG_NULLPTR;
   PHB_ITEM pTemp;
@@ -206,7 +206,7 @@ PHB_ITEM hbxml_getattr(unsigned char **pBuffer, HB_BOOL *lSingle)
       }
       ptr = *pBuffer;
       HB_SKIPCHARS(*pBuffer); // skip attribute name
-      nlen = (int)(*pBuffer - ptr);
+      nlen = (int32_t)(*pBuffer - ptr);
       // add attribute name to result array
       pSubArray = hb_itemNew(HWG_NULLPTR);
       hb_arrayNew(pSubArray, 2);
@@ -233,7 +233,7 @@ PHB_ITEM hbxml_getattr(unsigned char **pBuffer, HB_BOOL *lSingle)
           hbxml_error(HBXML_ERROR_NOT_QUOTE, *pBuffer);
           break;
         }
-        nlen = (int)(*pBuffer - ptr);
+        nlen = (int32_t)(*pBuffer - ptr);
         // add attribute value to result array
         pTemp = hbxml_pp(ptr, nlen);
         hb_arraySet(pSubArray, 2, pTemp);
@@ -351,7 +351,7 @@ HB_BOOL hbxml_readElement(PHB_ITEM pParent, unsigned char **pBuffer)
   PHB_ITEM pArray;
   unsigned char *ptr, cNodeName[50];
   PHB_ITEM pTemp;
-  int nLenNodeName;
+  int32_t nLenNodeName;
   HB_BOOL lEmpty;
   HB_BOOL lSingle;
 
@@ -361,7 +361,7 @@ HB_BOOL hbxml_readElement(PHB_ITEM pParent, unsigned char **pBuffer)
   }
   ptr = *pBuffer;
   HB_SKIPCHARS(ptr);
-  nLenNodeName = (int)(ptr - *pBuffer - ((*(ptr - 1) == '/') ? 1 : 0));
+  nLenNodeName = (int32_t)(ptr - *pBuffer - ((*(ptr - 1) == '/') ? 1 : 0));
   memcpy(cNodeName, *pBuffer, nLenNodeName);
   cNodeName[nLenNodeName] = '\0';
 
@@ -450,7 +450,7 @@ HB_FUNC(HBXML_GETDOC)
   PHB_ITEM pDoc = hb_param(1, HB_IT_OBJECT);
   HB_BOOL bFile;
   unsigned char *ptr;
-  int iMainTags = 0;
+  int32_t iMainTags = 0;
 
   if (HB_ISCHAR(2)) {
     cBuffer = (unsigned char *)hb_parc(2);

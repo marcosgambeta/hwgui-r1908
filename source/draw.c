@@ -37,8 +37,8 @@ typedef int(_stdcall *TRANSPARENTBLT)(HDC, int, int, int, int, HDC, int, int, in
 
 static TRANSPARENTBLT s_pTransparentBlt = HWG_NULLPTR;
 
-void TransparentBmp(HDC hDC, int x, int y, int nWidthDest, int nHeightDest, HDC dcImage, int bmWidth, int bmHeight,
-                    int trColor)
+void TransparentBmp(HDC hDC, int32_t x, int32_t y, int32_t nWidthDest, int32_t nHeightDest, HDC dcImage, int32_t bmWidth, int32_t bmHeight,
+                    int32_t trColor)
 {
   if (s_pTransparentBlt == HWG_NULLPTR) {
     s_pTransparentBlt = (TRANSPARENTBLT)GetProcAddress(LoadLibrary(TEXT("MSIMG32.DLL")), "TransparentBlt");
@@ -113,10 +113,10 @@ HB_FUNC(HWG_LINETO)
 HB_FUNC(HWG_RECTANGLE) // TODO: usar outro nome para esta função
 {
   HDC hDC = hwg_par_HDC(1);
-  int x1 = hb_parni(2);
-  int y1 = hb_parni(3);
-  int x2 = hb_parni(4);
-  int y2 = hb_parni(5);
+  int32_t x1 = hb_parni(2);
+  int32_t y1 = hb_parni(3);
+  int32_t x2 = hb_parni(4);
+  int32_t y2 = hb_parni(5);
   MoveToEx(hDC, x1, y1, HWG_NULLPTR);
   LineTo(hDC, x2, y1);
   LineTo(hDC, x2, y2);
@@ -141,7 +141,7 @@ HB_FUNC(HWG_DRAWLINE)
 // HWG_PIE(HDC, nLeft, nTop, nRight, nBottom, nXR1, nYR1, nXR2, nYR2) --> numeric
 HB_FUNC(HWG_PIE)
 {
-  int res = Pie(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
+  int32_t res = Pie(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
                 hwg_par_int(7), hwg_par_int(8), hwg_par_int(9));
   hb_retnl(res ? 0 : (LONG)GetLastError()); // TODO: o retorno da função é BOOL
 }
@@ -149,7 +149,7 @@ HB_FUNC(HWG_PIE)
 // HWG_ELLIPSE(HDC, nLeft, nTop, nRight, nBottom) --> numeric
 HB_FUNC(HWG_ELLIPSE)
 {
-  int res = Ellipse(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5));
+  int32_t res = Ellipse(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5));
   hb_retnl(res ? 0 : (LONG)GetLastError()); // TODO: o retorno da função é BOOL
 }
 
@@ -191,10 +191,10 @@ HB_FUNC(HWG_REDRAWWINDOW)
   RECT rc;
 
   if (hb_pcount() > 3) {
-    int x = (hb_pcount() > 3 && !HB_ISNIL(3)) ? hb_parni(3) : 0;
-    int y = (hb_pcount() >= 4 && !HB_ISNIL(4)) ? hb_parni(4) : 0;
-    int w = (hb_pcount() >= 5 && !HB_ISNIL(5)) ? hb_parni(5) : 0;
-    int h = (hb_pcount() >= 6 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
+    int32_t x = (hb_pcount() > 3 && !HB_ISNIL(3)) ? hb_parni(3) : 0;
+    int32_t y = (hb_pcount() >= 4 && !HB_ISNIL(4)) ? hb_parni(4) : 0;
+    int32_t w = (hb_pcount() >= 5 && !HB_ISNIL(5)) ? hb_parni(5) : 0;
+    int32_t h = (hb_pcount() >= 6 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
     rc.left = x - 1;
     rc.top = y - 1;
     rc.right = x + w + 1;
@@ -335,8 +335,8 @@ HB_FUNC(HWG_DRAWBITMAP)
   DWORD dwraster = (HB_ISNIL(3)) ? SRCCOPY : (DWORD)hb_parnl(3);
   HBITMAP hBitmap = hwg_par_HBITMAP(2);
   BITMAP bitmap;
-  int nWidthDest = (hb_pcount() >= 5 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
-  int nHeightDest = (hb_pcount() >= 6 && !HB_ISNIL(7)) ? hb_parni(7) : 0;
+  int32_t nWidthDest = (hb_pcount() >= 5 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
+  int32_t nHeightDest = (hb_pcount() >= 6 && !HB_ISNIL(7)) ? hb_parni(7) : 0;
 
   SelectObject(hDCmem, hBitmap);
   GetObject(hBitmap, sizeof(BITMAP), (LPVOID)&bitmap);
@@ -365,10 +365,10 @@ HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
   HBITMAP pOldBitmapImage, pOldBitmapTrans;
   BITMAP bitmap;
   HDC dcImage, dcTrans;
-  int x = hb_parni(3);
-  int y = hb_parni(4);
-  int nWidthDest = (hb_pcount() >= 5 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
-  int nHeightDest = (hb_pcount() >= 6 && !HB_ISNIL(7)) ? hb_parni(7) : 0;
+  int32_t x = hb_parni(3);
+  int32_t y = hb_parni(4);
+  int32_t nWidthDest = (hb_pcount() >= 5 && !HB_ISNIL(6)) ? hb_parni(6) : 0;
+  int32_t nHeightDest = (hb_pcount() >= 6 && !HB_ISNIL(7)) ? hb_parni(7) : 0;
 
   // Create two memory dcs for the image and the mask
   dcImage = CreateCompatibleDC(hDC);
@@ -471,7 +471,7 @@ HB_FUNC(HWG_GETBITMAPSIZE)
   BITMAP bitmap;
   PHB_ITEM aMetr = hb_itemArrayNew(4);
   PHB_ITEM temp;
-  int nret;
+  int32_t nret;
 
   nret = GetObject(hwg_par_HBITMAP(1), sizeof(BITMAP), (LPVOID)&bitmap);
 
@@ -500,7 +500,7 @@ HB_FUNC(HWG_GETICONSIZE)
   ICONINFO iinfo;
   PHB_ITEM aMetr = hb_itemArrayNew(3);
   PHB_ITEM temp;
-  int nret;
+  int32_t nret;
 
   nret = GetIconInfo(hwg_par_HICON(1), &iinfo);
 
@@ -732,8 +732,8 @@ HB_FUNC(HWG_DRAWGRAYBITMAP)
   HBITMAP pOldBitmapImage, pOldbitmapgray;
   BITMAP bitmap;
   HDC dcImage, dcTrans;
-  int x = hb_parni(3);
-  int y = hb_parni(4);
+  int32_t x = hb_parni(3);
+  int32_t y = hb_parni(4);
 
   SetBkColor(hDC, GetSysColor(COLOR_BTNHIGHLIGHT));
   // SetTextColor(hDC, GetSysColor(COLOR_BTNFACE));
@@ -775,7 +775,7 @@ HB_FUNC(HWG_OPENIMAGE)
 {
   const char *cFileName = hb_parc(1);
   BOOL lString = (HB_ISNIL(2)) ? 0 : hb_parl(2);
-  int iFileSize;
+  int32_t iFileSize;
   FILE *fp;
   // IPicture * pPic;
   LPPICTURE pPic;
@@ -784,7 +784,7 @@ HB_FUNC(HWG_OPENIMAGE)
   HBITMAP hBitmap = 0;
 
   if (lString) {
-    iFileSize = (int)hb_parclen(1);
+    iFileSize = (int32_t)hb_parclen(1);
     hG = GlobalAlloc(GPTR, iFileSize);
     if (!hG) {
       HB_RETHANDLE(HWG_NULLPTR);

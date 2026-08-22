@@ -124,12 +124,12 @@ HB_FUNC(HWG_GETSTOCKOBJECT)
 
 HB_FUNC(HWG_LOWORD)
 {
-  hb_retni((int)((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & 0xFFFF));
+  hb_retni((int32_t)((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & 0xFFFF));
 }
 
 HB_FUNC(HWG_HIWORD)
 {
-  hb_retni((int)(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) >> 16) & 0xFFFF));
+  hb_retni((int32_t)(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) >> 16) & 0xFFFF));
 }
 
 HB_FUNC(HWG_BITOR)
@@ -243,7 +243,7 @@ HB_FUNC(HWG_GETCURSORPOS)
 
 HB_FUNC(HWG_SETCURSORPOS)
 {
-  int x, y;
+  int32_t x, y;
 
   x = hb_parni(1);
   y = hb_parni(2);
@@ -280,7 +280,7 @@ HB_FUNC(HWG_GETKEYSTATE)
 HB_FUNC(HWG_GETKEYNAMETEXT)
 {
   TCHAR cText[MAX_PATH];
-  int iRet = GetKeyNameText(hb_parnl(1), cText, MAX_PATH);
+  int32_t iRet = GetKeyNameText(hb_parnl(1), cText, MAX_PATH);
 
   if (iRet) {
     HB_RETSTRLEN(cText, iRet);
@@ -457,9 +457,9 @@ HB_FUNC(HWG_SLEEP)
 HB_FUNC(HWG_KEYB_EVENT) // TODO: a função da WinAPi se chama keybd_event
 {
   DWORD dwFlags = (!(HB_ISNIL(2)) && hb_parl(2)) ? KEYEVENTF_EXTENDEDKEY : 0;
-  int bShift = (!(HB_ISNIL(3)) && hb_parl(3)) ? TRUE : FALSE;
-  int bCtrl = (!(HB_ISNIL(4)) && hb_parl(4)) ? TRUE : FALSE;
-  int bAlt = (!(HB_ISNIL(5)) && hb_parl(5)) ? TRUE : FALSE;
+  int32_t bShift = (!(HB_ISNIL(3)) && hb_parl(3)) ? TRUE : FALSE;
+  int32_t bCtrl = (!(HB_ISNIL(4)) && hb_parl(4)) ? TRUE : FALSE;
+  int32_t bAlt = (!(HB_ISNIL(5)) && hb_parl(5)) ? TRUE : FALSE;
 
   if (bShift) {
     keybd_event(VK_SHIFT, 0, 0, 0);
@@ -518,7 +518,7 @@ HB_FUNC(HWG_SETSCROLLINFO)
 
 HB_FUNC(HWG_GETSCROLLRANGE)
 {
-  int MinPos, MaxPos;
+  int32_t MinPos, MaxPos;
 
   GetScrollRange(hwg_par_HWND(1), // handle of window with scroll bar
                  hb_parni(2),     // scroll bar flags
@@ -751,7 +751,7 @@ HB_FUNC(HWG_GETSYSTEMMETRICS)
 HB_FUNC(HWG_LASTKEY)
 {
   BYTE kbBuffer[256];
-  int i;
+  int32_t i;
 
   GetKeyboardState(kbBuffer);
 
