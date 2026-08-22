@@ -713,8 +713,8 @@ DWORD asciiToNumW(OLECHAR *val)
 HRESULT STDMETHODCALLTYPE UI_TranslateUrl(IDocHostUIHandler *This, DWORD dwTranslate, OLECHAR *pchURLIn,
                                           OLECHAR **ppchURLOut)
 {
-  unsigned short *src;
-  unsigned short *dest;
+  uint16_t *src;
+  uint16_t *dest;
   DWORD len;
 
   (void)dwTranslate;
@@ -1519,7 +1519,7 @@ IDispatch *WINAPI CreateWebEvtHandler(HWND hwnd, IHTMLDocument2 *htmlDoc2, DWORD
       lpDispatchEx->hwnd = hwnd;
       lpDispatchEx->htmlWindow2 = htmlWindow2;
       lpDispatchEx->id = (short)id;
-      lpDispatchEx->extraSize = (unsigned short)extraData;
+      lpDispatchEx->extraSize = (uint16_t)extraData;
       lpDispatchEx->object = obj;
       if (userdata) {
         lpDispatchEx->userdata = userdata;

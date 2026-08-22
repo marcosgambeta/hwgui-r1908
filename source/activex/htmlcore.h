@@ -41,7 +41,7 @@ extern "C"
     HWND hwnd; // The window hosting the browser page. Our IDispatch's Invoke() sends messages when an event of interest
                // occurs.
     short id;  // Any numeric value of your choosing that you wish to associate with this IDispatch.
-    unsigned short extraSize; // Byte size of any extra fields prepended to this struct.
+    uint16_t extraSize; // Byte size of any extra fields prepended to this struct.
     IUnknown *object;         // Some object associated with the web page element this IDispatch is for.
     void *userdata;           // An extra pointer.
   } _IDispatchEx;

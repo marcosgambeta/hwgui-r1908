@@ -173,9 +173,9 @@ HB_FUNC(HWG_SETMONTHCALENDARDATE) // adaptation of function SetDatePicker of fil
 
     hb_dateDecode(hb_itemGetDL(pDate), &lYear, &lMonth, &lDay);
 
-    sysTime.wYear = (unsigned short)lYear;
-    sysTime.wMonth = (unsigned short)lMonth;
-    sysTime.wDay = (unsigned short)lDay;
+    sysTime.wYear = (uint16_t)lYear;
+    sysTime.wMonth = (uint16_t)lMonth;
+    sysTime.wDay = (uint16_t)lDay;
     sysTime.wDayOfWeek = 0;
     sysTime.wHour = 0;
     sysTime.wMinute = 0;

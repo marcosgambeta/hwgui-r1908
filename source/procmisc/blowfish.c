@@ -167,16 +167,16 @@ static const unsigned long ORIG_S[4][256] = {
 
 unsigned long F(BLOWFISH_CTX *ctx, unsigned long x)
 {
-  unsigned short a, b, c, d;
+  uint16_t a, b, c, d;
   unsigned long y;
 
-  d = (unsigned short)(x & 0x00FF);
+  d = (uint16_t)(x & 0x00FF);
   x >>= 8;
-  c = (unsigned short)(x & 0x00FF);
+  c = (uint16_t)(x & 0x00FF);
   x >>= 8;
-  b = (unsigned short)(x & 0x00FF);
+  b = (uint16_t)(x & 0x00FF);
   x >>= 8;
-  a = (unsigned short)(x & 0x00FF);
+  a = (uint16_t)(x & 0x00FF);
   y = ctx->S[0][a] + ctx->S[1][b];
   y = y ^ ctx->S[2][c];
   y = y + ctx->S[3][d];
