@@ -119,7 +119,7 @@ HB_FUNC(HWG_GETEDITTEXT)
 {
   HWND hDlg = hwg_par_HWND(1);
   int32_t id = hwg_par_int(2);
-  USHORT uiLen = (USHORT)SendMessage(GetDlgItem(hDlg, id), WM_GETTEXTLENGTH, 0, 0);
+  uint16_t uiLen = (uint16_t)SendMessage(GetDlgItem(hDlg, id), WM_GETTEXTLENGTH, 0, 0);
   LPTSTR lpText = (LPTSTR)hb_xgrab((uiLen + 2) * sizeof(TCHAR));
   GetDlgItemText(hDlg, id, lpText, uiLen + 1);
   HB_RETSTR(lpText);

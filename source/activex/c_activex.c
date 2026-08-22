@@ -390,7 +390,7 @@ static ULONG STDMETHODCALLTYPE Invoke(IEventHandler *this, DISPID dispid, REFIID
       }
 
       // execute
-      hb_vmDo((USHORT)iArg);
+      hb_vmDo((uint16_t)iArg);
 
       // En caso de que los parametros sean pasados por referencia
       for (i = iArg; i > 0; i--) {

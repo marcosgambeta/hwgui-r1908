@@ -30,10 +30,10 @@ typedef struct _TRIVERTEX
 {
   LONG x;
   LONG y;
-  USHORT Red;
-  USHORT Green;
-  USHORT Blue;
-  USHORT Alpha;
+  uint16_t Red;
+  uint16_t Green;
+  uint16_t Blue;
+  uint16_t Alpha;
 } TRIVERTEX, *PTRIVERTEX, *LPTRIVERTEX;
 #endif
 

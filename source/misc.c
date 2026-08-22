@@ -33,7 +33,7 @@ void writelog(char *s)
   }
 
   hb_fsSeek(handle, 0, SEEK_END);
-  hb_fsWrite(handle, (const char *)s, (USHORT)strlen(s));
+  hb_fsWrite(handle, (const char *)s, (uint16_t)strlen(s));
   hb_fsWrite(handle, "\n\r", 2);
 
   hb_fsClose(handle);
