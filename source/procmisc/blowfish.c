@@ -189,7 +189,7 @@ void Blowfish_Encrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
   unsigned long Xl;
   unsigned long Xr;
   unsigned long temp;
-  short i;
+  int16_t i;
 
   Xl = *xl;
   Xr = *xr;
@@ -218,7 +218,7 @@ void Blowfish_Decrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
   unsigned long Xl;
   unsigned long Xr;
   unsigned long temp;
-  short i;
+  int16_t i;
 
   Xl = *xl;
   Xr = *xr;

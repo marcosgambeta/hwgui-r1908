@@ -62,7 +62,7 @@ typedef struct CXSHADE_STRU
 {
   RECT m_rect; // object coordinates
   CXDIB m_dNormal, m_dDown, m_dDisabled, m_dOver, m_dh, m_dv;
-  short m_FocusRectMargin; // dotted margin offset
+  int16_t m_FocusRectMargin; // dotted margin offset
   BOOL m_Border;           // 0=flat; 1=3D;
   BOOL m_flat;
 
@@ -70,7 +70,7 @@ typedef struct CXSHADE_STRU
 
 static PCXSHADE cxshade_New(RECT *prect, BOOL lFlat);
 static void cxshade_Release(PCXSHADE pshade);
-static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, short state);
+static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, int16_t state);
 static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, BYTE palette, BYTE granularity, BYTE highlight,
                              BYTE coloring, COLORREF color, RECT *prect);
 // void cxshade_SetFlat(PCXSHADE pshade, BOOL bFlag); // not used
@@ -321,7 +321,7 @@ static void cxshade_Release(PCXSHADE pshade)
   hb_xfree(pshade);
 }
 
-static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, short state)
+static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, int16_t state)
 {
   int32_t cx = pshade->m_rect.right - pshade->m_rect.left;
   int32_t cy = pshade->m_rect.bottom - pshade->m_rect.top;
@@ -688,7 +688,7 @@ HB_FUNC(HWG_SHADE_SET)
 // shade_Draw(pshade, hDC, nState)
 HB_FUNC(HWG_SHADE_DRAW)
 {
-  cxshade_Draw((PCXSHADE)HB_PARHANDLE(1), hwg_par_HDC(2), (short)hb_parni(3));
+  cxshade_Draw((PCXSHADE)HB_PARHANDLE(1), hwg_par_HDC(2), (int16_t)hb_parni(3));
 }
 
 #ifdef HWGUI_FUNC_TRANSLATE_ON

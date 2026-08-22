@@ -192,7 +192,7 @@ HB_FUNC(HWG_SETPRINTERMODE)
 
     // Changing of values
     if (!HB_ISNIL(3)) {
-      pdm->dmOrientation = (short)hb_parni(3);
+      pdm->dmOrientation = (int16_t)hb_parni(3);
       pdm->dmFields = pdm->dmFields | DM_ORIENTATION;
     }
 
@@ -464,10 +464,10 @@ HB_FUNC(HWG_SETDOCUMENTPROPERTIES)
               (HB_ISNUM(9) && hb_parnl(9) > 0) && (HB_ISNUM(10) && hb_parnl(10) > 0); // Must set both Length & Width
 
           if (bCustomFormSize) {
-            pDevMode->dmPaperLength = (short)hb_parnl(9);
+            pDevMode->dmPaperLength = (int16_t)hb_parnl(9);
             dInit |= DM_PAPERLENGTH;
 
-            pDevMode->dmPaperWidth = (short)hb_parnl(10);
+            pDevMode->dmPaperWidth = (int16_t)hb_parnl(10);
             dInit |= DM_PAPERWIDTH;
 
             pDevMode->dmPaperSize = DMPAPER_USER;
@@ -488,36 +488,36 @@ HB_FUNC(HWG_SETDOCUMENTPROPERTIES)
               }
             } else if (HB_ISNUM(3) && hb_parnl(3)) // 22/02/2007 don't change if 0
             {
-              pDevMode->dmPaperSize = (short)hb_parnl(3);
+              pDevMode->dmPaperSize = (int16_t)hb_parnl(3);
               dInit |= DM_PAPERSIZE;
             }
           }
 
           if (HB_ISLOG(4)) {
-            pDevMode->dmOrientation = (short)(hb_parl(4) ? 2 : 1);
+            pDevMode->dmOrientation = (int16_t)(hb_parl(4) ? 2 : 1);
             dInit |= DM_ORIENTATION;
           }
 
           if (HB_ISNUM(5) && hb_parnl(5) > 0) {
-            pDevMode->dmCopies = (short)hb_parnl(5);
+            pDevMode->dmCopies = (int16_t)hb_parnl(5);
             dInit |= DM_COPIES;
           }
 
           if (HB_ISNUM(6) && hb_parnl(6)) // 22/02/2007 don't change if 0
           {
-            pDevMode->dmDefaultSource = (short)hb_parnl(6);
+            pDevMode->dmDefaultSource = (int16_t)hb_parnl(6);
             dInit |= DM_DEFAULTSOURCE;
           }
 
           if (HB_ISNUM(7) && hb_parnl(7)) // 22/02/2007 don't change if 0
           {
-            pDevMode->dmDuplex = (short)hb_parnl(7);
+            pDevMode->dmDuplex = (int16_t)hb_parnl(7);
             dInit |= DM_DUPLEX;
           }
 
           if (HB_ISNUM(8) && hb_parnl(8)) // 22/02/2007 don't change if 0
           {
-            pDevMode->dmPrintQuality = (short)hb_parnl(8);
+            pDevMode->dmPrintQuality = (int16_t)hb_parnl(8);
             dInit |= DM_PRINTQUALITY;
           }
 

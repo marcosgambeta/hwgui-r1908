@@ -1518,7 +1518,7 @@ IDispatch *WINAPI CreateWebEvtHandler(HWND hwnd, IHTMLDocument2 *htmlDoc2, DWORD
       lpDispatchEx->dispatchObj.lpVtbl = &MyIDispatchVtbl;
       lpDispatchEx->hwnd = hwnd;
       lpDispatchEx->htmlWindow2 = htmlWindow2;
-      lpDispatchEx->id = (short)id;
+      lpDispatchEx->id = (int16_t)id;
       lpDispatchEx->extraSize = (uint16_t)extraData;
       lpDispatchEx->object = obj;
       if (userdata) {
@@ -1791,7 +1791,7 @@ void *WINAPI BStr2TStr(HWND hwnd, BSTR strIn)
       WideCharToMultiByte(CP_ACP, 0, (WCHAR *)((char *)strIn + 2), -1, (char *)strOut, size, 0, 0);
     }
   } else {
-    size = (*((short *)strIn) + 1) * sizeof(wchar_t);
+    size = (*((int16_t *)strIn) + 1) * sizeof(wchar_t);
     if ((strOut = GlobalAlloc(GMEM_FIXED, size)) != HWG_NULLPTR) {
       CopyMemory(strOut, (char *)strIn + 2, size);
     }
