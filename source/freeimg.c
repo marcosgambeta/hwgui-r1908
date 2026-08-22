@@ -23,26 +23,26 @@ typedef FIBITMAP *(WINAPI *FREEIMAGE_LOADFROMHANDLE)(FREE_IMAGE_FORMAT fif, Free
                                                      int32_t flags);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int32_t flags);
 typedef BOOL(WINAPI *FREEIMAGE_SAVE)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const char *filename, int32_t flags);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, unsigned red_mask, unsigned green_mask,
-                                               unsigned blue_mask);
-typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(uint8_t *bits, int32_t width, int32_t height, int32_t pitch, unsigned bpp,
-                                                         unsigned red_mask, unsigned green_mask, unsigned blue_mask,
+typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, uint32_t red_mask, uint32_t green_mask,
+                                               uint32_t blue_mask);
+typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(uint8_t *bits, int32_t width, int32_t height, int32_t pitch, uint32_t bpp,
+                                                         uint32_t red_mask, uint32_t green_mask, uint32_t blue_mask,
                                                          BOOL topdown);
-typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(uint8_t *bits, FIBITMAP *dib, int32_t pitch, unsigned bpp, unsigned red_mask,
-                                                 unsigned green_mask, unsigned blue_mask, BOOL topdown);
+typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(uint8_t *bits, FIBITMAP *dib, int32_t pitch, uint32_t bpp, uint32_t red_mask,
+                                                 uint32_t green_mask, uint32_t blue_mask, BOOL topdown);
 #else
 typedef FIBITMAP *(WINAPI *FREEIMAGE_LOADFROMHANDLE)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle,
                                                      int32_t flags FI_DEFAULT(0));
 typedef FIBITMAP *(WINAPI *FREEIMAGE_LOAD)(FREE_IMAGE_FORMAT fif, const char *filename, int32_t flags FI_DEFAULT(0));
-typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, unsigned red_mask FI_DEFAULT(0),
-                                               unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
+typedef FIBITMAP *(WINAPI *FREEIMAGE_ALLOCATE)(int32_t width, int32_t height, int32_t bpp, uint32_t red_mask FI_DEFAULT(0),
+                                               uint32_t green_mask FI_DEFAULT(0), uint32_t blue_mask FI_DEFAULT(0));
 typedef BOOL(WINAPI *FREEIMAGE_SAVE)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const char *filename,
                                      int32_t flags FI_DEFAULT(0));
-typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(uint8_t *bits, int32_t width, int32_t height, int32_t pitch, unsigned bpp,
-                                                         unsigned red_mask, unsigned green_mask, unsigned blue_mask,
+typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTFROMRAWBITS)(uint8_t *bits, int32_t width, int32_t height, int32_t pitch, uint32_t bpp,
+                                                         uint32_t red_mask, uint32_t green_mask, uint32_t blue_mask,
                                                          BOOL topdown FI_DEFAULT(FALSE));
-typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(uint8_t *bits, FIBITMAP *dib, int32_t pitch, unsigned bpp, unsigned red_mask,
-                                                 unsigned green_mask, unsigned blue_mask,
+typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(uint8_t *bits, FIBITMAP *dib, int32_t pitch, uint32_t bpp, uint32_t red_mask,
+                                                 uint32_t green_mask, uint32_t blue_mask,
                                                  BOOL topdown FI_DEFAULT(FALSE));
 #endif
 
@@ -58,14 +58,14 @@ typedef RGBQUAD *(WINAPI *FREEIMAGE_GETPALETTE)(FIBITMAP *dib);
 typedef ULONG(WINAPI *FREEIMAGE_GETBPP)(FIBITMAP *dib);
 typedef BOOL(WINAPI *FREEIMAGE_SETCHANNEL)(FIBITMAP *dib, FIBITMAP *dib8, FREE_IMAGE_COLOR_CHANNEL channel);
 typedef uint8_t *(WINAPI *FREEIMAGE_GETSCANLINE)(FIBITMAP *dib, int32_t scanline);
-typedef unsigned(WINAPI *FREEIMAGE_GETPITCH)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETPITCH)(FIBITMAP *dib);
 typedef int16_t(WINAPI *FREEIMAGE_GETIMAGETYPE)(FIBITMAP *dib);
-typedef unsigned(WINAPI *FREEIMAGE_GETCOLORSUSED)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETCOLORSUSED)(FIBITMAP *dib);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_ROTATECLASSIC)(FIBITMAP *dib, double angle);
-typedef unsigned(WINAPI *FREEIMAGE_GETDOTSPERMETERX)(FIBITMAP *dib);
-typedef unsigned(WINAPI *FREEIMAGE_GETDOTSPERMETERY)(FIBITMAP *dib);
-typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERX)(FIBITMAP *dib, unsigned res);
-typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERY)(FIBITMAP *dib, unsigned res);
+typedef uint32_t(WINAPI *FREEIMAGE_GETDOTSPERMETERX)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETDOTSPERMETERY)(FIBITMAP *dib);
+typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERX)(FIBITMAP *dib, uint32_t res);
+typedef void(WINAPI *FREEIMAGE_SETDOTSPERMETERY)(FIBITMAP *dib, uint32_t res);
 typedef BOOL(WINAPI *FREEIMAGE_PASTE)(FIBITMAP *dst, FIBITMAP *src, int32_t left, int32_t top, int32_t alpha);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_COPY)(FIBITMAP *dib, int32_t left, int32_t top, int32_t right, int32_t bottom);
 typedef BOOL(WINAPI *FREEIMAGE_SETBACKGROUNDCOLOR)(FIBITMAP *dib, RGBQUAD *bkcolor);
@@ -75,10 +75,10 @@ typedef FIBITMAP *(WINAPI *FREEIMAGE_CONVERTTOGREYSCALE)(FIBITMAP *dib);
 typedef BOOL(WINAPI *FREEIMAGE_FLIPVERTICAL)(FIBITMAP *dib);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_THRESHOLD)(FIBITMAP *dib, uint8_t T);
 
-typedef BOOL(WINAPI *FREEIMAGE_GETPIXELINDEX)(FIBITMAP *dib, unsigned x, unsigned y, uint8_t *value);
-typedef BOOL(WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
-typedef BOOL(WINAPI *FREEIMAGE_SETPIXELINDEX)(FIBITMAP *dib, unsigned x, unsigned y, uint8_t *value);
-typedef BOOL(WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
+typedef BOOL(WINAPI *FREEIMAGE_GETPIXELINDEX)(FIBITMAP *dib, uint32_t x, uint32_t y, uint8_t *value);
+typedef BOOL(WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_t y, RGBQUAD *value);
+typedef BOOL(WINAPI *FREEIMAGE_SETPIXELINDEX)(FIBITMAP *dib, uint32_t x, uint32_t y, uint8_t *value);
+typedef BOOL(WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_t y, RGBQUAD *value);
 
 static HINSTANCE hFreeImageDll = HWG_NULLPTR;
 static FREEIMAGE_LOAD pLoad = HWG_NULLPTR;
@@ -663,10 +663,10 @@ HB_FUNC(FI_REMOVECHANNEL)
 
 // Set of functions for loading the image from memory
 
-unsigned DLL_CALLCONV _ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle)
+uint32_t DLL_CALLCONV _ReadProc(void *buffer, uint32_t size, uint32_t count, fi_handle handle)
 {
   uint8_t *tmp = (uint8_t *)buffer;
-  unsigned u;
+  uint32_t u;
   HB_SYMBOL_UNUSED(handle);
 
   for (u = 0; u < count; u++) {
@@ -677,7 +677,7 @@ unsigned DLL_CALLCONV _ReadProc(void *buffer, unsigned size, unsigned count, fi_
   return count;
 }
 
-unsigned DLL_CALLCONV _WriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle)
+uint32_t DLL_CALLCONV _WriteProc(void *buffer, uint32_t size, uint32_t count, fi_handle handle)
 {
   HB_SYMBOL_UNUSED(buffer);
   HB_SYMBOL_UNUSED(count);
@@ -895,5 +895,5 @@ HB_FUNC(FI_SETPIXELINDEX)
 }
 
 // TODO:
-// typedef BOOL (WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
-// typedef BOOL (WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
+// typedef BOOL (WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_t y, RGBQUAD *value);
+// typedef BOOL (WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_t y, RGBQUAD *value);
