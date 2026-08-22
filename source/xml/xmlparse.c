@@ -461,7 +461,7 @@ HB_FUNC(HBXML_GETDOC)
 
     hb_fsSeek(hInput, 0, FS_SET);
     cBuffer = (unsigned char *)hb_xgrab(ulLen + 1);
-    ulRead = (HB_ULONG)hb_fsReadLarge(hInput, (HB_BYTE *)cBuffer, ulLen);
+    ulRead = (HB_ULONG)hb_fsReadLarge(hInput, (uint8_t *)cBuffer, ulLen);
     cBuffer[ulRead] = '\0';
     bFile = HB_TRUE;
   } else {
