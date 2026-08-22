@@ -289,7 +289,7 @@ HB_FUNC(HWG_CREATEACCELERATORTABLE)
 
   for (ul = 1; ul <= ulEntries; ul++) {
     pSubArr = hb_arrayGetItemPtr(pArray, ul);
-    lpaccl[ul - 1].fVirt = (BYTE)hb_arrayGetNL(pSubArr, 1) | FNOINVERT | FVIRTKEY;
+    lpaccl[ul - 1].fVirt = (uint8_t)hb_arrayGetNL(pSubArr, 1) | FNOINVERT | FVIRTKEY;
     lpaccl[ul - 1].key = (WORD)hb_arrayGetNL(pSubArr, 2);
     lpaccl[ul - 1].cmd = (WORD)hb_arrayGetNL(pSubArr, 3);
   }

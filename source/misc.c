@@ -266,7 +266,7 @@ HB_FUNC(HWG_WINEXEC)
 
 HB_FUNC(HWG_GETKEYBOARDSTATE)
 {
-  BYTE lpbKeyState[256];
+  uint8_t lpbKeyState[256];
   GetKeyboardState(lpbKeyState);
   lpbKeyState[255] = '\0';
   hb_retclen((char *)lpbKeyState, 255);
@@ -471,8 +471,8 @@ HB_FUNC(HWG_KEYB_EVENT) // TODO: a função da WinAPi se chama keybd_event
     keybd_event(VK_MENU, 0, 0, 0);
   }
 
-  keybd_event((BYTE)hb_parni(1), 0, dwFlags, 0);
-  keybd_event((BYTE)hb_parni(1), 0, dwFlags | KEYEVENTF_KEYUP, 0);
+  keybd_event((uint8_t)hb_parni(1), 0, dwFlags, 0);
+  keybd_event((uint8_t)hb_parni(1), 0, dwFlags | KEYEVENTF_KEYUP, 0);
 
   if (bShift) {
     keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0);
@@ -750,7 +750,7 @@ HB_FUNC(HWG_GETSYSTEMMETRICS)
 // nando
 HB_FUNC(HWG_LASTKEY)
 {
-  BYTE kbBuffer[256];
+  uint8_t kbBuffer[256];
   int32_t i;
 
   GetKeyboardState(kbBuffer);

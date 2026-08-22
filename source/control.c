@@ -1392,8 +1392,8 @@ HB_FUNC(HWG_TOOLBARADDBUTTONS)
       tb[ulCount].iBitmap = ulID - 1; // ulID > 0 ? (int32_t)ulCount : -1;
     }
     tb[ulCount].idCommand = hb_arrayGetNI(pTemp, 2);
-    tb[ulCount].fsState = (BYTE)hb_arrayGetNI(pTemp, 3);
-    tb[ulCount].fsStyle = (BYTE)hb_arrayGetNI(pTemp, 4);
+    tb[ulCount].fsState = (uint8_t)hb_arrayGetNI(pTemp, 3);
+    tb[ulCount].fsStyle = (uint8_t)hb_arrayGetNI(pTemp, 4);
     tb[ulCount].dwData = hb_arrayGetNI(pTemp, 5);
     tb[ulCount].iString = hb_arrayGetCLen(pTemp, 6) > 0 ? (INT_PTR)hb_arrayGetCPtr(pTemp, 6) : 0;
   }

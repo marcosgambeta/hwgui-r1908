@@ -105,7 +105,7 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
         cf.dwEffects |= CFE_UNDERLINE;
       }
       if (ulLen1 > 8 && hb_itemType(hb_arrayGetItemPtr(pArr1, 9)) != HB_IT_NIL) {
-        cf.bCharSet = (BYTE)hb_arrayGetNL(pArr1, 9);
+        cf.bCharSet = (uint8_t)hb_arrayGetNL(pArr1, 9);
         cf.dwMask |= CFM_CHARSET;
       }
       if (ulLen1 > 9 && hb_itemType(hb_arrayGetItemPtr(pArr1, 10)) != HB_IT_NIL) {
@@ -157,7 +157,7 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
       cf.dwMask |= CFM_UNDERLINE;
     }
     if (!HB_ISNIL(10)) {
-      cf.bCharSet = (BYTE)hb_parnl(10);
+      cf.bCharSet = (uint8_t)hb_parnl(10);
       cf.dwMask |= CFM_CHARSET;
     }
     if (!HB_ISNIL(11)) {
@@ -216,7 +216,7 @@ HB_FUNC(HWG_RE_SETDEFAULT)
   }
 
   if (HB_ISNUM(8)) {
-    cf.bCharSet = (BYTE)hb_parnl(8);
+    cf.bCharSet = (uint8_t)hb_parnl(8);
     cf.dwMask |= CFM_CHARSET;
   }
 

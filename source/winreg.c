@@ -104,7 +104,7 @@ HB_FUNC(HWG_REGQUERYVALUEEX)
 
   lError = RegQueryValueEx(hwKey, lpValue, HWG_NULLPTR, &lpType, HWG_NULLPTR, &lpcbData);
   if (lError == ERROR_SUCCESS) {
-    BYTE *lpData = (BYTE *)memset(hb_xgrab(lpcbData + 1), 0, lpcbData + 1);
+    uint8_t *lpData = (uint8_t *)memset(hb_xgrab(lpcbData + 1), 0, lpcbData + 1);
     lError = RegQueryValueEx(hwKey, lpValue, HWG_NULLPTR, &lpType, lpData, &lpcbData);
     if (lError > 0) {
       hb_retni(-1);
@@ -144,7 +144,7 @@ HB_FUNC(HWG_REGSETVALUEEX)
 {
   void *hValue;
   hb_retnl(RegSetValueEx(hwg_par_HKEY(1), HB_PARSTRDEF(2, &hValue, HWG_NULLPTR), 0, hwg_par_DWORD(4),
-                         (const BYTE *)hb_parcx(5), (DWORD)hb_parclen(5) + 1));
+                         (const uint8_t *)hb_parcx(5), (DWORD)hb_parclen(5) + 1));
   hb_strfree(hValue);
 }
 
