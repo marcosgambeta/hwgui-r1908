@@ -18,7 +18,7 @@
 #include <hbvm.h>
 #include "guilib.h"
 
-static short int bOleInitialized = 0;
+static int16_t bOleInitialized = 0;
 
 HB_FUNC(HWGAX_OLEINITIALIZE)
 {
