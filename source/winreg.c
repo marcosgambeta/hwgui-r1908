@@ -63,7 +63,7 @@ __inline int32_t PtrToLong(const void *p)
 }
 #endif
 
-#define hwg_par_HKEY(n) (HKEY)(ULONG_PTR) hb_parnint(n)
+#define hwg_par_HKEY(n) (HKEY)(uintptr_t) hb_parnint(n)
 
 // HWG_REGCLOSEKEY(HKEY) --> numeric
 HB_FUNC(HWG_REGCLOSEKEY)

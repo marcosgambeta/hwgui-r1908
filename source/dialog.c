@@ -186,9 +186,9 @@ HB_FUNC(HWG_GETNOTIFYCODE)
 
 static LPWORD s_lpwAlign(LPWORD lpIn)
 {
-  ULONG_PTR ul;
+  uintptr_t ul;
 
-  ul = (ULONG_PTR)lpIn;
+  ul = (uintptr_t)lpIn;
   ul += 3;
   ul >>= 2;
   ul <<= 2;

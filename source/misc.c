@@ -19,7 +19,7 @@
 #include "missing.h"
 
 #if defined(__BORLANDC__) && defined(__clang__) && defined(HB_OS_WIN_64)
-#define PtrToUlong(p) ((uint32_t)(ULONG_PTR)(p))
+#define PtrToUlong(p) ((uint32_t)(uintptr_t)(p))
 #endif
 
 void writelog(char *s)

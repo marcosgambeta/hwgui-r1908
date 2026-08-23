@@ -83,7 +83,7 @@ HB_FUNC(HWG_CREATEQHTM)
                        hwg_par_int(4), hwg_par_int(5), hwg_par_int(6), hwg_par_int(7), hwg_par_HWND(1),
                        hwg_par_HMENU_ID(2), GetModuleHandle(HWG_NULLPTR), HWG_NULLPTR);
 
-    hb_retnint((ULONG_PTR)handle); // TODO: usar número ou ponteiro
+    hb_retnint((uintptr_t)handle); // TODO: usar número ou ponteiro
   } else {
     hb_retnl(0);
   }
@@ -91,14 +91,14 @@ HB_FUNC(HWG_CREATEQHTM)
 
 HB_FUNC(QHTM_GETNOTIFY)
 {
-  LPNMQHTM pnm = (LPNMQHTM)(ULONG_PTR)hb_parnl(1);
+  LPNMQHTM pnm = (LPNMQHTM)(uintptr_t)hb_parnl(1);
 
   HB_RETSTR(pnm->pcszLinkText);
 }
 
 HB_FUNC(QHTM_SETRETURNVALUE)
 {
-  LPNMQHTM pnm = (LPNMQHTM)(ULONG_PTR)hb_parnl(1);
+  LPNMQHTM pnm = (LPNMQHTM)(uintptr_t)hb_parnl(1);
   pnm->resReturnValue = hb_parl(2);
 }
 
@@ -124,7 +124,7 @@ void CALLBACK FormCallback(HWND hWndQHTM, LPQHTMFORMSubmit pFormSubmit, LPARAM l
   if ((pSymTest = hb_dynsymFind("QHTMFORMPROC")) != HWG_NULLPTR) {
     hb_vmPushSymbol(hb_dynsymSymbol(pSymTest));
     hb_vmPushNil();
-    hb_vmPushNumInt((ULONG_PTR)hWndQHTM);
+    hb_vmPushNumInt((uintptr_t)hWndQHTM);
     temp = HB_ITEMPUTSTR(HWG_NULLPTR, pFormSubmit->pcszMethod);
     hb_vmPush(temp);
     hb_vmPush(HB_ITEMPUTSTR(temp, pFormSubmit->pcszAction));
@@ -304,7 +304,7 @@ HB_FUNC(QHTM_PRINTSETTEXTRESOURCE)
 HB_FUNC(QHTM_PRINTLAYOUT)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
-    HDC hDC = (HDC)(ULONG_PTR)hb_parnl(1);
+    HDC hDC = (HDC)(uintptr_t)hb_parnl(1);
     QHTMCONTEXT qhtmCtx = (QHTMCONTEXT)hb_parnl(2);
     RECT rcPage;
     int32_t nNumberOfPages;
@@ -324,7 +324,7 @@ HB_FUNC(QHTM_PRINTLAYOUT)
 HB_FUNC(QHTM_PRINTPAGE)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
-    HDC hDC = (HDC)(ULONG_PTR)hb_parnl(1);
+    HDC hDC = (HDC)(uintptr_t)hb_parnl(1);
     QHTMCONTEXT qhtmCtx = (QHTMCONTEXT)hb_parnl(2);
     RECT rcPage;
     QHTM_PRINTPAGE pFunc = (QHTM_PRINTPAGE)GetProcAddress(s_hQhtmDll, "QHTM_PrintPage");

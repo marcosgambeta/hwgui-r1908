@@ -222,7 +222,7 @@ HB_FUNC(FI_LOAD)
 
   if (pGetfiffromfile && pLoad) {
     const char *name = hb_parc(1);
-    hb_retnint((ULONG_PTR)pLoad(pGetfiffromfile(name), name, (hb_pcount() > 1) ? hb_parni(2) : 0));
+    hb_retnint((uintptr_t)pLoad(pGetfiffromfile(name), name, (hb_pcount() > 1) ? hb_parni(2) : 0));
   } else {
     hb_retnl(0);
   }
@@ -236,7 +236,7 @@ HB_FUNC(FI_LOADTYPE)
 
   if (pLoad) {
     const char *name = hb_parc(2);
-    hb_retnint((ULONG_PTR)pLoad((enum FREE_IMAGE_FORMAT)hb_parni(1), name, (hb_pcount() > 2) ? hb_parni(3) : 0));
+    hb_retnint((uintptr_t)pLoad((enum FREE_IMAGE_FORMAT)hb_parni(1), name, (hb_pcount() > 2) ? hb_parni(3) : 0));
   } else {
     hb_retnl(0);
   }
@@ -792,7 +792,7 @@ HB_FUNC(FI_ALLOCATE)
   pAllocate = (FREEIMAGE_ALLOCATE)s_getFunction((FARPROC)pAllocate, "_FreeImage_Allocate@24");
 
   // X, Y, DEPTH
-  hb_retnint((ULONG_PTR)pAllocate(hb_parnl(1), hb_parnl(2), hb_parnl(3), 0, 0, 0));
+  hb_retnint((uintptr_t)pAllocate(hb_parnl(1), hb_parnl(2), hb_parnl(3), 0, 0, 0));
 }
 
 HB_FUNC(FI_PASTE)
@@ -810,7 +810,7 @@ HB_FUNC(FI_COPY)
 {
   pCopy = (FREEIMAGE_COPY)s_getFunction((FARPROC)pCopy, "_FreeImage_Copy@20");
 
-  hb_retnint((ULONG_PTR)pCopy(hwg_par_FIBITMAP(1), // dib
+  hb_retnint((uintptr_t)pCopy(hwg_par_FIBITMAP(1), // dib
                               hb_parnl(2),         // left
                               hb_parnl(3),         // top
                               hb_parnl(4),         // right
