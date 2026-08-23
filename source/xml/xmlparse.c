@@ -46,7 +46,7 @@
 
 static unsigned char *cBuffer;
 static int32_t nParseError;
-static HB_ULONG ulOffset;
+static uint32_t ulOffset;
 
 #define HBXML_PREDEFS_KOL 6
 static unsigned char *predefinedEntity1[] = {(unsigned char *)"lt;",   (unsigned char *)"gt;",
@@ -57,7 +57,7 @@ static unsigned char *predefinedEntity2 = (unsigned char *)"<>&\"\' ";
 void hbxml_error(int32_t nError, unsigned char *ptr)
 {
   nParseError = nError;
-  ulOffset = (HB_ULONG)(ptr - cBuffer);
+  ulOffset = (uint32_t)(ptr - cBuffer);
 }
 
 HB_FUNC(HBXML_TRANSFORM)
@@ -65,7 +65,7 @@ HB_FUNC(HBXML_TRANSFORM)
   PHB_ITEM pItem;
   unsigned char *pBuffer = (unsigned char *)hb_parc(1), *pNew;
   unsigned char *ptr, *ptr1, *ptrs, c;
-  HB_ULONG ulLen = (HB_ULONG)hb_parclen(1);
+  uint32_t ulLen = (uint32_t)hb_parclen(1);
   int32_t iLenAdd = 0, iLen;
 
   ptr = pBuffer;
@@ -105,14 +105,14 @@ HB_FUNC(HBXML_TRANSFORM)
 }
 
 /*
- * hbxml_pp(unsigned char * ptr, HB_ULONG ulLen)
+ * hbxml_pp(unsigned char * ptr, uint32_t ulLen)
  * Translation of the predefined entities ( &lt;, etc. )
  */
-PHB_ITEM hbxml_pp(unsigned char *ptr, HB_ULONG ulLen)
+PHB_ITEM hbxml_pp(unsigned char *ptr, uint32_t ulLen)
 {
   unsigned char *ptrStart = ptr;
   int32_t i, nlen;
-  HB_ULONG ul = 0, ul1;
+  uint32_t ul = 0, ul1;
 
   while (ul < ulLen) {
     if (*ptr == '&') {
@@ -153,7 +153,7 @@ PHB_ITEM hbxml_pp(unsigned char *ptr, HB_ULONG ulLen)
   }
   ptr = ptrStart;
   HB_SKIPTABSPACES(ptr);
-  ulLen -= (HB_ULONG)(ptr - ptrStart);
+  ulLen -= (uint32_t)(ptr - ptrStart);
   if (!ulLen) {
     return hb_itemPutC(HWG_NULLPTR, "");
   }
@@ -395,7 +395,7 @@ HB_BOOL hbxml_readElement(PHB_ITEM pParent, unsigned char **pBuffer)
         (*pBuffer)++;
       }
       if (!lEmpty) {
-        pTemp = hbxml_pp(ptr, (HB_ULONG)(*pBuffer - ptr));
+        pTemp = hbxml_pp(ptr, (uint32_t)(*pBuffer - ptr));
         hb_objSendMsg(pNode, "AITEMS", 0);
         hb_arrayAdd(hb_param(-1, HB_IT_ANY), pTemp);
         hb_itemRelease(pTemp);
@@ -457,11 +457,11 @@ HB_FUNC(HBXML_GETDOC)
     bFile = HB_FALSE;
   } else if (HB_ISNUM(2)) {
     HB_FHANDLE hInput = (HB_FHANDLE)hb_parnint(2);
-    HB_ULONG ulLen = hb_fsSeek(hInput, 0, FS_END), ulRead;
+    uint32_t ulLen = hb_fsSeek(hInput, 0, FS_END), ulRead;
 
     hb_fsSeek(hInput, 0, FS_SET);
     cBuffer = (unsigned char *)hb_xgrab(ulLen + 1);
-    ulRead = (HB_ULONG)hb_fsReadLarge(hInput, (uint8_t *)cBuffer, ulLen);
+    ulRead = (uint32_t)hb_fsReadLarge(hInput, (uint8_t *)cBuffer, ulLen);
     cBuffer[ulRead] = '\0';
     bFile = HB_TRUE;
   } else {
