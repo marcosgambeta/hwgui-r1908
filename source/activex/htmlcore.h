@@ -61,32 +61,32 @@ typedef BSTR WINAPI TStr2BStrPtr(HWND, const char *);
 #define BSTR2TSTR BStr2TStr
 #define BSTR2TSTRNAME "BStr2TStr"
 
-  long WINAPI EmbedBrowserObject(HWND);
+  int32_t WINAPI EmbedBrowserObject(HWND);
 #define EMBEDBROWSEROBJECT EmbedBrowserObject
-  typedef long WINAPI EmbedBrowserObjectPtr(HWND);
+  typedef int32_t WINAPI EmbedBrowserObjectPtr(HWND);
 #define EMBEDBROWSEROBJECTNAME "EmbedBrowserObject"
 
   void WINAPI UnEmbedBrowserObject(HWND);
 #define UNEMBEDBROWSEROBJECT UnEmbedBrowserObject
-  typedef long WINAPI UnEmbedBrowserObjectPtr(HWND);
+  typedef int32_t WINAPI UnEmbedBrowserObjectPtr(HWND);
 #define UNEMBEDBROWSEROBJECTNAME "UnEmbedBrowserObject"
 
 #ifdef UNICODE
-  long WINAPI DisplayHTMLPage(HWND, const WCHAR *);
-  typedef long WINAPI DisplayHTMLPagePtr(HWND, const WCHAR *);
+  int32_t WINAPI DisplayHTMLPage(HWND, const WCHAR *);
+  typedef int32_t WINAPI DisplayHTMLPagePtr(HWND, const WCHAR *);
 #else
-long WINAPI DisplayHTMLPage(HWND, const char *);
-typedef long WINAPI DisplayHTMLPagePtr(HWND, const char *);
+int32_t WINAPI DisplayHTMLPage(HWND, const char *);
+typedef int32_t WINAPI DisplayHTMLPagePtr(HWND, const char *);
 #endif
 #define DISPLAYHTMLPAGE DisplayHTMLPage
 #define DISPLAYHTMLPAGENAME "DisplayHTMLPage"
 
 #ifdef UNICODE
-  long WINAPI DisplayHTMLStr(HWND, const WCHAR *);
-  typedef long WINAPI DisplayHTMLStrPtr(HWND, const WCHAR *);
+  int32_t WINAPI DisplayHTMLStr(HWND, const WCHAR *);
+  typedef int32_t WINAPI DisplayHTMLStrPtr(HWND, const WCHAR *);
 #else
-long WINAPI DisplayHTMLStr(HWND, const char *);
-typedef long WINAPI DisplayHTMLStrPtr(HWND, const char *);
+int32_t WINAPI DisplayHTMLStr(HWND, const char *);
+typedef int32_t WINAPI DisplayHTMLStrPtr(HWND, const char *);
 #endif
 #define DISPLAYHTMLSTR DisplayHTMLStr
 #define DISPLAYHTMLSTRNAME "DisplayHTMLStr"
@@ -162,8 +162,8 @@ typedef BSTR WINAPI TStr2BStrPtr(HWND, const char *);
 #define FREEWEBEVTHANDLER FreeWebEvtHandler
 #define FREEWEBEVTHANDLERNAME "FreeWebEvtHandler"
 
-  IDispatch *WINAPI CreateWebEvtHandler(HWND, IHTMLDocument2 *, DWORD, long, IUnknown *, void *);
-  typedef IDispatch *WINAPI CreateWebEvtHandlerPtr(HWND, IHTMLDocument2 *, DWORD, long, IUnknown *, void *);
+  IDispatch *WINAPI CreateWebEvtHandler(HWND, IHTMLDocument2 *, DWORD, int32_t, IUnknown *, void *);
+  typedef IDispatch *WINAPI CreateWebEvtHandlerPtr(HWND, IHTMLDocument2 *, DWORD, int32_t, IUnknown *, void *);
 #define CREATEWEBEVTHANDLER CreateWebEvtHandler
 #define CREATEWEBEVTHANDLERNAME "CreateWebEvtHandler"
 

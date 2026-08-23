@@ -55,7 +55,7 @@ HB_CALL_ON_STARTUP_END(_hwgui_module_init_)
 #include "hbiniseg.h"
 #elif defined(HB_MSC_STARTUP) // support for old [x]Harbour version
 #if defined(HB_OS_WIN_64)
-#pragma section(HB_MSC_START_SEGMENT, long, read)
+#pragma section(HB_MSC_START_SEGMENT, long, read) // TODO: long -> int32_t
 #endif
 #pragma data_seg(HB_MSC_START_SEGMENT)
 static HB_$INITSYM hb_vm_auto_hwgui_module_init_ = _hwgui_module_init_;

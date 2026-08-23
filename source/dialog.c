@@ -220,7 +220,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
   PHB_ITEM pControls, pControl, temp;
   int32_t baseUnit = GetDialogBaseUnits();
   int32_t baseunitX = LOWORD(baseUnit), baseunitY = HIWORD(baseUnit);
-  long lTemplateSize = 15;
+  int32_t lTemplateSize = 15;
   int32_t lExtStyle;
   uint32_t ul, ulControls;
 

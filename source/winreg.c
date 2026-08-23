@@ -57,7 +57,7 @@
 #include <winreg.h>
 
 #if defined(__DMC__)
-__inline long PtrToLong(const void *p)
+__inline int32_t PtrToLong(const void *p)
 {
   return (int32_t)p;
 }
@@ -122,7 +122,7 @@ HB_FUNC(HWG_REGQUERYVALUEEX)
 HB_FUNC(HWG_REGENUMKEYEX)
 {
   FILETIME ft;
-  long nErr;
+  int32_t nErr;
   TCHAR Buffer[255];
   DWORD dwBuffSize = 255;
   TCHAR Class[255];

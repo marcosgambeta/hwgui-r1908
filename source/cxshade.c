@@ -45,18 +45,18 @@ static void cxdib_Release(PCXDIB pdib);
 // BOOL cxdib_IsWin30Dib(PCXDIB pdib); // not used
 static WORD cxdib_GetPaletteSize(PCXDIB pdib);
 static uint8_t *cxdib_GetBits(PCXDIB pdib);
-static long cxdib_GetSize(PCXDIB pdib);
+static int32_t cxdib_GetSize(PCXDIB pdib);
 static BOOL cxdib_IsValid(PCXDIB pdib);
 static void cxdib_Clone(PCXDIB pdib, PCXDIB src);
 static void cxdib_Clear(PCXDIB pdib, uint8_t bval);
 static HDIB cxdib_Create(PCXDIB pdib, DWORD dwWidth, DWORD dwHeight, WORD wBitCount);
-static long cxdib_Draw(PCXDIB pdib, HDC pDC, long xoffset, long yoffset);
+static int32_t cxdib_Draw(PCXDIB pdib, HDC pDC, int32_t xoffset, int32_t yoffset);
 #if 0
-static long cxdib_Stretch(PCXDIB pdib, HDC pDC, long xoffset, long yoffset, long xsize, long ysize);
+static int32_t cxdib_Stretch(PCXDIB pdib, HDC pDC, int32_t xoffset, int32_t yoffset, int32_t xsize, int32_t ysize);
 #endif
 static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g, uint8_t b);
-static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, long perc);
-static void cxdib_SetPixelIndex(PCXDIB pdib, long x, long y, uint8_t i);
+static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, int32_t perc);
+static void cxdib_SetPixelIndex(PCXDIB pdib, int32_t x, int32_t y, uint8_t i);
 
 typedef struct CXSHADE_STRU
 {
@@ -123,7 +123,7 @@ static uint8_t *cxdib_GetBits(PCXDIB pdib)
   return HWG_NULLPTR;
 }
 
-static long cxdib_GetSize(PCXDIB pdib)
+static int32_t cxdib_GetSize(PCXDIB pdib)
 {
   return pdib->m_bi.biSize + pdib->m_bi.biSizeImage + cxdib_GetPaletteSize(pdib);
 }
@@ -217,7 +217,7 @@ static HDIB cxdib_Create(PCXDIB pdib, DWORD dwWidth, DWORD dwHeight, WORD wBitCo
   return pdib->hDib; // return handle to the DIB
 }
 
-static long cxdib_Draw(PCXDIB pdib, HDC pDC, long xoffset, long yoffset)
+static int32_t cxdib_Draw(PCXDIB pdib, HDC pDC, int32_t xoffset, int32_t yoffset)
 {
   if ((pdib->hDib) && (pDC)) {
     // palette must be correctly filled
@@ -231,7 +231,7 @@ static long cxdib_Draw(PCXDIB pdib, HDC pDC, long xoffset, long yoffset)
 }
 
 #if 0
-static long cxdib_Stretch(PCXDIB pdib, HDC pDC, long xoffset, long yoffset, long xsize, long ysize)
+static int32_t cxdib_Stretch(PCXDIB pdib, HDC pDC, int32_t xoffset, int32_t yoffset, int32_t xsize, int32_t ysize)
 {
   if ((pdib->hDib) && (pDC))
   {
@@ -251,7 +251,7 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
   if ((pdib->hDib) && (pdib->m_nColors)) {
     uint8_t *iDst = (uint8_t *)(pdib->hDib) + sizeof(BITMAPINFOHEADER);
     if (idx < pdib->m_nColors) {
-      long ldx = idx * sizeof(RGBQUAD);
+      int32_t ldx = idx * sizeof(RGBQUAD);
       iDst[ldx++] = (uint8_t)b;
       iDst[ldx++] = (uint8_t)g;
       iDst[ldx++] = (uint8_t)r;
@@ -260,13 +260,13 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
   }
 }
 
-static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, long perc)
+static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, int32_t perc)
 {
   if ((pdib->hDib == HWG_NULLPTR) || (pdib->m_nColors == 0)) {
     return;
   } else {
     uint8_t *iDst = (uint8_t *)(pdib->hDib) + sizeof(BITMAPINFOHEADER);
-    long i, r, g, b;
+    int32_t i, r, g, b;
     RGBQUAD *pPal = (RGBQUAD *)iDst;
 
     r = GetRValue(cr);
@@ -283,7 +283,7 @@ static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, long perc)
   }
 }
 
-static void cxdib_SetPixelIndex(PCXDIB pdib, long x, long y, uint8_t i)
+static void cxdib_SetPixelIndex(PCXDIB pdib, int32_t x, int32_t y, uint8_t i)
 {
   uint8_t *iDst;
 
@@ -418,15 +418,15 @@ static void cxshade_Draw(PCXSHADE pshade, HDC pRealDC, int16_t state)
 static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uint8_t granularity, uint8_t highlight,
                              uint8_t coloring, COLORREF color, RECT *prect)
 {
-  long sXSize, sYSize, bytes, j, i, k, h;
+  int32_t sXSize, sYSize, bytes, j, i, k, h;
   uint8_t *iDst, *posDst;
   // get the button base colors
   COLORREF hicr = (palette) ? 16777215 : GetSysColor(COLOR_BTNHIGHLIGHT);
   COLORREF midcr = (palette) ? 12632256 : GetSysColor(COLOR_BTNFACE);
   COLORREF locr = (palette) ? 8421504 : GetSysColor(COLOR_BTNSHADOW);
-  long r, g, b; // TODO: long -> uint8_t
-  long a, x, y, d, xs, idxmax, idxmin;
-  long aa, bb;
+  int32_t r, g, b; // TODO: int32_t -> uint8_t
+  int32_t a, x, y, d, xs, idxmax, idxmin;
+  int32_t aa, bb;
   int32_t grainx2;
 
   if (prect) {

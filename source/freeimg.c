@@ -444,7 +444,7 @@ HB_FUNC(FI_FI2DIBEX)
 
   if (_dib) {
     // Get equivalent DIB size
-    long dib_size = sizeof(BITMAPINFOHEADER);
+    int32_t dib_size = sizeof(BITMAPINFOHEADER);
     uint8_t *dib;
     uint8_t *p_dib, *bits;
     BITMAPINFOHEADER *bih;
@@ -686,7 +686,7 @@ uint32_t DLL_CALLCONV _WriteProc(void *buffer, uint32_t size, uint32_t count, fi
   return size;
 }
 
-int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int32_t origin)
+int DLL_CALLCONV _SeekProc(fi_handle handle, int32_t offset, int32_t origin)
 {
   // assert(origin != SEEK_END);
 
@@ -694,7 +694,7 @@ int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int32_t origin)
   return 0;
 }
 
-long DLL_CALLCONV _TellProc(fi_handle handle)
+int32_t DLL_CALLCONV _TellProc(fi_handle handle)
 {
   // assert((long int)handle >= (long int)g_load_address);
 

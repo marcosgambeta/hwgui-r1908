@@ -398,7 +398,7 @@ HB_FUNC(HWG_SETDATEPICKER)
 {
   PHB_ITEM pDate = hb_param(2, HB_IT_DATE);
   uint32_t ulLen;
-  long lSeconds = 0;
+  int32_t lSeconds = 0;
 
   if (pDate) {
     SYSTEMTIME sysTime, st;
@@ -406,8 +406,8 @@ HB_FUNC(HWG_SETDATEPICKER)
     int32_t lYear, lMonth, lDay;
     int32_t lHour, lMinute;
 #else
-    long lYear, lMonth, lDay;
-    long lHour, lMinute;
+    int32_t lYear, lMonth, lDay;
+    int32_t lHour, lMinute;
 #endif
     int32_t lMilliseconds = 0;
 #ifdef __XHARBOUR__

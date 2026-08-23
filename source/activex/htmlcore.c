@@ -1481,7 +1481,7 @@ HRESULT STDMETHODCALLTYPE Dispatch_Invoke(IDispatch *This, DISPID dispIdMember, 
  * _IDispatchEx is destroyed. It is also Release()'ed if this call fails.
  */
 
-IDispatch *WINAPI CreateWebEvtHandler(HWND hwnd, IHTMLDocument2 *htmlDoc2, DWORD extraData, long id, IUnknown *obj,
+IDispatch *WINAPI CreateWebEvtHandler(HWND hwnd, IHTMLDocument2 *htmlDoc2, DWORD extraData, int32_t id, IUnknown *obj,
                                       void *userdata)
 {
   _IDispatchEx *lpDispatchEx;
@@ -2050,9 +2050,9 @@ void WINAPI UnEmbedBrowserObject(HWND hwnd)
  */
 
 #ifdef UNICODE
-long WINAPI DisplayHTMLStr(HWND hwnd, const WCHAR *string)
+int32_t WINAPI DisplayHTMLStr(HWND hwnd, const WCHAR *string)
 #else
-long WINAPI DisplayHTMLStr(HWND hwnd, const char *string)
+int32_t WINAPI DisplayHTMLStr(HWND hwnd, const char *string)
 #endif
 {
   IHTMLDocument2 *htmlDoc2;
@@ -2162,9 +2162,9 @@ long WINAPI DisplayHTMLStr(HWND hwnd, const char *string)
  */
 
 #ifdef UNICODE
-long WINAPI DisplayHTMLPage(HWND hwnd, const WCHAR *webPageName)
+int32_t WINAPI DisplayHTMLPage(HWND hwnd, const WCHAR *webPageName)
 #else
-long WINAPI DisplayHTMLPage(HWND hwnd, const char *webPageName)
+int32_t WINAPI DisplayHTMLPage(HWND hwnd, const char *webPageName)
 #endif
 {
   IWebBrowser2 *webBrowser2;
@@ -2343,7 +2343,7 @@ void WINAPI ResizeBrowser(HWND hwnd, DWORD width, DWORD height)
  * call our functions in our struct's VTable.
  */
 
-long WINAPI EmbedBrowserObject(HWND hwnd)
+int32_t WINAPI EmbedBrowserObject(HWND hwnd)
 {
   IOleObject *browserObject;
   IWebBrowser2 *webBrowser2;

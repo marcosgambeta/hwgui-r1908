@@ -165,10 +165,10 @@ HB_FUNC(HWG_SETMONTHCALENDARDATE) // adaptation of function SetDatePicker of fil
   if (pDate)
   {
     SYSTEMTIME sysTime;
-    #ifndef HARBOUR_OLD_VERSION
+    #ifndef HARBOUR_OLD_VERSION // TODO: unnecessary
     int32_t lYear, lMonth, lDay;
     #else
-    long lYear, lMonth, lDay;
+    int32_t lYear, lMonth, lDay;
     #endif
 
     hb_dateDecode(hb_itemGetDL(pDate), &lYear, &lMonth, &lDay);
