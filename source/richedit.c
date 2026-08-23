@@ -366,7 +366,7 @@ HB_FUNC(HWG_PRINTRTF)
 HB_FUNC(HWG_INITRICHPROC)
 {
   // TODO: warning C4244: 'função': conversão de 'LONG_PTR' para 'LONG', possível perda de dados
-  wpOrigRichProc = (WNDPROC)(LONG_PTR)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)RichSubclassProc);
+  wpOrigRichProc = (WNDPROC)(intptr_t)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)RichSubclassProc);
 }
 
 LRESULT APIENTRY RichSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -394,7 +394,7 @@ LRESULT APIENTRY RichSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
 static DWORD CALLBACK RichStreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, int32_t cb, int32_t *pcb)
 {
-  HANDLE pFile = (HANDLE)(LONG_PTR)dwCookie;
+  HANDLE pFile = (HANDLE)(intptr_t)dwCookie;
   DWORD dwW;
   HB_SYMBOL_UNUSED(pcb);
 

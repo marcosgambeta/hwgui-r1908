@@ -408,7 +408,7 @@ HB_FUNC(HWG_GETDESKTOPHEIGHT_VS)
 
 HB_FUNC(HWG_GETHELPDATA)
 {
-  hb_retnint((LONG_PTR)(((HELPINFO FAR *)(LONG_PTR)hb_parnl(1))->hItemHandle));
+  hb_retnint((intptr_t)(((HELPINFO FAR *)(intptr_t)hb_parnl(1))->hItemHandle));
 }
 
 HB_FUNC(HWG_WINHELP)
@@ -688,7 +688,7 @@ HB_FUNC(HWG_HEDITEX_CTLCOLOR)
   COLORREF cColor;
 
   if (!pObject) {
-    hb_retnint((LONG_PTR)GetStockObject(HOLLOW_BRUSH)); // TODO: revisar (retornar HBRUSH ?)
+    hb_retnint((intptr_t)GetStockObject(HOLLOW_BRUSH)); // TODO: revisar (retornar HBRUSH ?)
     SetBkMode(hdc, TRANSPARENT);
     return;
   }

@@ -330,14 +330,14 @@ static void s_ReleaseDlgTemplate(LPDLGTEMPLATE pdlgtemplate)
 // HWG_CREATEDLGTEMPLATE() -->
 HB_FUNC(HWG_CREATEDLGTEMPLATE)
 {
-  hb_retnint((LONG_PTR)s_CreateDlgTemplate(hb_param(1, HB_IT_OBJECT), hb_parni(2), hb_parni(3), hb_parni(4),
+  hb_retnint((intptr_t)s_CreateDlgTemplate(hb_param(1, HB_IT_OBJECT), hb_parni(2), hb_parni(3), hb_parni(4),
                                            hb_parni(5), (uint32_t)hb_parnl(6)));
 }
 
 // HWG_RELEASEDLGTEMPLATE() -->
 HB_FUNC(HWG_RELEASEDLGTEMPLATE)
 {
-  s_ReleaseDlgTemplate((LPDLGTEMPLATE)(LONG_PTR)hb_parnint(1));
+  s_ReleaseDlgTemplate((LPDLGTEMPLATE)(intptr_t)hb_parnint(1));
 }
 
 // _CreatePropertySheetPage(aDlg, x1, y1, nWidth, nHeight, nStyle) --> hPage
@@ -384,7 +384,7 @@ HB_FUNC(HWG__CREATEPROPERTYSHEETPAGE)
     psp.DUMMYUNIONNAME.pszTemplate = lpTitle;
 #endif
   } else {
-    pdlgtemplate = (LPDLGTEMPLATE)(LONG_PTR)hb_parnl(2);
+    pdlgtemplate = (LPDLGTEMPLATE)(intptr_t)hb_parnl(2);
 
     psp.dwFlags = PSP_DLGINDIRECT | PSP_USECALLBACK;
 #if !defined(__BORLANDC__) || (__BORLANDC__ > 1424)
@@ -419,7 +419,7 @@ HB_FUNC(HWG__PROPERTYSHEET)
     dwFlags |= PSH_WIZARD;
   }
   for (i = 0; i < nPages; i++) {
-    psp[i] = (HPROPSHEETPAGE)(LONG_PTR)hb_arrayGetNL(pArr, i + 1);
+    psp[i] = (HPROPSHEETPAGE)(intptr_t)hb_arrayGetNL(pArr, i + 1);
   }
 
   psh.dwSize = sizeof(PROPSHEETHEADER);
@@ -456,7 +456,7 @@ HB_FUNC(HWG_CREATEDLGINDIRECT)
   BOOL fFree = FALSE;
 
   if (hb_pcount() > 7 && !HB_ISNIL(8)) {
-    pdlgtemplate = (LPDLGTEMPLATE)(LONG_PTR)hb_parnl(8);
+    pdlgtemplate = (LPDLGTEMPLATE)(intptr_t)hb_parnl(8);
   } else {
     uint32_t ulStyle = ((hb_pcount() > 6 && !HB_ISNIL(7))
                          ? (uint32_t)hb_parnl(7)

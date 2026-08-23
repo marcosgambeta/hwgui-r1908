@@ -32,14 +32,14 @@ static WNDPROC wpOrigEditProc;
 #if 0
 HB_FUNC(HWG_INITEDITPROC)
 {
-  wpOrigEditProc = (WNDPROC)(LONG_PTR)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC,
-                                                    (int32_t)(LONG_PTR)EditSubclassProc); // TODO: SetWindowLongPtr
+  wpOrigEditProc = (WNDPROC)(intptr_t)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC,
+                                                    (int32_t)(intptr_t)EditSubclassProc); // TODO: SetWindowLongPtr
 }
 #endif
 
 HB_FUNC(HWG_INITEDITPROC)
 {
-  wpOrigEditProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)EditSubclassProc);
+  wpOrigEditProc = (WNDPROC)(intptr_t)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)EditSubclassProc);
 }
 
 LRESULT APIENTRY EditSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

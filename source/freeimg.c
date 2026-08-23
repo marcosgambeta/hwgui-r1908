@@ -308,7 +308,7 @@ HB_FUNC(FI_2BITMAP)
   pGetinfo = (FREEIMAGE_GETINFO)s_getFunction((FARPROC)pGetinfo, "_FreeImage_GetInfo@4");
   pGetinfoHead = (FREEIMAGE_GETINFOHEADER)s_getFunction((FARPROC)pGetinfoHead, "_FreeImage_GetInfoHeader@4");
 
-  hb_retnint((LONG_PTR)CreateDIBitmap(hDC, pGetinfoHead(dib), CBM_INIT, pGetbits(dib), pGetinfo(dib), DIB_RGB_COLORS));
+  hb_retnint((intptr_t)CreateDIBitmap(hDC, pGetinfoHead(dib), CBM_INIT, pGetbits(dib), pGetinfo(dib), DIB_RGB_COLORS));
 
   ReleaseDC(HWG_NULLPTR, hDC);
 }
@@ -408,7 +408,7 @@ HB_FUNC(FI_FI2DIB)
     LPBITMAPINFO lpbi = (LPBITMAPINFO)GlobalLock(hdib);
     memcpy((LPBYTE)((uint8_t *)lpbi) + lpbi->bmiHeader.biSize, pGetbits(dib), lpbi->bmiHeader.biSizeImage);
     GlobalUnlock(hdib);
-    hb_retnint((LONG_PTR)hdib);
+    hb_retnint((intptr_t)hdib);
   } else {
     hb_retnl(0);
   }
@@ -483,7 +483,7 @@ HB_FUNC(FI_FI2DIBEX)
     GlobalUnlock(hMem);
   }
 
-  hb_retnint((LONG_PTR)hMem);
+  hb_retnint((intptr_t)hMem);
 }
 
 HB_FUNC(FI_DRAW)
@@ -544,7 +544,7 @@ HB_FUNC(FI_BMP2FI)
       dib = pAllocate(bm.bmWidth, bm.bmHeight, bm.bmBitsPixel, 0, 0, 0);
       GetDIBits(hDC, hbmp, 0, pGetheight(dib), pGetbits(dib), pGetinfo(dib), DIB_RGB_COLORS);
       ReleaseDC(HWG_NULLPTR, hDC);
-      hb_retnint((LONG_PTR)dib);
+      hb_retnint((intptr_t)dib);
       return;
     }
   }
@@ -587,7 +587,7 @@ static LPBYTE DibBits(LPBITMAPINFOHEADER lpdib)
 // Convert a windows DIB into a FIBITMAP
 HB_FUNC(FI_DIB2FI)
 {
-  HANDLE hdib = (HANDLE)(LONG_PTR)hb_parnl(1);
+  HANDLE hdib = (HANDLE)(intptr_t)hb_parnl(1);
   int32_t i;
 
   if (hdib) {
@@ -621,7 +621,7 @@ HB_FUNC(FI_DIB2FI)
       }
 
       GlobalUnlock(hdib);
-      hb_retnint((LONG_PTR)dib);
+      hb_retnint((intptr_t)dib);
       return;
     } else {
       GlobalUnlock(hdib);
@@ -635,7 +635,7 @@ HB_FUNC(FI_RESCALE)
   pRescale = (FREEIMAGE_RESCALE)s_getFunction((FARPROC)pRescale, "_FreeImage_Rescale@16");
 
   hb_retnint((pRescale)
-                 ? (LONG_PTR)pRescale(hwg_par_FIBITMAP(1), hb_parnl(2), hb_parnl(3), (FREE_IMAGE_FILTER)hb_parni(4))
+                 ? (intptr_t)pRescale(hwg_par_FIBITMAP(1), hb_parnl(2), hb_parnl(3), (FREE_IMAGE_FILTER)hb_parni(4))
                  : 0);
 }
 
@@ -698,7 +698,7 @@ int32_t DLL_CALLCONV _TellProc(fi_handle handle)
 {
   // assert((int32_t)handle >= (int32_t)g_load_address);
 
-  return ((int32_t)(LONG_PTR)g_load_address - (int32_t)(LONG_PTR)handle);
+  return ((int32_t)(intptr_t)g_load_address - (int32_t)(intptr_t)handle);
 }
 
 HB_FUNC(FI_LOADFROMMEM)
@@ -734,7 +734,7 @@ HB_FUNC(FI_LOADFROMMEM)
     }
 
     g_load_address = (fi_handle)image;
-    hb_retnint((LONG_PTR)pLoadFromHandle(fif, &io, (fi_handle)image, (hb_pcount() > 2) ? hb_parni(3) : 0));
+    hb_retnint((intptr_t)pLoadFromHandle(fif, &io, (fi_handle)image, (hb_pcount() > 2) ? hb_parni(3) : 0));
   } else {
     hb_retnl(0);
   }
@@ -744,7 +744,7 @@ HB_FUNC(FI_ROTATECLASSIC)
 {
   pRotateClassic = (FREEIMAGE_ROTATECLASSIC)s_getFunction((FARPROC)pRotateClassic, "_FreeImage_RotateClassic@12");
 
-  hb_retnint((pRotateClassic) ? (LONG_PTR)pRotateClassic(hwg_par_FIBITMAP(1), hb_parnd(2)) : 0);
+  hb_retnint((pRotateClassic) ? (intptr_t)pRotateClassic(hwg_par_FIBITMAP(1), hb_parnd(2)) : 0);
 }
 
 HB_FUNC(FI_GETDOTSPERMETERX)
@@ -846,7 +846,7 @@ HB_FUNC(FI_CONVERTTO8BITS)
 {
   pConvertTo8Bits = (FREEIMAGE_CONVERTTO8BITS)s_getFunction((FARPROC)pConvertTo8Bits, "_FreeImage_ConvertTo8Bits@4");
 
-  hb_retnint((LONG_PTR)pConvertTo8Bits(hwg_par_FIBITMAP(1)));
+  hb_retnint((intptr_t)pConvertTo8Bits(hwg_par_FIBITMAP(1)));
 }
 
 HB_FUNC(FI_CONVERTTOGREYSCALE)
@@ -854,14 +854,14 @@ HB_FUNC(FI_CONVERTTOGREYSCALE)
   pConvertToGreyscale =
       (FREEIMAGE_CONVERTTOGREYSCALE)s_getFunction((FARPROC)pConvertToGreyscale, "_FreeImage_ConvertToGreyscale@4");
 
-  hb_retnint((LONG_PTR)pConvertToGreyscale(hwg_par_FIBITMAP(1)));
+  hb_retnint((intptr_t)pConvertToGreyscale(hwg_par_FIBITMAP(1)));
 }
 
 HB_FUNC(FI_THRESHOLD)
 {
   pThreshold = (FREEIMAGE_THRESHOLD)s_getFunction((FARPROC)pThreshold, "_FreeImage_Threshold@8");
 
-  hb_retnint((LONG_PTR)pThreshold(hwg_par_FIBITMAP(1), (uint8_t)hb_parnl(2)));
+  hb_retnint((intptr_t)pThreshold(hwg_par_FIBITMAP(1), (uint8_t)hb_parnl(2)));
 }
 
 HB_FUNC(FI_FLIPVERTICAL)

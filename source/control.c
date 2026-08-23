@@ -67,7 +67,7 @@ static BOOL s_lInitCmnCtrl = 0;
 static BOOL s_lToolTipBalloon = FALSE; // added by MAG
 static WNDPROC s_wpOrigTrackProc, s_wpOrigTabProc, s_wpOrigComboProc, s_wpOrigStaticProc, s_wpOrigListProc,
     s_wpOrigUpDownProc, s_wpOrigDatePickerProc, s_wpOrigTreeViewProc; // s_wpOrigButtonProc
-static LONG_PTR s_wpOrigButtonProc;
+static intptr_t s_wpOrigButtonProc;
 
 HB_FUNC(HWG_INITCOMMONCONTROLSEX)
 {
@@ -763,7 +763,7 @@ HB_FUNC(HWG_TREE_GETNOTIFY)
   int32_t iType = hb_parni(2);
 
   if (iType == TREE_GETNOTIFY_HANDLE) {
-    hb_retnint((LONG_PTR)(((NM_TREEVIEW *)HB_PARHANDLE(1))->itemNew.hItem)); // TODO: retorno é HTREEITEM
+    hb_retnint((intptr_t)(((NM_TREEVIEW *)HB_PARHANDLE(1))->itemNew.hItem)); // TODO: retorno é HTREEITEM
   }
 
   if (iType == TREE_GETNOTIFY_ACTION) {
@@ -1047,7 +1047,7 @@ BOOL RegisterWinCtrl(void) // Added by jamaj - Used by WinCtrl
 
 HB_FUNC(HWG_INITTREEVIEW)
 {
-  s_wpOrigTreeViewProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)TreeViewSubclassProc);
+  s_wpOrigTreeViewProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)TreeViewSubclassProc);
 }
 
 LRESULT APIENTRY TreeViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1075,7 +1075,7 @@ LRESULT APIENTRY TreeViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 
 HB_FUNC(HWG_INITWINCTRL)
 {
-  SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)WinCtrlProc);
+  SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)WinCtrlProc);
 }
 
 LRESULT CALLBACK WinCtrlProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1103,7 +1103,7 @@ LRESULT CALLBACK WinCtrlProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 HB_FUNC(HWG_INITSTATICPROC)
 {
-  s_wpOrigStaticProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)StaticSubclassProc);
+  s_wpOrigStaticProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)StaticSubclassProc);
 }
 
 LRESULT APIENTRY StaticSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1132,7 +1132,7 @@ LRESULT APIENTRY StaticSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 HB_FUNC(HWG_INITBUTTONPROC)
 {
   //   s_wpOrigButtonProc = (WNDPROC)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (int32_t)ButtonSubclassProc);
-  s_wpOrigButtonProc = (LONG_PTR)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)ButtonSubclassProc);
+  s_wpOrigButtonProc = (intptr_t)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)ButtonSubclassProc);
 }
 
 LRESULT APIENTRY ButtonSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1183,7 +1183,7 @@ LRESULT APIENTRY ComboSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 HB_FUNC(HWG_INITCOMBOPROC)
 {
-  s_wpOrigComboProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)ComboSubclassProc);
+  s_wpOrigComboProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)ComboSubclassProc);
 }
 
 LRESULT APIENTRY ListSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1211,12 +1211,12 @@ LRESULT APIENTRY ListSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
 HB_FUNC(HWG_INITLISTPROC)
 {
-  s_wpOrigListProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)ListSubclassProc);
+  s_wpOrigListProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)ListSubclassProc);
 }
 
 HB_FUNC(HWG_INITUPDOWNPROC)
 {
-  s_wpOrigUpDownProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)UpDownSubclassProc);
+  s_wpOrigUpDownProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)UpDownSubclassProc);
 }
 
 LRESULT APIENTRY UpDownSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1244,7 +1244,7 @@ LRESULT APIENTRY UpDownSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 HB_FUNC(HWG_INITDATEPICKERPROC)
 {
-  s_wpOrigDatePickerProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)DatePickerSubclassProc);
+  s_wpOrigDatePickerProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)DatePickerSubclassProc);
 }
 
 LRESULT APIENTRY DatePickerSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1272,7 +1272,7 @@ LRESULT APIENTRY DatePickerSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 HB_FUNC(HWG_INITTRACKPROC)
 {
-  s_wpOrigTrackProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)TrackSubclassProc);
+  s_wpOrigTrackProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)TrackSubclassProc);
 }
 
 LRESULT APIENTRY TrackSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1300,7 +1300,7 @@ LRESULT APIENTRY TrackSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 HB_FUNC(HWG_INITTABPROC)
 {
-  s_wpOrigTabProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)TabSubclassProc);
+  s_wpOrigTabProc = (WNDPROC)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)TabSubclassProc);
 }
 
 LRESULT APIENTRY TabSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1677,7 +1677,7 @@ HB_FUNC(HWG_ADDBARCOLORS)
 
 HB_FUNC(HWG_GETCOMBOWNDPROC)
 {
-  hb_retnint((LONG_PTR)s_wpOrigComboProc);
+  hb_retnint((intptr_t)s_wpOrigComboProc);
 }
 
 HB_FUNC(HWG_COMBOGETITEMRECT)
@@ -1686,7 +1686,7 @@ HB_FUNC(HWG_COMBOGETITEMRECT)
 
   int32_t nIndex = hb_parnl(2);
   RECT rcItem;
-  SendMessage(hWnd, LB_GETITEMRECT, nIndex, (LONG_PTR)(VOID *)&rcItem);
+  SendMessage(hWnd, LB_GETITEMRECT, nIndex, (intptr_t)(VOID *)&rcItem);
   hb_itemReturnRelease(Rect2Array(&rcItem));
 }
 
