@@ -175,7 +175,7 @@ HB_FUNC(HWG_SETPRINTERMODE)
   void *hPrinterName;
   LPCTSTR lpPrinterName = HB_PARSTR(1, &hPrinterName, HWG_NULLPTR);
   HANDLE hPrinter = (HB_ISNIL(2)) ? HWG_NULLPTR : (HANDLE)HB_PARHANDLE(2);
-  long int nSize;
+  int32_t nSize;
   PDEVMODE pdm;
 
   if (!hPrinter) {

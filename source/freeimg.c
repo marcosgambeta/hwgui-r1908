@@ -696,9 +696,9 @@ int DLL_CALLCONV _SeekProc(fi_handle handle, int32_t offset, int32_t origin)
 
 int32_t DLL_CALLCONV _TellProc(fi_handle handle)
 {
-  // assert((long int)handle >= (long int)g_load_address);
+  // assert((int32_t)handle >= (int32_t)g_load_address);
 
-  return ((long int)(LONG_PTR)g_load_address - (long int)(LONG_PTR)handle);
+  return ((int32_t)(LONG_PTR)g_load_address - (int32_t)(LONG_PTR)handle);
 }
 
 HB_FUNC(FI_LOADFROMMEM)

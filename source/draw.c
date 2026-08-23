@@ -536,7 +536,7 @@ HB_FUNC(HWG_OPENBITMAP)
   hfbm = CreateFile(HB_PARSTR(1, &hString, HWG_NULLPTR), GENERIC_READ, FILE_SHARE_READ, HWG_NULLPTR, OPEN_EXISTING,
                     FILE_ATTRIBUTE_READONLY, HWG_NULLPTR);
   hb_strfree(hString);
-  if (((long int)(LONG_PTR)hfbm) <= 0) {
+  if (((int32_t)(LONG_PTR)hfbm) <= 0) {
     HB_RETHANDLE(HWG_NULLPTR);
     return;
   }
