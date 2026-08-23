@@ -299,7 +299,7 @@ HB_FUNC(HWG_BF_ENCRYPT)
   unsigned char *ptro;
   unsigned char *key;
   int32_t iKeylen, iDiff;
-  unsigned long int ul, ulLen, ulPairs;
+  uint32_t ul, ulLen, ulPairs;
 
   if (HB_ISNIL(2)) {
     key = (unsigned char *)hb_xgrab(5);
@@ -351,7 +351,7 @@ HB_FUNC(HWG_BF_DECRYPT)
   unsigned char *ptro;
   unsigned char *key;
   int32_t iKeylen, iDiff;
-  unsigned long int ul, ulLen, ulPairs;
+  uint32_t ul, ulLen, ulPairs;
 
   if (HB_ISNIL(2)) {
     key = (unsigned char *)hb_xgrab(5);
