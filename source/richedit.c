@@ -406,7 +406,7 @@ static DWORD CALLBACK RichStreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, int32
   return 0;
 }
 
-static DWORD CALLBACK EditStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuff, int32_t cb, PLONG pcb)
+static DWORD CALLBACK EditStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuff, LONG cb, PLONG pcb)
 {
   HANDLE hFile = (HANDLE)dwCookie;
   return !ReadFile(hFile, lpBuff, cb, (DWORD *)pcb, HWG_NULLPTR);
