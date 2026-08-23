@@ -686,7 +686,7 @@ uint32_t DLL_CALLCONV _WriteProc(void *buffer, uint32_t size, uint32_t count, fi
   return size;
 }
 
-int DLL_CALLCONV _SeekProc(fi_handle handle, int32_t offset, int32_t origin)
+int DLL_CALLCONV _SeekProc(fi_handle handle, long offset, int32_t origin)
 {
   // assert(origin != SEEK_END);
 
@@ -694,11 +694,11 @@ int DLL_CALLCONV _SeekProc(fi_handle handle, int32_t offset, int32_t origin)
   return 0;
 }
 
-int32_t DLL_CALLCONV _TellProc(fi_handle handle)
+long DLL_CALLCONV _TellProc(fi_handle handle)
 {
-  // assert((int32_t)handle >= (int32_t)g_load_address);
+  // assert((long int)handle >= (long int)g_load_address);
 
-  return ((int32_t)(intptr_t)g_load_address - (int32_t)(intptr_t)handle);
+  return ((long int)(intptr_t)g_load_address - (long int)(intptr_t)handle);
 }
 
 HB_FUNC(FI_LOADFROMMEM)
