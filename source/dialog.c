@@ -213,7 +213,7 @@ static int32_t s_nWideStringLen(PHB_ITEM pItem)
 #endif
 }
 
-static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, int32_t dwidth, int32_t dheight, ULONG ulStyle)
+static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, int32_t dwidth, int32_t dheight, uint32_t ulStyle)
 {
   HGLOBAL hgbl;
   PWORD p, pend;
@@ -222,7 +222,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
   int32_t baseunitX = LOWORD(baseUnit), baseunitY = HIWORD(baseUnit);
   long lTemplateSize = 15;
   LONG lExtStyle;
-  ULONG ul, ulControls;
+  uint32_t ul, ulControls;
 
   x1 = (x1 * 4) / baseunitX;
   dwidth = (dwidth * 4) / baseunitX;
@@ -233,7 +233,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
   ulStyle &= ~(DS_SETFONT | DS_SHELLFONT);
 
   pControls = hb_itemNew(GetObjectVar(pObj, "ACONTROLS"));
-  ulControls = (ULONG)hb_arrayLen(pControls);
+  ulControls = (uint32_t)hb_arrayLen(pControls);
 
   lTemplateSize += s_nWideStringLen(GetObjectVar(pObj, "TITLE"));
   lTemplateSize += lTemplateSize & 1;
@@ -283,7 +283,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
 
     p = s_lpwAlign(p);
 
-    ulStyle = (ULONG)hb_itemGetNL(GetObjectVar(pControl, "STYLE"));
+    ulStyle = (uint32_t)hb_itemGetNL(GetObjectVar(pControl, "STYLE"));
     lExtStyle = hb_itemGetNL(GetObjectVar(pControl, "EXTSTYLE"));
     x1 = (hb_itemGetNI(GetObjectVar(pControl, "NLEFT")) * 4) / baseunitX;
     dwidth = (hb_itemGetNI(GetObjectVar(pControl, "NWIDTH")) * 4) / baseunitX;
@@ -331,7 +331,7 @@ static void s_ReleaseDlgTemplate(LPDLGTEMPLATE pdlgtemplate)
 HB_FUNC(HWG_CREATEDLGTEMPLATE)
 {
   hb_retnint((LONG_PTR)s_CreateDlgTemplate(hb_param(1, HB_IT_OBJECT), hb_parni(2), hb_parni(3), hb_parni(4),
-                                           hb_parni(5), (ULONG)hb_parnl(6)));
+                                           hb_parni(5), (uint32_t)hb_parnl(6)));
 }
 
 // HWG_RELEASEDLGTEMPLATE() -->
@@ -458,8 +458,8 @@ HB_FUNC(HWG_CREATEDLGINDIRECT)
   if (hb_pcount() > 7 && !HB_ISNIL(8)) {
     pdlgtemplate = (LPDLGTEMPLATE)(LONG_PTR)hb_parnl(8);
   } else {
-    ULONG ulStyle = ((hb_pcount() > 6 && !HB_ISNIL(7))
-                         ? (ULONG)hb_parnl(7)
+    uint32_t ulStyle = ((hb_pcount() > 6 && !HB_ISNIL(7))
+                         ? (uint32_t)hb_parnl(7)
                          : WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_SIZEBOX); // | DS_SETFONT;
 
     pdlgtemplate = s_CreateDlgTemplate(pObject, hb_parni(3), hb_parni(4), hb_parni(5), hb_parni(6), ulStyle);
@@ -479,8 +479,8 @@ HB_FUNC(HWG_CREATEDLGINDIRECT)
 HB_FUNC(HWG_DLGBOXINDIRECT)
 {
   PHB_ITEM pObject = hb_param(2, HB_IT_OBJECT);
-  ULONG ulStyle =
-      ((hb_pcount() > 6 && !HB_ISNIL(7)) ? (ULONG)hb_parnl(7)
+  uint32_t ulStyle =
+      ((hb_pcount() > 6 && !HB_ISNIL(7)) ? (uint32_t)hb_parnl(7)
                                          : WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU); // | DS_SETFONT;
   int32_t x1 = hb_parni(3), y1 = hb_parni(4), dwidth = hb_parni(5), dheight = hb_parni(6);
   LPDLGTEMPLATE pdlgtemplate = s_CreateDlgTemplate(pObject, x1, y1, dwidth, dheight, ulStyle);

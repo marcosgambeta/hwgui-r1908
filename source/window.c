@@ -516,10 +516,10 @@ HB_FUNC(HWG_SETWINDOWTEXT)
 HB_FUNC(HWG_GETWINDOWTEXT)
 {
   HWND hWnd = hwg_par_HWND(1);
-  ULONG ulLen = (ULONG)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
+  uint32_t ulLen = (uint32_t)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
   LPTSTR cText = (TCHAR *)hb_xgrab((ulLen + 1) * sizeof(TCHAR));
 
-  ulLen = (ULONG)SendMessage(hWnd, WM_GETTEXT, (WPARAM)(ulLen + 1), (LPARAM)cText);
+  ulLen = (uint32_t)SendMessage(hWnd, WM_GETTEXT, (WPARAM)(ulLen + 1), (LPARAM)cText);
 
   HB_RETSTRLEN(cText, ulLen);
   hb_xfree(cText);

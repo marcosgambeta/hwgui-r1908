@@ -282,7 +282,7 @@ HB_FUNC(HWG_CREATEACCELERATORTABLE)
 {
   PHB_ITEM pArray = hb_param(1, HB_IT_ARRAY), pSubArr;
   LPACCEL lpaccl;
-  ULONG ul, ulEntries = (ULONG)hb_arrayLen(pArray);
+  uint32_t ul, ulEntries = (uint32_t)hb_arrayLen(pArray);
   HACCEL h;
 
   lpaccl = (LPACCEL)hb_xgrab(sizeof(ACCEL) * ulEntries);

@@ -48,14 +48,14 @@ typedef void(WINAPI *FREEIMAGE_CONVERTTORAWBITS)(uint8_t *bits, FIBITMAP *dib, i
 
 typedef void(WINAPI *FREEIMAGE_UNLOAD)(FIBITMAP *dib);
 typedef FREE_IMAGE_FORMAT(WINAPI *FREEIMAGE_GETFIFFROMFILENAME)(const char *filename);
-typedef ULONG(WINAPI *FREEIMAGE_GETWIDTH)(FIBITMAP *dib);
-typedef ULONG(WINAPI *FREEIMAGE_GETHEIGHT)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETWIDTH)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETHEIGHT)(FIBITMAP *dib);
 typedef uint8_t *(WINAPI *FREEIMAGE_GETBITS)(FIBITMAP *dib);
 typedef BITMAPINFO *(WINAPI *FREEIMAGE_GETINFO)(FIBITMAP *dib);
 typedef BITMAPINFOHEADER *(WINAPI *FREEIMAGE_GETINFOHEADER)(FIBITMAP *dib);
 typedef FIBITMAP *(WINAPI *FREEIMAGE_RESCALE)(FIBITMAP *dib, int32_t dst_width, int32_t dst_height, FREE_IMAGE_FILTER filter);
 typedef RGBQUAD *(WINAPI *FREEIMAGE_GETPALETTE)(FIBITMAP *dib);
-typedef ULONG(WINAPI *FREEIMAGE_GETBPP)(FIBITMAP *dib);
+typedef uint32_t(WINAPI *FREEIMAGE_GETBPP)(FIBITMAP *dib);
 typedef BOOL(WINAPI *FREEIMAGE_SETCHANNEL)(FIBITMAP *dib, FIBITMAP *dib8, FREE_IMAGE_COLOR_CHANNEL channel);
 typedef uint8_t *(WINAPI *FREEIMAGE_GETSCANLINE)(FIBITMAP *dib, int32_t scanline);
 typedef uint32_t(WINAPI *FREEIMAGE_GETPITCH)(FIBITMAP *dib);
@@ -880,7 +880,7 @@ HB_FUNC(FI_GETPIXELINDEX)
   lRes = pGetPixelIndex(hwg_par_FIBITMAP(1), hb_parni(2), hb_parni(3), &value);
 
   if (lRes) {
-    hb_stornl((ULONG)value, 4);
+    hb_stornl((uint32_t)value, 4);
   }
 
   hb_retl(lRes);

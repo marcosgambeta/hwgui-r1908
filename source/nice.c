@@ -20,8 +20,8 @@
 #if !defined(__WATCOMC__) && !defined(__MINGW32__) && !defined(__MINGW64__)
 typedef struct _GRADIENT_RECT
 {
-  ULONG UpperLeft;
-  ULONG LowerRight;
+  uint32_t UpperLeft;
+  uint32_t LowerRight;
 } GRADIENT_RECT, *PGRADIENT_RECT, *LPGRADIENT_RECT;
 #endif
 

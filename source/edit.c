@@ -70,7 +70,7 @@ HB_FUNC(HWG_CREATEEDIT)
 {
   HWND hWndEdit;
   DWORD ulStyle = hwg_par_DWORD(3);
-  ULONG ulStyleEx = (ulStyle & WS_BORDER) ? WS_EX_CLIENTEDGE : 0;
+  uint32_t ulStyleEx = (ulStyle & WS_BORDER) ? WS_EX_CLIENTEDGE : 0;
 
   if ((ulStyle & WS_BORDER)) //&& (ulStyle & WS_DLGFRAME))
   {

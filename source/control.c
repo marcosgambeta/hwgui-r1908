@@ -253,11 +253,11 @@ HB_FUNC(HWG_INITSTATUS)
       nWidth += nWidth;
     }
   } else {
-    ULONG ul;
+    uint32_t ul;
     nWidth = 0;
-    for (ul = 1; ul <= (ULONG)nParts; ul++) {
+    for (ul = 1; ul <= (uint32_t)nParts; ul++) {
       j = hb_arrayGetNI(pArray, ul);
-      if (ul == (ULONG)nParts && j == 0) {
+      if (ul == (uint32_t)nParts && j == 0) {
         nWidth = -1;
       } else {
         nWidth += j;
@@ -397,7 +397,7 @@ HB_FUNC(HWG_CREATEDATEPICKER)
 HB_FUNC(HWG_SETDATEPICKER)
 {
   PHB_ITEM pDate = hb_param(2, HB_IT_DATE);
-  ULONG ulLen;
+  uint32_t ulLen;
   long lSeconds = 0;
 
   if (pDate) {
@@ -425,7 +425,7 @@ HB_FUNC(HWG_SETDATEPICKER)
     } else {
       const char *szTime = hb_parc(3);
       if (szTime) {
-        ulLen = (ULONG)strlen(szTime);
+        ulLen = (uint32_t)strlen(szTime);
         if (ulLen >= 4) {
           lSeconds = (int32_t)hb_strVal(szTime, 2) * 3600 * 1000 + (int32_t)hb_strVal(szTime + 2, 2) * 60 * 1000 +
                      (int32_t)(hb_strVal(szTime + 4, ulLen - 4) * 1000);
@@ -492,7 +492,7 @@ HB_FUNC(HWG_INITTABCONTROL)
   PHB_ITEM pArr = hb_param(2, HB_IT_ARRAY);
   int32_t iItems = hb_parnl(3);
   TC_ITEM tie;
-  ULONG ul, ulTabs = (ULONG)hb_arrayLen(pArr);
+  uint32_t ul, ulTabs = (uint32_t)hb_arrayLen(pArr);
 
   tie.mask = TCIF_TEXT | TCIF_IMAGE;
   tie.iImage = iItems == 0 ? -1 : 0;
@@ -844,7 +844,7 @@ HB_FUNC(HWG_CREATEIMAGELIST)
   PHB_ITEM pArray = hb_param(1, HB_IT_ARRAY);
   UINT flags = (HB_ISNIL(5)) ? ILC_COLOR : hb_parni(5);
   HIMAGELIST himl;
-  ULONG ul, ulLen = (ULONG)hb_arrayLen(pArray);
+  uint32_t ul, ulLen = (uint32_t)hb_arrayLen(pArray);
   HBITMAP hbmp;
 
   himl = ImageList_Create(hb_parni(2), hb_parni(3), flags, ulLen, hb_parni(4));
@@ -1373,8 +1373,8 @@ HB_FUNC(HWG_TOOLBARADDBUTTONS)
   TBBUTTON *tb = (struct _TBBUTTON *)hb_xgrab(iButtons * sizeof(TBBUTTON));
   PHB_ITEM pTemp;
 
-  ULONG ulCount;
-  ULONG ulID;
+  uint32_t ulCount;
+  uint32_t ulID;
   DWORD style = GetWindowLong(hWndCtrl, GWL_STYLE);
 
   // SendMessage(hWndCtrl, CCM_SETVERSION, (WPARAM) 4, 0);

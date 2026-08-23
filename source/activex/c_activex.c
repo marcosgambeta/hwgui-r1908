@@ -108,10 +108,10 @@ HB_FUNC(HWG_ATLAXGETDISP) // hWnd -> pDisp
 HRESULT hb_oleVariantToItem(PHB_ITEM pItem, VARIANT *pVariant);
 
 //------------------------------------------------------------------------------
-static void HB_EXPORT hb_itemPushList(ULONG ulRefMask, ULONG ulPCount, PHB_ITEM **pItems)
+static void HB_EXPORT hb_itemPushList(uint32_t ulRefMask, uint32_t ulPCount, PHB_ITEM **pItems)
 {
   PHB_ITEM itmRef;
-  ULONG ulParam;
+  uint32_t ulParam;
 
   if (ulPCount) {
     itmRef = hb_itemNew(HWG_NULLPTR);
@@ -149,13 +149,13 @@ DECLARE_INTERFACE_(INTERFACE, IDispatch)
 {
   // IUnknown functions
   STDMETHOD(QueryInterface)(THIS_ REFIID, void **) PURE;
-  STDMETHOD_(ULONG, AddRef)(THIS) PURE;
-  STDMETHOD_(ULONG, Release)(THIS) PURE;
+  STDMETHOD_(uint32_t, AddRef)(THIS) PURE;
+  STDMETHOD_(uint32_t, Release)(THIS) PURE;
   // IDispatch functions
-  STDMETHOD_(ULONG, GetTypeInfoCount)(THIS_ UINT *) PURE;
-  STDMETHOD_(ULONG, GetTypeInfo)(THIS_ UINT, LCID, ITypeInfo **) PURE;
-  STDMETHOD_(ULONG, GetIDsOfNames)(THIS_ REFIID, LPOLESTR *, UINT, LCID, DISPID *) PURE;
-  STDMETHOD_(ULONG, Invoke)(THIS_ DISPID, REFIID, LCID, WORD, DISPPARAMS *, VARIANT *, EXCEPINFO *, UINT *) PURE;
+  STDMETHOD_(uint32_t, GetTypeInfoCount)(THIS_ UINT *) PURE;
+  STDMETHOD_(uint32_t, GetTypeInfo)(THIS_ UINT, LCID, ITypeInfo **) PURE;
+  STDMETHOD_(uint32_t, GetIDsOfNames)(THIS_ REFIID, LPOLESTR *, UINT, LCID, DISPID *) PURE;
+  STDMETHOD_(uint32_t, Invoke)(THIS_ DISPID, REFIID, LCID, WORD, DISPPARAMS *, VARIANT *, EXCEPINFO *, UINT *) PURE;
 };
 
 // In other words, it defines our IEventHandler to have nothing
@@ -236,7 +236,7 @@ static HRESULT STDMETHODCALLTYPE QueryInterface(IEventHandler *this, REFIID vTab
 
 //------------------------------------------------------------------------------
 // IEventHandler's AddRef()
-static ULONG STDMETHODCALLTYPE AddRef(IEventHandler *this)
+static uint32_t STDMETHODCALLTYPE AddRef(IEventHandler *this)
 {
   // Increment IEventHandler's reference count, and return the updated value.
   // NOTE: We have to typecast to gain access to any data members. These
@@ -248,7 +248,7 @@ static ULONG STDMETHODCALLTYPE AddRef(IEventHandler *this)
 
 //------------------------------------------------------------------------------
 // IEventHandler's Release()
-static ULONG STDMETHODCALLTYPE Release(IEventHandler *this)
+static uint32_t STDMETHODCALLTYPE Release(IEventHandler *this)
 {
   if (--((MyRealIEventHandler *)this)->count == 0) {
     GlobalFree(this);
@@ -259,7 +259,7 @@ static ULONG STDMETHODCALLTYPE Release(IEventHandler *this)
 
 //------------------------------------------------------------------------------
 // IEventHandler's GetTypeInfoCount()
-static ULONG STDMETHODCALLTYPE GetTypeInfoCount(IEventHandler *this, UINT *pCount)
+static uint32_t STDMETHODCALLTYPE GetTypeInfoCount(IEventHandler *this, UINT *pCount)
 {
   HB_SYMBOL_UNUSED(this);
   HB_SYMBOL_UNUSED(pCount);
@@ -268,7 +268,7 @@ static ULONG STDMETHODCALLTYPE GetTypeInfoCount(IEventHandler *this, UINT *pCoun
 
 //------------------------------------------------------------------------------
 // IEventHandler's GetTypeInfo()
-static ULONG STDMETHODCALLTYPE GetTypeInfo(IEventHandler *this, UINT itinfo, LCID lcid, ITypeInfo **pTypeInfo)
+static uint32_t STDMETHODCALLTYPE GetTypeInfo(IEventHandler *this, UINT itinfo, LCID lcid, ITypeInfo **pTypeInfo)
 {
   HB_SYMBOL_UNUSED(this);
   HB_SYMBOL_UNUSED(itinfo);
@@ -279,7 +279,7 @@ static ULONG STDMETHODCALLTYPE GetTypeInfo(IEventHandler *this, UINT itinfo, LCI
 
 //------------------------------------------------------------------------------
 // IEventHandler's GetIDsOfNames()
-static ULONG STDMETHODCALLTYPE GetIDsOfNames(IEventHandler *this, REFIID riid, LPOLESTR *rgszNames, UINT cNames,
+static uint32_t STDMETHODCALLTYPE GetIDsOfNames(IEventHandler *this, REFIID riid, LPOLESTR *rgszNames, UINT cNames,
                                              LCID lcid, DISPID *rgdispid)
 {
   HB_SYMBOL_UNUSED(this);
@@ -296,15 +296,15 @@ static ULONG STDMETHODCALLTYPE GetIDsOfNames(IEventHandler *this, REFIID riid, L
 // this is where the action happens
 // this function receives events (by their ID number) and distributes the processing
 // or them or ignores them
-static ULONG STDMETHODCALLTYPE Invoke(IEventHandler *this, DISPID dispid, REFIID riid, LCID lcid, WORD wFlags,
+static uint32_t STDMETHODCALLTYPE Invoke(IEventHandler *this, DISPID dispid, REFIID riid, LCID lcid, WORD wFlags,
                                       DISPPARAMS *params, VARIANT *result, EXCEPINFO *pexcepinfo, UINT *puArgErr)
 {
   PHB_ITEM pItem;
   int32_t iArg, i;
   PHB_ITEM pItemArray[32]; // max 32 parameters?
   PHB_ITEM *pItems;
-  ULONG ulRefMask = 0;
-  ULONG ulPos;
+  uint32_t ulRefMask = 0;
+  uint32_t ulPos;
   PHB_ITEM Key;
 
   Key = hb_itemNew(HWG_NULLPTR);

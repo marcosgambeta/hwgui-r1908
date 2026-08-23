@@ -19,7 +19,7 @@
 #include "missing.h"
 
 #if defined(__BORLANDC__) && defined(__clang__) && defined(HB_OS_WIN_64)
-#define PtrToUlong(p) ((ULONG)(ULONG_PTR)(p))
+#define PtrToUlong(p) ((uint32_t)(ULONG_PTR)(p))
 #endif
 
 void writelog(char *s)
@@ -124,27 +124,27 @@ HB_FUNC(HWG_GETSTOCKOBJECT)
 
 HB_FUNC(HWG_LOWORD)
 {
-  hb_retni((int32_t)((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & 0xFFFF));
+  hb_retni((int32_t)((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & 0xFFFF));
 }
 
 HB_FUNC(HWG_HIWORD)
 {
-  hb_retni((int32_t)(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) >> 16) & 0xFFFF));
+  hb_retni((int32_t)(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) >> 16) & 0xFFFF));
 }
 
 HB_FUNC(HWG_BITOR)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) | hb_parnl(2));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) | hb_parnl(2));
 }
 
 HB_FUNC(HWG_BITAND)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & hb_parnl(2));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & hb_parnl(2));
 }
 
 HB_FUNC(HWG_BITANDINVERSE)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & (~hb_parnl(2)));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & (~hb_parnl(2)));
 }
 
 HB_FUNC(HWG_SETBIT)
@@ -158,7 +158,7 @@ HB_FUNC(HWG_SETBIT)
 
 HB_FUNC(HWG_CHECKBIT)
 {
-  hb_retl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (ULONG)hb_parnl(1)) & (1 << (hb_parni(2) - 1)));
+  hb_retl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & (1 << (hb_parni(2) - 1)));
 }
 
 HB_FUNC(HWG_SIN)

@@ -105,8 +105,8 @@ static unsigned char _IID_IHTMLWindow3[] = {0xae, 0xf4, 0x50, 0x30, 0xb5, 0x98, 
 
 // Our IOleInPlaceFrame functions that the browser may call
 HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame *, REFIID, LPVOID *);
-ULONG STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame *);
-ULONG STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame *);
+uint32_t STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame *);
+uint32_t STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame *);
 HRESULT STDMETHODCALLTYPE Frame_GetWindow(IOleInPlaceFrame *, HWND *);
 HRESULT STDMETHODCALLTYPE Frame_ContextSensitiveHelp(IOleInPlaceFrame *, BOOL);
 HRESULT STDMETHODCALLTYPE Frame_GetBorder(IOleInPlaceFrame *, LPRECT);
@@ -177,8 +177,8 @@ typedef struct
 
 // Our IOleClientSite functions that the browser may call
 HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite *, REFIID, void **);
-ULONG STDMETHODCALLTYPE Site_AddRef(IOleClientSite *);
-ULONG STDMETHODCALLTYPE Site_Release(IOleClientSite *);
+uint32_t STDMETHODCALLTYPE Site_AddRef(IOleClientSite *);
+uint32_t STDMETHODCALLTYPE Site_Release(IOleClientSite *);
 HRESULT STDMETHODCALLTYPE Site_SaveObject(IOleClientSite *);
 HRESULT STDMETHODCALLTYPE Site_GetMoniker(IOleClientSite *, DWORD, DWORD, IMoniker **);
 HRESULT STDMETHODCALLTYPE Site_GetContainer(IOleClientSite *, LPOLECONTAINER *);
@@ -198,8 +198,8 @@ static IOleClientSiteVtbl MyIOleClientSiteTable = {Site_QueryInterface, Site_Add
 
 // Our IDocHostUIHandler functions that the browser may call
 HRESULT STDMETHODCALLTYPE UI_QueryInterface(IDocHostUIHandler *, REFIID, void **);
-ULONG STDMETHODCALLTYPE UI_AddRef(IDocHostUIHandler *);
-ULONG STDMETHODCALLTYPE UI_Release(IDocHostUIHandler *);
+uint32_t STDMETHODCALLTYPE UI_AddRef(IDocHostUIHandler *);
+uint32_t STDMETHODCALLTYPE UI_Release(IDocHostUIHandler *);
 HRESULT STDMETHODCALLTYPE UI_ShowContextMenu(IDocHostUIHandler *, DWORD, POINT *, IUnknown *, IDispatch *);
 HRESULT STDMETHODCALLTYPE UI_GetHostInfo(IDocHostUIHandler *, DOCHOSTUIINFO *);
 HRESULT STDMETHODCALLTYPE UI_ShowUI(IDocHostUIHandler *, DWORD, IOleInPlaceActiveObject *, IOleCommandTarget *,
@@ -247,8 +247,8 @@ static IDocHostUIHandlerVtbl MyIDocHostUIHandlerTable = {UI_QueryInterface,
 
 // Our IOleInPlaceSite functions that the browser may call
 HRESULT STDMETHODCALLTYPE InPlace_QueryInterface(IOleInPlaceSite *, REFIID, void **);
-ULONG STDMETHODCALLTYPE InPlace_AddRef(IOleInPlaceSite *);
-ULONG STDMETHODCALLTYPE InPlace_Release(IOleInPlaceSite *);
+uint32_t STDMETHODCALLTYPE InPlace_AddRef(IOleInPlaceSite *);
+uint32_t STDMETHODCALLTYPE InPlace_Release(IOleInPlaceSite *);
 HRESULT STDMETHODCALLTYPE InPlace_GetWindow(IOleInPlaceSite *, HWND *);
 HRESULT STDMETHODCALLTYPE InPlace_ContextSensitiveHelp(IOleInPlaceSite *, BOOL);
 HRESULT STDMETHODCALLTYPE InPlace_CanInPlaceActivate(IOleInPlaceSite *);
@@ -356,8 +356,8 @@ unsigned char COM_init;
 
 // Our IDispatch functions that the browser may call
 HRESULT STDMETHODCALLTYPE Dispatch_QueryInterface(IDispatch *, REFIID riid, void **);
-ULONG STDMETHODCALLTYPE Dispatch_AddRef(IDispatch *);
-ULONG STDMETHODCALLTYPE Dispatch_Release(IDispatch *);
+uint32_t STDMETHODCALLTYPE Dispatch_AddRef(IDispatch *);
+uint32_t STDMETHODCALLTYPE Dispatch_Release(IDispatch *);
 HRESULT STDMETHODCALLTYPE Dispatch_GetTypeInfoCount(IDispatch *, unsigned int *);
 HRESULT STDMETHODCALLTYPE Dispatch_GetTypeInfo(IDispatch *, unsigned int, LCID, ITypeInfo **);
 HRESULT STDMETHODCALLTYPE Dispatch_GetIDsOfNames(IDispatch *, REFIID, OLECHAR **, unsigned int, LCID, DISPID *);
@@ -451,13 +451,13 @@ HRESULT STDMETHODCALLTYPE UI_QueryInterface(IDocHostUIHandler *This, REFIID riid
                               riid, ppvObj));
 }
 
-ULONG STDMETHODCALLTYPE UI_AddRef(IDocHostUIHandler *This)
+uint32_t STDMETHODCALLTYPE UI_AddRef(IDocHostUIHandler *This)
 {
   (void)This;
   return 1;
 }
 
-ULONG STDMETHODCALLTYPE UI_Release(IDocHostUIHandler *This)
+uint32_t STDMETHODCALLTYPE UI_Release(IDocHostUIHandler *This)
 {
   (void)This;
   return 1;
@@ -900,13 +900,13 @@ HRESULT STDMETHODCALLTYPE Site_QueryInterface(IOleClientSite *This, REFIID riid,
   return S_OK;
 }
 
-ULONG STDMETHODCALLTYPE Site_AddRef(IOleClientSite *This)
+uint32_t STDMETHODCALLTYPE Site_AddRef(IOleClientSite *This)
 {
   (void)This;
   return 1;
 }
 
-ULONG STDMETHODCALLTYPE Site_Release(IOleClientSite *This)
+uint32_t STDMETHODCALLTYPE Site_Release(IOleClientSite *This)
 {
   (void)This;
   return 1;
@@ -977,13 +977,13 @@ HRESULT STDMETHODCALLTYPE InPlace_QueryInterface(IOleInPlaceSite *This, REFIID r
   return (Site_QueryInterface((IOleClientSite *)((char *)This - sizeof(IOleClientSite)), riid, ppvObj));
 }
 
-ULONG STDMETHODCALLTYPE InPlace_AddRef(IOleInPlaceSite *This)
+uint32_t STDMETHODCALLTYPE InPlace_AddRef(IOleInPlaceSite *This)
 {
   (void)This;
   return 1;
 }
 
-ULONG STDMETHODCALLTYPE InPlace_Release(IOleInPlaceSite *This)
+uint32_t STDMETHODCALLTYPE InPlace_Release(IOleInPlaceSite *This)
 {
   (void)This;
   return 1;
@@ -1136,13 +1136,13 @@ HRESULT STDMETHODCALLTYPE Frame_QueryInterface(IOleInPlaceFrame *This, REFIID ri
   NOTIMPLEMENTED;
 }
 
-ULONG STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame *This)
+uint32_t STDMETHODCALLTYPE Frame_AddRef(IOleInPlaceFrame *This)
 {
   (void)This;
   return 1;
 }
 
-ULONG STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame *This)
+uint32_t STDMETHODCALLTYPE Frame_Release(IOleInPlaceFrame *This)
 {
   (void)This;
   return 1;
@@ -1270,12 +1270,12 @@ HRESULT STDMETHODCALLTYPE Dispatch_QueryInterface(IDispatch *This, REFIID riid, 
   return E_NOINTERFACE;
 }
 
-ULONG STDMETHODCALLTYPE Dispatch_AddRef(IDispatch *This)
+uint32_t STDMETHODCALLTYPE Dispatch_AddRef(IDispatch *This)
 {
   return (InterlockedIncrement(&((_IDispatchEx *)This)->refCount));
 }
 
-ULONG STDMETHODCALLTYPE Dispatch_Release(IDispatch *This)
+uint32_t STDMETHODCALLTYPE Dispatch_Release(IDispatch *This)
 {
   if (InterlockedDecrement(&((_IDispatchEx *)This)->refCount) == 0) {
     /* If you uncomment the following line you should get one message
