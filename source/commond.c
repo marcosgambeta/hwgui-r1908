@@ -312,9 +312,9 @@ HB_FUNC(HWG_CHOOSECOLOR)
   }
 }
 
-static unsigned long Get_SerialNumber(LPCTSTR RootPathName)
+static uint32_t Get_SerialNumber(LPCTSTR RootPathName)
 {
-  unsigned long SerialNumber;
+  uint32_t SerialNumber;
 
   GetVolumeInformation(RootPathName, HWG_NULLPTR, 0, &SerialNumber, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR, 0);
   return SerialNumber;

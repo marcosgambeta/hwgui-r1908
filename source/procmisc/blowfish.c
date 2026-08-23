@@ -18,18 +18,18 @@
 typedef struct
 {
 
-  unsigned long P[16 + 2];
+  uint32_t P[16 + 2];
 
-  unsigned long S[4][256];
+  uint32_t S[4][256];
 
 } BLOWFISH_CTX;
 
-static const unsigned long ORIG_P[16 + 2] = {0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L, 0xA4093822L,
+static const uint32_t ORIG_P[16 + 2] = {0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L, 0xA4093822L,
                                              0x299F31D0L, 0x082EFA98L, 0xEC4E6C89L, 0x452821E6L, 0x38D01377L,
                                              0xBE5466CFL, 0x34E90C6CL, 0xC0AC29B7L, 0xC97C50DDL, 0x3F84D5B5L,
                                              0xB5470917L, 0x9216D5D9L, 0x8979FB1BL};
 
-static const unsigned long ORIG_S[4][256] = {
+static const uint32_t ORIG_S[4][256] = {
     {0xD1310BA6L, 0x98DFB5ACL, 0x2FFD72DBL, 0xD01ADFB7L, 0xB8E1AFEDL, 0x6A267E96L, 0xBA7C9045L, 0xF12C7F99L,
      0x24A19947L, 0xB3916CF7L, 0x0801F2E2L, 0x858EFC16L, 0x636920D8L, 0x71574E69L, 0xA458FEA3L, 0xF4933D7EL,
      0x0D95748FL, 0x728EB658L, 0x718BCD58L, 0x82154AEEL, 0x7B54A41DL, 0xC25A59B5L, 0x9C30D539L, 0x2AF26013L,
@@ -165,10 +165,10 @@ static const unsigned long ORIG_S[4][256] = {
 
 };
 
-unsigned long F(BLOWFISH_CTX *ctx, unsigned long x)
+uint32_t F(BLOWFISH_CTX *ctx, uint32_t x)
 {
   uint16_t a, b, c, d;
-  unsigned long y;
+  uint32_t y;
 
   d = (uint16_t)(x & 0x00FF);
   x >>= 8;
@@ -184,11 +184,11 @@ unsigned long F(BLOWFISH_CTX *ctx, unsigned long x)
   return y;
 }
 
-void Blowfish_Encrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
+void Blowfish_Encrypt(BLOWFISH_CTX *ctx, uint32_t *xl, uint32_t *xr)
 {
-  unsigned long Xl;
-  unsigned long Xr;
-  unsigned long temp;
+  uint32_t Xl;
+  uint32_t Xr;
+  uint32_t temp;
   int16_t i;
 
   Xl = *xl;
@@ -213,11 +213,11 @@ void Blowfish_Encrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
   *xr = Xr;
 }
 
-void Blowfish_Decrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
+void Blowfish_Decrypt(BLOWFISH_CTX *ctx, uint32_t *xl, uint32_t *xr)
 {
-  unsigned long Xl;
-  unsigned long Xr;
-  unsigned long temp;
+  uint32_t Xl;
+  uint32_t Xr;
+  uint32_t temp;
   int16_t i;
 
   Xl = *xl;
@@ -248,7 +248,7 @@ void Blowfish_Decrypt(BLOWFISH_CTX *ctx, unsigned long *xl, unsigned long *xr)
 void Blowfish_Init(BLOWFISH_CTX *ctx, unsigned char *key, int32_t keyLen)
 {
   int32_t i, j, k;
-  unsigned long data, datal, datar;
+  uint32_t data, datal, datar;
 
   for (i = 0; i < 4; i++) {
     for (j = 0; j < 256; j++) {
@@ -318,9 +318,9 @@ HB_FUNC(HWG_BF_ENCRYPT)
   Blowfish_Init(&ctx, key, iKeylen);
 
   if (HB_ISNIL(3)) {
-    ulLen = (unsigned long)hb_parclen(1);
+    ulLen = (uint32_t)hb_parclen(1);
   } else {
-    ulLen = (unsigned long)hb_parnl(3);
+    ulLen = (uint32_t)hb_parnl(3);
   }
 
   ulPairs = (ulLen + 2) / 8 + (((ulLen + 2) % 8) ? 1 : 0);
@@ -334,7 +334,7 @@ HB_FUNC(HWG_BF_ENCRYPT)
   }
 
   for (ul = 0; ul < ulPairs; ul++) {
-    Blowfish_Encrypt(&ctx, (unsigned long *)(ptro + ul * 8), (unsigned long *)(ptro + ul * 8 + 4));
+    Blowfish_Encrypt(&ctx, (uint32_t *)(ptro + ul * 8), (uint32_t *)(ptro + ul * 8 + 4));
   }
 
   hb_retclen((char *)ptro, ulPairs * 8);
@@ -370,9 +370,9 @@ HB_FUNC(HWG_BF_DECRYPT)
   Blowfish_Init(&ctx, key, iKeylen);
 
   if (HB_ISNIL(3)) {
-    ulLen = (unsigned long)hb_parclen(1);
+    ulLen = (uint32_t)hb_parclen(1);
   } else {
-    ulLen = (unsigned long)hb_parnl(3);
+    ulLen = (uint32_t)hb_parnl(3);
   }
 
   ulPairs = ulLen / 8;
@@ -380,7 +380,7 @@ HB_FUNC(HWG_BF_DECRYPT)
   memcpy(ptro, ptri, ulLen);
 
   for (ul = 0; ul < ulPairs; ul++) {
-    Blowfish_Decrypt(&ctx, (unsigned long *)(ptro + ul * 8), (unsigned long *)(ptro + ul * 8 + 4));
+    Blowfish_Decrypt(&ctx, (uint32_t *)(ptro + ul * 8), (uint32_t *)(ptro + ul * 8 + 4));
   }
 
   iDiff = (int32_t)(*ptro);
