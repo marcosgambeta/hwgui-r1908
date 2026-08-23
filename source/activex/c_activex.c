@@ -570,7 +570,7 @@ HB_FUNC(HWG_SETUPCONNECTIONPOINT)
 #endif
 
     pThis->pEvents = hb_itemNew(hb_param(3, HB_IT_ANY));
-    hb_stornl((LONG)pThis, 2);
+    hb_stornl((int32_t)pThis, 2);
   }
 
   hb_retnl(hr);

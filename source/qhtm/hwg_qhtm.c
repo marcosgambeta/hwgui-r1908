@@ -255,7 +255,7 @@ HB_FUNC(QHTM_PRINTCREATECONTEXT)
 {
   if (s_qhtmInit(HWG_NULLPTR)) {
     QHTM_PRINTCREATECONTEXT pFunc = (QHTM_PRINTCREATECONTEXT)GetProcAddress(s_hQhtmDll, "QHTM_PrintCreateContext");
-    hb_retnl((LONG)pFunc((hb_pcount() == 0) ? 1 : (UINT)hb_parni(1)));
+    hb_retnl((int32_t)pFunc((hb_pcount() == 0) ? 1 : (UINT)hb_parni(1)));
   } else {
     hb_retnl(0);
   }

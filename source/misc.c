@@ -609,7 +609,7 @@ HB_FUNC(HWG_DELETEFILE)
 HB_FUNC(HWG_GETFILEATTRIBUTES)
 {
   void *hStr;
-  hb_retnl((LONG)GetFileAttributes(HB_PARSTR(1, &hStr, HWG_NULLPTR)));
+  hb_retnl((int32_t)GetFileAttributes(HB_PARSTR(1, &hStr, HWG_NULLPTR)));
   hb_strfree(hStr);
 }
 
@@ -732,7 +732,7 @@ HB_FUNC(HWG_GETNEXTDLGGROUPITEM)
 
 HB_FUNC(HWG_PTRTOULONG)
 {
-  hb_retnl(HB_ISPOINTER(1) ? (LONG)PtrToUlong(hb_parptr(1)) : hb_parnl(1));
+  hb_retnl(HB_ISPOINTER(1) ? (int32_t)PtrToUlong(hb_parptr(1)) : hb_parnl(1));
 }
 
 HB_FUNC(HWG_OUTPUTDEBUGSTRING)

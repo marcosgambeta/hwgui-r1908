@@ -437,7 +437,7 @@ HB_FUNC(HWG_PROCESSCUSTU)
   LPARAM lParam = (LPARAM)HB_PARHANDLE(2);
   PHB_ITEM pColor = hb_param(3, HB_IT_ARRAY);
 
-  hb_retnl((LONG)ProcessCustomDraw(lParam, pColor));
+  hb_retnl((int32_t)ProcessCustomDraw(lParam, pColor));
 }
 
 HB_FUNC(HWG_LISTVIEWGETITEM)

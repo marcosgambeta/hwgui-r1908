@@ -225,7 +225,7 @@ HB_FUNC(HWG_STARTDOC)
   di.lpszDatatype = HWG_NULLPTR;
   di.fwType = 0;
 
-  hb_retnl((LONG)StartDoc(hwg_par_HDC(1), &di));
+  hb_retnl((int32_t)StartDoc(hwg_par_HDC(1), &di));
   hb_strfree(hText);
 }
 
@@ -241,12 +241,12 @@ HB_FUNC(HWG_ABORTDOC)
 
 HB_FUNC(HWG_STARTPAGE)
 {
-  hb_retnl((LONG)StartPage(hwg_par_HDC(1)));
+  hb_retnl((int32_t)StartPage(hwg_par_HDC(1)));
 }
 
 HB_FUNC(HWG_ENDPAGE)
 {
-  hb_retnl((LONG)EndPage(hwg_par_HDC(1)));
+  hb_retnl((int32_t)EndPage(hwg_par_HDC(1)));
 }
 
 // HORZRES      Width, in pixels, of the screen.
@@ -392,7 +392,7 @@ HB_FUNC(HWG_CLOSEENHMETAFILE)
 
 HB_FUNC(HWG_DELETEENHMETAFILE)
 {
-  HB_RETHANDLE((LONG)DeleteEnhMetaFile((HENHMETAFILE)HB_PARHANDLE(1))); // TODO: revisar (o retorno é BOOL)
+  HB_RETHANDLE((int32_t)DeleteEnhMetaFile((HENHMETAFILE)HB_PARHANDLE(1))); // TODO: revisar (o retorno é BOOL)
 }
 
 HB_FUNC(HWG_PLAYENHMETAFILE)
@@ -408,7 +408,7 @@ HB_FUNC(HWG_PLAYENHMETAFILE)
   } else {
     GetClientRect(WindowFromDC(hDC), &rc);
   }
-  hb_retnl((LONG)PlayEnhMetaFile(hDC, (HENHMETAFILE)HB_PARHANDLE(2), &rc));
+  hb_retnl((int32_t)PlayEnhMetaFile(hDC, (HENHMETAFILE)HB_PARHANDLE(2), &rc));
 }
 
 HB_FUNC(HWG_PRINTENHMETAFILE)
@@ -427,7 +427,7 @@ HB_FUNC(HWG_PRINTENHMETAFILE)
 
   // StartDoc(hDC, &di);
   StartPage(hDC);
-  hb_retnl((LONG)PlayEnhMetaFile(hDC, (HENHMETAFILE)HB_PARHANDLE(2), &rc));
+  hb_retnl((int32_t)PlayEnhMetaFile(hDC, (HENHMETAFILE)HB_PARHANDLE(2), &rc));
   EndPage(hDC);
   // EndDoc(hDC);
 }
@@ -540,29 +540,29 @@ HB_FUNC(HWG_SETDOCUMENTPROPERTIES)
                   HB_STORSTR((LPCTSTR)pDevMode->dmFormName, 3);
                 }
               } else {
-                hb_stornl((LONG)pDevMode->dmPaperSize, 3);
+                hb_stornl((int32_t)pDevMode->dmPaperSize, 3);
               }
             }
             if (HB_ISBYREF(4)) {
               hb_storl(pDevMode->dmOrientation == 2, 4);
             }
             if (HB_ISBYREF(5)) {
-              hb_stornl((LONG)pDevMode->dmCopies, 5);
+              hb_stornl((int32_t)pDevMode->dmCopies, 5);
             }
             if (HB_ISBYREF(6)) {
-              hb_stornl((LONG)pDevMode->dmDefaultSource, 6);
+              hb_stornl((int32_t)pDevMode->dmDefaultSource, 6);
             }
             if (HB_ISBYREF(7)) {
-              hb_stornl((LONG)pDevMode->dmDuplex, 7);
+              hb_stornl((int32_t)pDevMode->dmDuplex, 7);
             }
             if (HB_ISBYREF(8)) {
-              hb_stornl((LONG)pDevMode->dmPrintQuality, 8);
+              hb_stornl((int32_t)pDevMode->dmPrintQuality, 8);
             }
             if (HB_ISBYREF(9)) {
-              hb_stornl((LONG)pDevMode->dmPaperLength, 9);
+              hb_stornl((int32_t)pDevMode->dmPaperLength, 9);
             }
             if (HB_ISBYREF(10)) {
-              hb_stornl((LONG)pDevMode->dmPaperWidth, 10);
+              hb_stornl((int32_t)pDevMode->dmPaperWidth, 10);
             }
 
             Result = (BOOL)(INT_PTR)ResetDC(hDC, pDevMode);

@@ -105,7 +105,7 @@ HB_FUNC(HWG_INITMAINWINDOW)
 
     if (RegisterClass(&wndclass)) {
       hWnd = CreateWindowEx(ExStyle, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW | nStyle, hwg_par_int(8), hwg_par_int(9),
-                            (!width) ? (LONG)CW_USEDEFAULT : width, (!height) ? (LONG)CW_USEDEFAULT : height,
+                            (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height,
                             HWG_NULLPTR, HWG_NULLPTR, (HINSTANCE)hInstance, HWG_NULLPTR);
 
       temp = hb_itemPutNL(HWG_NULLPTR, 1);
@@ -269,7 +269,7 @@ HB_FUNC(HWG_INITCHILDWINDOW)
   if (fRegistered) {
     hWnd =
         CreateWindowEx(WS_EX_MDICHILD, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW | nStyle, hwg_par_int(8), hwg_par_int(9),
-                       (!width) ? (LONG)CW_USEDEFAULT : width, (!height) ? (LONG)CW_USEDEFAULT : height, hParent,
+                       (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height, hParent,
                        HWG_NULLPTR, (HINSTANCE)hInstance, HWG_NULLPTR);
 
     temp = hb_itemPutNL(HWG_NULLPTR, 1);
@@ -343,7 +343,7 @@ HB_FUNC(HWG_INITMDIWINDOW)
       } else {
         // Create frame window
         hWnd = CreateWindowEx(0, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW, hwg_par_int(8), hwg_par_int(9),
-                              (!width) ? (LONG)CW_USEDEFAULT : width, (!height) ? (LONG)CW_USEDEFAULT : height,
+                              (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height,
                               HWG_NULLPTR, HWG_NULLPTR, (HINSTANCE)hInstance, HWG_NULLPTR);
         if (!hWnd) {
           hb_retni(-4);
@@ -454,7 +454,7 @@ HB_FUNC(HWG_SENDMESSAGE)
   void *hText;
   LPCTSTR lpText = HB_PARSTR(4, &hText, HWG_NULLPTR);
 
-  hb_retnl((LONG)SendMessage(hwg_par_HWND(1),   // handle of destination window
+  hb_retnl((int32_t)SendMessage(hwg_par_HWND(1),   // handle of destination window
                              hwg_par_UINT(2),   // message to send
                              hwg_par_WPARAM(3), // first message parameter
                              lpText            ? (LPARAM)lpText
@@ -467,7 +467,7 @@ HB_FUNC(HWG_SENDMESSAGE)
 HB_FUNC(HWG_POSTMESSAGE)
 {
 
-  hb_retnl((LONG)PostMessage(hwg_par_HWND(1), // handle of destination window
+  hb_retnl((int32_t)PostMessage(hwg_par_HWND(1), // handle of destination window
                              hwg_par_UINT(2), // message to send
                              HB_ISPOINTER(3) ? (WPARAM)HB_PARHANDLE(3) : hwg_par_WPARAM(3), // first message parameter
                              hwg_par_LPARAM(4)                                              // second message parameter
@@ -1047,7 +1047,7 @@ HB_FUNC(HWG_MAKEWPARAM)
   WPARAM p;
 
   p = MAKEWPARAM((WORD)hb_parnl(1), (WORD)hb_parnl(2));
-  hb_retnl((LONG)p);
+  hb_retnl((int32_t)p);
 }
 
 HB_FUNC(HWG_MAKELPARAM)
@@ -1208,7 +1208,7 @@ LRESULT CALLBACK KbdHook(int32_t code, WPARAM wp, LPARAM lp)
       if (pSym_onEven_Tool && pObject) {
         hb_vmPushSymbol(hb_dynsymSymbol(pSym_onEven_Tool));
         hb_vmPush(pObject);
-        hb_vmPushLong((LONG)uId);
+        hb_vmPushLong((int32_t)uId);
 
         hb_vmSend(1);
         Res = hb_parnl(-1);

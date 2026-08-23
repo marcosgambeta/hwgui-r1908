@@ -306,7 +306,7 @@ HB_FUNC(HWG_CHOOSECOLOR)
   cc.Flags = nStyle;
 
   if (ChooseColor(&cc)) {
-    hb_retnl((LONG)cc.rgbResult);
+    hb_retnl((int32_t)cc.rgbResult);
   } else {
     hb_ret();
   }

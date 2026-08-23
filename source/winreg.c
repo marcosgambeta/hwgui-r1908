@@ -181,7 +181,7 @@ HB_FUNC(HWG_REGCREATEKEYEX)
 
   if (nErr == ERROR_SUCCESS) {
     hb_stornint((LONG_PTR)hkResult, 8);
-    hb_stornl((LONG)dwDisposition, 9);
+    hb_stornl((int32_t)dwDisposition, 9);
   }
   hb_retnl(nErr);
   hb_strfree(hValue);

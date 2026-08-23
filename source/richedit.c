@@ -291,7 +291,7 @@ HB_FUNC(HWG_RE_FINDTEXT)
   ft.chrg.cpMax = -1;
   ft.lpstrText = (LPTSTR)HB_PARSTR(2, &hString, HWG_NULLPTR);
 
-  lPos = (LONG)SendMessage(hCtrl, EM_FINDTEXTEX, (WPARAM)lFlag, (LPARAM)&ft);
+  lPos = (int32_t)SendMessage(hCtrl, EM_FINDTEXTEX, (WPARAM)lFlag, (LPARAM)&ft);
   hb_strfree(hString);
   hb_retnl(lPos);
 }

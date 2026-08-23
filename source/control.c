@@ -276,7 +276,7 @@ HB_FUNC(HWG_INITSTATUS)
 
 HB_FUNC(HWG_GETNOTIFYSBPARTS)
 {
-  hb_retnl((LONG)(((NMMOUSE *)HB_PARHANDLE(1))->dwItemSpec));
+  hb_retnl((int32_t)(((NMMOUSE *)HB_PARHANDLE(1))->dwItemSpec));
 }
 
 HB_FUNC(HWG_ADDTOOLTIP) // changed by MAG
@@ -380,9 +380,9 @@ HB_FUNC(HWG_GETNOTIFYDELTAPOS)
 {
   int32_t iItem = hb_parnl(2);
   if (iItem < 2) {
-    hb_retni((LONG)(((NMUPDOWN *)HB_PARHANDLE(1))->iPos));
+    hb_retni((int32_t)(((NMUPDOWN *)HB_PARHANDLE(1))->iPos));
   } else {
-    hb_retni((LONG)(((NMUPDOWN *)HB_PARHANDLE(1))->iDelta));
+    hb_retni((int32_t)(((NMUPDOWN *)HB_PARHANDLE(1))->iDelta));
   }
 }
 
@@ -427,8 +427,8 @@ HB_FUNC(HWG_SETDATEPICKER)
       if (szTime) {
         ulLen = (ULONG)strlen(szTime);
         if (ulLen >= 4) {
-          lSeconds = (LONG)hb_strVal(szTime, 2) * 3600 * 1000 + (LONG)hb_strVal(szTime + 2, 2) * 60 * 1000 +
-                     (LONG)(hb_strVal(szTime + 4, ulLen - 4) * 1000);
+          lSeconds = (int32_t)hb_strVal(szTime, 2) * 3600 * 1000 + (int32_t)hb_strVal(szTime + 2, 2) * 60 * 1000 +
+                     (int32_t)(hb_strVal(szTime + 4, ulLen - 4) * 1000);
         }
       }
 #ifdef __XHARBOUR__
@@ -767,7 +767,7 @@ HB_FUNC(HWG_TREE_GETNOTIFY)
   }
 
   if (iType == TREE_GETNOTIFY_ACTION) {
-    hb_retnl((LONG)(((NM_TREEVIEW *)HB_PARHANDLE(1))->action));
+    hb_retnl((int32_t)(((NM_TREEVIEW *)HB_PARHANDLE(1))->action));
   } else if (iType == TREE_GETNOTIFY_PARAM || iType == TREE_GETNOTIFY_EDITPARAM || iType == TREE_GETNOTIFY_OLDPARAM) {
     PHB_ITEM oNode; // = hb_itemNew(HWG_NULLPTR);
     if (iType == TREE_GETNOTIFY_EDITPARAM) {
@@ -1020,10 +1020,10 @@ static void CALLBACK s_timerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dw
   if (hb_dynsymIsFunction(s_pSymTest)) {
     hb_vmPushDynSym(s_pSymTest);
     hb_vmPushNil(); // places NIL at self
-    // hb_vmPushLong((LONG)hWnd); // pushes parameters on to the hvm stack
+    // hb_vmPushLong((int32_t)hWnd); // pushes parameters on to the hvm stack
     HB_PUSHITEM(hWnd);
-    hb_vmPushLong((LONG)idTimer);
-    hb_vmPushLong((LONG)dwTime);
+    hb_vmPushLong((int32_t)idTimer);
+    hb_vmPushLong((int32_t)dwTime);
     hb_vmDo(3); // where iArgCount is the number of pushed parameters
   }
 }
@@ -1131,7 +1131,7 @@ LRESULT APIENTRY StaticSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 HB_FUNC(HWG_INITBUTTONPROC)
 {
-  //   s_wpOrigButtonProc = (WNDPROC)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (LONG)ButtonSubclassProc);
+  //   s_wpOrigButtonProc = (WNDPROC)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (int32_t)ButtonSubclassProc);
   s_wpOrigButtonProc = (LONG_PTR)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (LONG_PTR)ButtonSubclassProc);
 }
 
@@ -1554,7 +1554,7 @@ HB_FUNC(HWG_TOOLBAR_SUBMENUEXGETID)
 {
 
   LPNMTOOLBAR lpnmTB = (LPNMTOOLBAR)HB_PARHANDLE(1);
-  hb_retnl((LONG)lpnmTB->iItem);
+  hb_retnl((int32_t)lpnmTB->iItem);
 }
 
 HB_FUNC(HWG_CREATEPAGER)
@@ -1774,7 +1774,7 @@ HB_FUNC(HWG_HANDLETOPTR)
   hb_retptr((void *)(ULONG_PTR)(h));
   return;
 #endif
-  hb_retnl((LONG)h);
+  hb_retnl((int32_t)h);
 }
 
 HB_FUNC(HWG_TABITEMPOS)

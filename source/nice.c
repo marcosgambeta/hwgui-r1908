@@ -235,7 +235,7 @@ HB_FUNC(HWG_GRADIENT)
 
 HB_FUNC(HWG_MAKELONG)
 {
-  hb_retnl((LONG)MAKELONG((WORD)hb_parnl(1), (WORD)hb_parnl(2)));
+  hb_retnl((int32_t)MAKELONG((WORD)hb_parnl(1), (WORD)hb_parnl(2)));
 }
 
 HB_FUNC(HWG_GETWINDOWLONG)

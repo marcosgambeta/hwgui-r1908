@@ -411,7 +411,7 @@ void SetEmbedded(HWND handle, IOleObject **obj)
 
   pObject = (PHB_ITEM)GetWindowLongPtr(handle, GWL_USERDATA);
   pEmbed = hb_itemNew(GetObjectVar(pObject, "OEMBEDDED"));
-  temp = hb_itemPutNL(HWG_NULLPTR, (LONG)obj);
+  temp = hb_itemPutNL(HWG_NULLPTR, (int32_t)obj);
   SetObjectVar(pEmbed, "_HANDLE", temp);
   hb_itemRelease(temp);
 }
@@ -2450,7 +2450,7 @@ long WINAPI EmbedBrowserObject(HWND hwnd)
     // and easily associate the appropriate browser object with its matching
     // window and its own objects containing per-window data.
     if ((*((IOleObject **)ptr) = browserObject) != HWG_NULLPTR) {
-      // SetWindowLong(hwnd, GWL_USERDATA, (LONG)ptr);
+      // SetWindowLong(hwnd, GWL_USERDATA, (int32_t)ptr);
       SetEmbedded(hwnd, (IOleObject **)ptr);
 
       // Give the browser a pointer to my IOleClientSite object.

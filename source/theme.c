@@ -67,7 +67,7 @@
 #define ST_ALIGN_HORIZ_RIGHT 2 // Icon/bitmap on the right, text on the left
 #define ST_ALIGN_OVERLAP 3     // Icon/bitmap on the same space as text
 #define STATE_GWL_OFFSET 0
-#define HFONT_GWL_OFFSET (sizeof(LONG))
+#define HFONT_GWL_OFFSET (sizeof(int32_t))
 #define HIMAGE_GWL_OFFSET (HFONT_GWL_OFFSET + sizeof(HFONT))
 #define NB_EXTRA_BYTES (HIMAGE_GWL_OFFSET + sizeof(HANDLE))
 #define BUTTON_UNCHECKED 0x00
@@ -1165,7 +1165,7 @@ HB_FUNC(HWG_ONNOTIFYCUSTOMDRAW)
   // HWND hWnd = ( HWND ) hb_parnl(1) ;
   LPARAM lParam = hwg_par_LPARAM(1);
   // PHB_ITEM pColor = hb_param(3, HB_IT_ARRAY);
-  hb_retnl((LONG)OnNotifyCustomDraw(lParam));
+  hb_retnl((int32_t)OnNotifyCustomDraw(lParam));
 }
 
 /*
