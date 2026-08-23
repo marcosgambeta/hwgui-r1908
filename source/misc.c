@@ -683,7 +683,7 @@ HB_FUNC(HWG_HEDITEX_CTLCOLOR)
   // UINT h = hb_parni( 2 ) ;
   PHB_ITEM pObject = hb_param(3, HB_IT_OBJECT);
   PHB_ITEM p, p1, p2, temp;
-  LONG i;
+  int32_t i;
   HBRUSH hBrush;
   COLORREF cColor;
 

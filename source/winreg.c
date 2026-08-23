@@ -79,7 +79,7 @@ HB_FUNC(HWG_REGCLOSEKEY)
 HB_FUNC(HWG_REGOPENKEYEX)
 {
   void *hValue;
-  LONG lError;
+  int32_t lError;
   HKEY phwHandle;
 
   lError = RegOpenKeyEx(hwg_par_HKEY(1), HB_PARSTRDEF(2, &hValue, HWG_NULLPTR), 0, KEY_ALL_ACCESS, &phwHandle);
@@ -96,7 +96,7 @@ HB_FUNC(HWG_REGOPENKEYEX)
 HB_FUNC(HWG_REGQUERYVALUEEX)
 {
   HKEY hwKey = hwg_par_HKEY(1);
-  LONG lError;
+  int32_t lError;
   DWORD lpType = hwg_par_DWORD(4);
   DWORD lpcbData = 0;
   void *hValue;
@@ -152,7 +152,7 @@ HB_FUNC(HWG_REGSETVALUEEX)
 HB_FUNC(HWG_REGCREATEKEY)
 {
   HKEY hKey;
-  LONG nErr;
+  int32_t nErr;
   void *hValue;
   nErr = RegCreateKey(hwg_par_HKEY(1), HB_PARSTRDEF(2, &hValue, HWG_NULLPTR), &hKey);
   if (nErr == ERROR_SUCCESS) {
@@ -167,7 +167,7 @@ HB_FUNC(HWG_REGCREATEKEYEX)
 {
   HKEY hkResult;
   DWORD dwDisposition;
-  LONG nErr;
+  int32_t nErr;
   SECURITY_ATTRIBUTES *sa = HWG_NULLPTR;
   void *hValue, *hClass;
 

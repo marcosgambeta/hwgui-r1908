@@ -448,7 +448,7 @@ HB_FUNC(HWG_SETDOCUMENTPROPERTIES)
     if (OpenPrinter((LPTSTR)lpPrinterName, &hPrinter, HWG_NULLPTR)) {
 
       PDEVMODE pDevMode = HWG_NULLPTR;
-      LONG lSize = DocumentProperties(0, hPrinter, (LPTSTR)lpPrinterName, pDevMode, pDevMode, 0);
+      int32_t lSize = DocumentProperties(0, hPrinter, (LPTSTR)lpPrinterName, pDevMode, pDevMode, 0);
 
       if (lSize > 0) {
         pDevMode = (PDEVMODE)hb_xgrab(lSize);

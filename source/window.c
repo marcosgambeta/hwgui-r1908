@@ -1128,11 +1128,11 @@ HB_FUNC(HWG_UPDATEWINDOW)
   UpdateWindow(hWnd);
 }
 
-LONG GetFontDialogUnits(HWND h, HFONT f)
+int32_t GetFontDialogUnits(HWND h, HFONT f)
 {
   HFONT hFont;
   HFONT hFontOld;
-  LONG avgWidth;
+  int32_t avgWidth;
   HDC hDc;
   LPCTSTR tmp = TEXT("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
   SIZE sz;

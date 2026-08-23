@@ -289,7 +289,7 @@ HB_FUNC(HWG_LISTVIEW_SETVIEW)
 HB_FUNC(HWG_LISTVIEW_ADDCOLUMNEX)
 {
   HWND hwndListView = hwg_par_HWND(1);
-  LONG lCol = hb_parnl(2) - 1;
+  int32_t lCol = hb_parnl(2) - 1;
   void *hText;
   int32_t iImage = hb_parni(6);
   LVCOLUMN lvcolumn;
@@ -325,8 +325,8 @@ HB_FUNC(HWG_LISTVIEW_ADDCOLUMNEX)
 HB_FUNC(HWG_LISTVIEW_INSERTITEMEX)
 {
   HWND hwndListView = hwg_par_HWND(1);
-  LONG lLin = hb_parnl(2) - 1;
-  LONG lCol = hb_parnl(3) - 1;
+  int32_t lLin = hb_parnl(2) - 1;
+  int32_t lCol = hb_parnl(3) - 1;
   int32_t iSubItemYesNo = lCol == 0 ? 0 : 1;
   void *hText;
   int32_t iBitMap = hb_parni(5);
@@ -415,7 +415,7 @@ LRESULT ProcessCustomDraw(LPARAM lParam, PHB_ITEM pArray)
   }
 
   case CDDS_SUBITEM | CDDS_ITEMPREPAINT: {
-    // LONG ptemp ;
+    // int32_t ptemp ;
     COLORREF ColorText;
     COLORREF ColorBack;
 

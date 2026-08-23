@@ -1278,10 +1278,10 @@ bIsDisabled, iStyle);
         // Center text
         RECT centerRect = captionRect;
         DrawText(dc, sTitle, -1, &captionRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
-        LONG captionRectWidth = captionRect.right - captionRect.left;
-        LONG captionRectHeight = captionRect.bottom - captionRect.top;
-        LONG centerRectWidth = centerRect.right - centerRect.left;
-        LONG centerRectHeight = centerRect.bottom - centerRect.top;
+        int32_t captionRectWidth = captionRect.right - captionRect.left;
+        int32_t captionRectHeight = captionRect.bottom - captionRect.top;
+        int32_t centerRectWidth = centerRect.right - centerRect.left;
+        int32_t centerRectHeight = centerRect.bottom - centerRect.top;
         OffsetRect(&captionRect, (centerRectWidth - captionRectWidth)/2, (centerRectHeight - captionRectHeight)/2);
 
         if(Themed)
@@ -1451,8 +1451,8 @@ static void PrepareImageRect(HWND hButtonWnd, BOOL bHasTitle, RECT *rpItem, RECT
                              DWORD dwWidth, DWORD dwHeight, RECT *rpImage, int32_t m_byAlign)
 {
   RECT rBtn;
-  // LONG rpImageHeight;
-  // LONG rpImageWidth;
+  // int32_t rpImageHeight;
+  // int32_t rpImageWidth;
 
   CopyRect(rpImage, rpItem);
 
@@ -1718,17 +1718,17 @@ HB_FUNC(HWG_BUTTONEXONSETSTYLE)
 // HWG_GETTHESTYLE(np1, np2) --> numeric
 HB_FUNC(HWG_GETTHESTYLE)
 {
-  LONG nBS = hb_parnl(1);
-  LONG nBS1 = hb_parnl(2);
+  int32_t nBS = hb_parnl(1);
+  int32_t nBS1 = hb_parnl(2);
   hb_retnl(nBS & nBS1);
 }
 
 // HWG_MODSTYLE(np1, np2, np3) --> numeric
 HB_FUNC(HWG_MODSTYLE)
 {
-  LONG nbs = hb_parnl(1);
-  LONG b = hb_parnl(2);
-  LONG c = hb_parnl(3);
+  int32_t nbs = hb_parnl(1);
+  int32_t b = hb_parnl(2);
+  int32_t c = hb_parnl(3);
   hb_retnl((nbs & ~b) | c);
 }
 

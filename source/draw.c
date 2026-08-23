@@ -20,10 +20,10 @@
 #ifdef __cplusplus
 extern "C"
 {
-  STDAPI OleLoadPicture(LPSTREAM, LONG, BOOL, REFIID, PVOID *);
+  STDAPI OleLoadPicture(LPSTREAM, int32_t, BOOL, REFIID, PVOID *);
 }
 #else
-STDAPI OleLoadPicture(LPSTREAM, LONG, BOOL, REFIID, PVOID *);
+STDAPI OleLoadPicture(LPSTREAM, int32_t, BOOL, REFIID, PVOID *);
 #endif
 #endif // __BORLANDC__
 

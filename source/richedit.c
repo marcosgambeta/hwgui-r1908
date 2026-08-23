@@ -282,8 +282,8 @@ HB_FUNC(HWG_RE_FINDTEXT)
 {
   HWND hCtrl = hwg_par_HWND(1);
   FINDTEXTEX ft;
-  LONG lPos;
-  LONG lFlag = ((HB_ISNIL(4) || !hb_parl(4)) ? 0 : FR_MATCHCASE) | ((HB_ISNIL(5) || !hb_parl(5)) ? 0 : FR_WHOLEWORD) |
+  int32_t lPos;
+  int32_t lFlag = ((HB_ISNIL(4) || !hb_parl(4)) ? 0 : FR_MATCHCASE) | ((HB_ISNIL(5) || !hb_parl(5)) ? 0 : FR_WHOLEWORD) |
                ((HB_ISNIL(6) || !hb_parl(6)) ? FR_DOWN : 0);
   void *hString;
 
@@ -392,7 +392,7 @@ LRESULT APIENTRY RichSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
   }
 }
 
-static DWORD CALLBACK RichStreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+static DWORD CALLBACK RichStreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, int32_t cb, int32_t *pcb)
 {
   HANDLE pFile = (HANDLE)(LONG_PTR)dwCookie;
   DWORD dwW;
@@ -406,7 +406,7 @@ static DWORD CALLBACK RichStreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG 
   return 0;
 }
 
-static DWORD CALLBACK EditStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuff, LONG cb, PLONG pcb)
+static DWORD CALLBACK EditStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuff, int32_t cb, PLONG pcb)
 {
   HANDLE hFile = (HANDLE)dwCookie;
   return !ReadFile(hFile, lpBuff, cb, (DWORD *)pcb, HWG_NULLPTR);

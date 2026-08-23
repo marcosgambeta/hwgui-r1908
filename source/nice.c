@@ -28,8 +28,8 @@ typedef struct _GRADIENT_RECT
 #if defined(__DMC__)
 typedef struct _TRIVERTEX
 {
-  LONG x;
-  LONG y;
+  int32_t x;
+  int32_t y;
   uint16_t Red;
   uint16_t Green;
   uint16_t Blue;
