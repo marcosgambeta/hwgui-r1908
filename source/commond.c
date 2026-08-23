@@ -314,8 +314,7 @@ HB_FUNC(HWG_CHOOSECOLOR)
 
 static uint32_t Get_SerialNumber(LPCTSTR RootPathName)
 {
-  uint32_t SerialNumber;
-
+  DWORD SerialNumber;
   GetVolumeInformation(RootPathName, HWG_NULLPTR, 0, &SerialNumber, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR, 0);
   return SerialNumber;
 }
