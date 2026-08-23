@@ -1696,7 +1696,7 @@ HB_FUNC(HWG_COMBOBOXGETITEMDATA)
   int32_t nIndex = hb_parnl(2);
   DWORD_PTR p;
   p = (DWORD_PTR)SendMessage(hWnd, CB_GETITEMDATA, nIndex, 0);
-  hb_retnl((long)p);
+  hb_retnl((int32_t)p);
 }
 
 HB_FUNC(HWG_COMBOBOXSETITEMDATA)
@@ -1704,7 +1704,7 @@ HB_FUNC(HWG_COMBOBOXSETITEMDATA)
   HWND hWnd = hwg_par_HWND(1);
   int32_t nIndex = hb_parnl(2);
   DWORD_PTR dwItemData = (DWORD_PTR)hb_parnl(3);
-  hb_retnl((long)SendMessage(hWnd, CB_SETITEMDATA, nIndex, (LPARAM)dwItemData));
+  hb_retnl((int32_t)SendMessage(hWnd, CB_SETITEMDATA, nIndex, (LPARAM)dwItemData));
 }
 
 HB_FUNC(HWG_GETLOCALEINFO)

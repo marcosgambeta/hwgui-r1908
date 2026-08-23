@@ -59,7 +59,7 @@
 #if defined(__DMC__)
 __inline long PtrToLong(const void *p)
 {
-  return (long)p;
+  return (int32_t)p;
 }
 #endif
 
@@ -132,9 +132,9 @@ HB_FUNC(HWG_REGENUMKEYEX)
 
   if (nErr == ERROR_SUCCESS) {
     HB_STORSTR(Buffer, 3);
-    hb_stornl((long)dwBuffSize, 4);
+    hb_stornl((int32_t)dwBuffSize, 4);
     HB_STORSTR(Class, 6);
-    hb_stornl((long)dwClass, 7);
+    hb_stornl((int32_t)dwClass, 7);
   }
   hb_retnl(nErr);
 }

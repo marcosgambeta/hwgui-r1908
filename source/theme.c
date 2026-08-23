@@ -1396,7 +1396,7 @@ void Calc_bitmapWidthHeight(HWND m_hWnd, DWORD *ccx, DWORD *ccy, HDC hDC, HBITMA
       if (bHasTitle == FALSE)
       {
         // Center image horizontally
-        rpImage->left += ((rpImage->Width() - (long)dwWidth)/2);
+        rpImage->left += ((rpImage->Width() - (int32_t)dwWidth)/2);
       }
       else
       {
@@ -1405,7 +1405,7 @@ void Calc_bitmapWidthHeight(HWND m_hWnd, DWORD *ccx, DWORD *ccy, HDC hDC, HBITMA
         rpTitle->left += dwWidth + m_ptImageOrg.x;
       }
       // Center image vertically
-      rpImage->top += ((rpImage->Height() - (long)dwHeight)/2);
+      rpImage->top += ((rpImage->Height() - (int32_t)dwHeight)/2);
       break;
 
     case ST_ALIGN_HORIZ_RIGHT:
@@ -1413,7 +1413,7 @@ void Calc_bitmapWidthHeight(HWND m_hWnd, DWORD *ccx, DWORD *ccy, HDC hDC, HBITMA
       if (bHasTitle == FALSE)
       {
         // Center image horizontally
-        rpImage->left += ((rpImage->Width() - (long)dwWidth)/2);
+        rpImage->left += ((rpImage->Width() - (int32_t)dwWidth)/2);
       }
       else
       {
@@ -1422,17 +1422,17 @@ void Calc_bitmapWidthHeight(HWND m_hWnd, DWORD *ccx, DWORD *ccy, HDC hDC, HBITMA
         rpTitle->left = m_ptImageOrg.x;
         rpImage->left = rBtn.right - dwWidth - m_ptImageOrg.x;
         // Center image vertically
-        rpImage->top += ((rpImage->Height() - (long)dwHeight)/2);
+        rpImage->top += ((rpImage->Height() - (int32_t)dwHeight)/2);
       }
       break;
 
     case ST_ALIGN_VERT:
       // Center image horizontally
-      rpImage->left += ((rpImage->Width() - (long)dwWidth)/2);
+      rpImage->left += ((rpImage->Width() - (int32_t)dwWidth)/2);
       if (bHasTitle == FALSE)
       {
         // Center image vertically
-        rpImage->top += ((rpImage->Height() - (long)dwHeight)/2);
+        rpImage->top += ((rpImage->Height() - (int32_t)dwHeight)/2);
       }
       else
       {
@@ -1460,37 +1460,37 @@ static void PrepareImageRect(HWND hButtonWnd, BOOL bHasTitle, RECT *rpItem, RECT
   case ST_ALIGN_HORIZ:
     if (bHasTitle == FALSE) {
       // Center image horizontally
-      rpImage->left += (((rpImage->right - rpImage->left) - (long)dwWidth) / 2);
+      rpImage->left += (((rpImage->right - rpImage->left) - (int32_t)dwWidth) / 2);
     } else {
       // Image must be placed just inside the focus rect
       rpImage->left += 3;
       rpTitle->left += dwWidth + 3;
     }
     // Center image vertically
-    rpImage->top += (((rpImage->bottom - rpImage->top) - (long)dwHeight) / 2);
+    rpImage->top += (((rpImage->bottom - rpImage->top) - (int32_t)dwHeight) / 2);
     break;
 
   case ST_ALIGN_HORIZ_RIGHT:
     GetClientRect(hButtonWnd, &rBtn);
     if (bHasTitle == FALSE) {
       // Center image horizontally
-      rpImage->left += ((rpImage->right - rpImage->left) - (long)dwWidth) / 2;
+      rpImage->left += ((rpImage->right - rpImage->left) - (int32_t)dwWidth) / 2;
     } else {
       // Image must be placed just inside the focus rect
       rpTitle->right = (rpTitle->right - rpTitle->left) - dwWidth - 3;
       rpTitle->left = 3;
       rpImage->left = rBtn.right - dwWidth - 3;
       // Center image vertically
-      rpImage->top += ((rpImage->bottom - rpImage->top) - (long)dwHeight) / 2;
+      rpImage->top += ((rpImage->bottom - rpImage->top) - (int32_t)dwHeight) / 2;
     }
     break;
 
   case ST_ALIGN_VERT:
     // Center image horizontally
-    rpImage->left += (((rpImage->right - rpImage->left) - (long)dwWidth) / 2);
+    rpImage->left += (((rpImage->right - rpImage->left) - (int32_t)dwWidth) / 2);
     if (bHasTitle == FALSE) {
       // Center image vertically
-      rpImage->top += (((rpImage->bottom - rpImage->top) - (long)dwHeight) / 2);
+      rpImage->top += (((rpImage->bottom - rpImage->top) - (int32_t)dwHeight) / 2);
     } else {
       rpImage->top = 3;
       rpTitle->top += dwHeight;

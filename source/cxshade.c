@@ -462,14 +462,14 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
   cxdib_BlendPalette(&(pshade->m_dNormal), color, coloring); // color the palette
 
   iDst = cxdib_GetBits(&(pshade->m_dh)); // build the horiz. dotted focus bitmap
-  j = (long)pshade->m_dh.m_bi.biWidth;
+  j = (int32_t)pshade->m_dh.m_bi.biWidth;
   for (i = 0; i < j; i++) {
     // iDst[i]=64+127*(i%2);  //soft
     iDst[i] = (uint8_t)(255 * (i % 2)); // hard
   }
 
   iDst = cxdib_GetBits(&(pshade->m_dv)); // build the vert. dotted focus bitmap
-  j = (long)pshade->m_dv.m_bi.biWidth;
+  j = (int32_t)pshade->m_dv.m_bi.biWidth;
   for (i = 0; i < j; i++) {
     // *iDst=64+127*(i%2);            //soft
     *iDst = (uint8_t)(255 * (i % 2)); // hard
