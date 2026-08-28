@@ -16,7 +16,7 @@ static int32_t s_msgbox(UINT uType)
   int32_t iResult;
 
   iResult =
-      MessageBox(GetActiveWindow(), HB_PARSTR(1, &hText, HWG_NULLPTR), HB_PARSTRDEF(2, &hTitle, HWG_NULLPTR), uType);
+      MessageBox(GetActiveWindow(), HB_PARSTR(1, &hText, nullptr), HB_PARSTRDEF(2, &hTitle, nullptr), uType);
   hb_strfree(hText);
   hb_strfree(hTitle);
 

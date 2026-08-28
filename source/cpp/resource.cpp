@@ -33,7 +33,7 @@ HB_FUNC(HWG_LOADSTRING)
 HB_FUNC(HWG_LOADRESOURCE)
 {
   void *hString;
-  hModule = GetModuleHandle(HB_PARSTR(1, &hString, HWG_NULLPTR));
+  hModule = GetModuleHandle(HB_PARSTR(1, &hString, nullptr));
   hb_strfree(hString);
 }
 
@@ -41,11 +41,11 @@ void hb_resourcemodules(void *cargo)
 {
   HB_SYMBOL_UNUSED(cargo);
 
-  hModule = GetModuleHandle(HWG_NULLPTR);
+  hModule = GetModuleHandle(nullptr);
 }
 
 HB_CALL_ON_STARTUP_BEGIN(_hwgui_module_init_)
-hb_vmAtInit(hb_resourcemodules, HWG_NULLPTR);
+hb_vmAtInit(hb_resourcemodules, nullptr);
 HB_CALL_ON_STARTUP_END(_hwgui_module_init_)
 
 #if defined(HB_PRAGMA_STARTUP)
@@ -69,14 +69,14 @@ HB_FUNC(HWG_FINDRESOURCE)
   int32_t iType = hb_parni(3); // RT_MANIFEST = 24
   void *hString;
 
-  hModule = GetModuleHandle(HB_PARSTR(1, &hString, HWG_NULLPTR));
+  hModule = GetModuleHandle(HB_PARSTR(1, &hString, nullptr));
   hb_strfree(hString);
 
   if (IS_INTRESOURCE(iName)) {
     hHRSRC = FindResource((HMODULE)hModule, MAKEINTRESOURCE(iName), MAKEINTRESOURCE(iType));
     HB_RETHANDLE(hHRSRC);
   } else {
-    HB_RETHANDLE(HWG_NULLPTR);
+    HB_RETHANDLE(nullptr);
   }
 }
 

@@ -17,7 +17,7 @@ HB_FUNC(HWG_SELECTFONT)
   CHOOSEFONT cf;
   LOGFONT lf;
   HFONT hfont;
-  PHB_ITEM pObj = (HB_ISNIL(1)) ? HWG_NULLPTR : hb_param(1, HB_IT_OBJECT);
+  PHB_ITEM pObj = (HB_ISNIL(1)) ? nullptr : hb_param(1, HB_IT_OBJECT);
   PHB_ITEM temp1;
   PHB_ITEM aMetr = hb_itemArrayNew(9), temp;
 
@@ -44,18 +44,18 @@ HB_FUNC(HWG_SELECTFONT)
   }
 
   cf.lStructSize = sizeof(CHOOSEFONT);
-  cf.hwndOwner = HWG_NULLPTR;
-  cf.hDC = HWG_NULLPTR;
+  cf.hwndOwner = nullptr;
+  cf.hDC = nullptr;
   cf.lpLogFont = &lf;
   cf.iPointSize = 0;
   cf.Flags = CF_SCREENFONTS | ((pObj) ? CF_INITTOLOGFONTSTRUCT : 0);
   cf.rgbColors = RGB(0, 0, 0);
   cf.lCustData = 0L;
-  cf.lpfnHook = HWG_NULLPTR;
-  cf.lpTemplateName = HWG_NULLPTR;
+  cf.lpfnHook = nullptr;
+  cf.lpTemplateName = nullptr;
 
-  cf.hInstance = HWG_NULLPTR;
-  cf.lpszStyle = HWG_NULLPTR;
+  cf.hInstance = nullptr;
+  cf.lpszStyle = nullptr;
   cf.nFontType = SCREEN_FONTTYPE;
   cf.nSizeMin = 0;
   cf.nSizeMax = 0;
@@ -74,7 +74,7 @@ HB_FUNC(HWG_SELECTFONT)
 
   hfont = CreateFontIndirect(cf.lpLogFont);
 
-  temp = HB_PUTHANDLE(HWG_NULLPTR, hfont);
+  temp = HB_PUTHANDLE(nullptr, hfont);
   hb_itemArrayPut(aMetr, 1, temp);
 
   HB_ITEMPUTSTR(temp, lf.lfFaceName);
@@ -166,7 +166,7 @@ HB_FUNC(HWG_SELECTFILE)
     *ptr = 0;
     hb_xfree(pArrStr);
   } else {
-    hb_retc(HWG_NULLPTR);
+    hb_retc(nullptr);
     return;
   }
 
@@ -177,14 +177,14 @@ HB_FUNC(HWG_SELECTFILE)
   ofn.lpstrFile = buffer;
   buffer[0] = 0;
   ofn.nMaxFile = 1024;
-  ofn.lpstrInitialDir = HB_PARSTR(3, &hInitDir, HWG_NULLPTR);
-  ofn.lpstrTitle = HB_PARSTR(4, &hTitle, HWG_NULLPTR);
+  ofn.lpstrInitialDir = HB_PARSTR(3, &hInitDir, nullptr);
+  ofn.lpstrTitle = HB_PARSTR(4, &hTitle, nullptr);
   ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER;
 
   if (GetOpenFileName(&ofn)) {
     HB_RETSTR(ofn.lpstrFile);
   } else {
-    hb_retc(HWG_NULLPTR);
+    hb_retc(nullptr);
   }
   hb_xfree(lpFilter);
 
@@ -228,8 +228,8 @@ HB_FUNC(HWG_SAVEFILE)
   ofn.lpstrFilter = lpFilter;
   ofn.lpstrFile = lpFileBuff;
   ofn.nMaxFile = (DWORD)nSize;
-  ofn.lpstrInitialDir = HB_PARSTR(4, &hInitDir, HWG_NULLPTR);
-  ofn.lpstrTitle = HB_PARSTR(5, &hTitle, HWG_NULLPTR);
+  ofn.lpstrInitialDir = HB_PARSTR(4, &hInitDir, nullptr);
+  ofn.lpstrTitle = HB_PARSTR(5, &hTitle, nullptr);
   ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER;
   if (HB_ISLOG(6) && hb_parl(6)) {
     ofn.Flags = ofn.Flags | OFN_OVERWRITEPROMPT;
@@ -238,7 +238,7 @@ HB_FUNC(HWG_SAVEFILE)
   if (GetSaveFileName(&ofn)) {
     HB_RETSTR(ofn.lpstrFile);
   } else {
-    hb_retc(HWG_NULLPTR);
+    hb_retc(nullptr);
   }
   hb_xfree(lpFilter);
 
@@ -254,23 +254,23 @@ HB_FUNC(HWG_PRINTSETUP)
   memset((void *)&pd, 0, sizeof(PRINTDLG));
 
   pd.lStructSize = sizeof(PRINTDLG);
-  // pd.hDevNames = (HANDLE) HWG_NULLPTR;
+  // pd.hDevNames = (HANDLE) nullptr;
   pd.Flags = PD_RETURNDC;
   pd.hwndOwner = GetActiveWindow();
-  // pd.hDC = (HDC) HWG_NULLPTR;
+  // pd.hDC = (HDC) nullptr;
   pd.nFromPage = 1;
   pd.nToPage = 1;
   // pd.nMinPage = 0;
   // pd.nMaxPage = 0;
   pd.nCopies = 1;
-  // pd.hInstance = (HANDLE) HWG_NULLPTR;
+  // pd.hInstance = (HANDLE) nullptr;
   // pd.lCustData = 0L;
-  // pd.lpfnPrintHook = (LPPRINTHOOKPROC) HWG_NULLPTR;
-  // pd.lpfnSetupHook = (LPSETUPHOOKPROC) HWG_NULLPTR;
-  // pd.lpPrintTemplateName = HWG_NULLPTR;
-  // pd.lpSetupTemplateName = HWG_NULLPTR;
-  // pd.hPrintTemplate = (HANDLE) HWG_NULLPTR;
-  // pd.hSetupTemplate = (HANDLE) HWG_NULLPTR;
+  // pd.lpfnPrintHook = (LPPRINTHOOKPROC) nullptr;
+  // pd.lpfnSetupHook = (LPSETUPHOOKPROC) nullptr;
+  // pd.lpPrintTemplateName = nullptr;
+  // pd.lpSetupTemplateName = nullptr;
+  // pd.hPrintTemplate = (HANDLE) nullptr;
+  // pd.hSetupTemplate = (HANDLE) nullptr;
 
   if (PrintDlg(&pd)) {
     if (pd.hDevNames) {
@@ -284,7 +284,7 @@ HB_FUNC(HWG_PRINTSETUP)
     }
     hwg_ret_HDC(pd.hDC);
   } else {
-    hwg_ret_HDC(HWG_NULLPTR);
+    hwg_ret_HDC(nullptr);
   }
 }
 
@@ -315,14 +315,14 @@ HB_FUNC(HWG_CHOOSECOLOR)
 static uint32_t Get_SerialNumber(LPCTSTR RootPathName)
 {
   DWORD SerialNumber;
-  GetVolumeInformation(RootPathName, HWG_NULLPTR, 0, &SerialNumber, HWG_NULLPTR, HWG_NULLPTR, HWG_NULLPTR, 0);
+  GetVolumeInformation(RootPathName, nullptr, 0, &SerialNumber, nullptr, nullptr, nullptr, 0);
   return SerialNumber;
 }
 
 HB_FUNC(HWG_HDGETSERIAL)
 {
   void *hStr;
-  hb_retnl(Get_SerialNumber(HB_PARSTR(1, &hStr, HWG_NULLPTR)));
+  hb_retnl(Get_SerialNumber(HB_PARSTR(1, &hStr, nullptr)));
   hb_strfree(hStr);
 }
 
@@ -337,10 +337,10 @@ HB_FUNC(HWG_GETPRIVATEPROFILESTRING)
   TCHAR buffer[1024];
   DWORD dwLen;
   void *hSection, *hEntry, *hDefault, *hFileName;
-  LPCTSTR lpDefault = HB_PARSTR(3, &hDefault, HWG_NULLPTR);
+  LPCTSTR lpDefault = HB_PARSTR(3, &hDefault, nullptr);
 
-  dwLen = GetPrivateProfileString(HB_PARSTR(1, &hSection, HWG_NULLPTR), HB_PARSTR(2, &hEntry, HWG_NULLPTR), lpDefault,
-                                  buffer, HB_SIZEOFARRAY(buffer), HB_PARSTR(4, &hFileName, HWG_NULLPTR));
+  dwLen = GetPrivateProfileString(HB_PARSTR(1, &hSection, nullptr), HB_PARSTR(2, &hEntry, nullptr), lpDefault,
+                                  buffer, HB_SIZEOFARRAY(buffer), HB_PARSTR(4, &hFileName, nullptr));
   if (dwLen) {
     HB_RETSTRLEN(buffer, dwLen);
   } else {
@@ -357,8 +357,8 @@ HB_FUNC(HWG_WRITEPRIVATEPROFILESTRING)
 {
   void *hSection, *hEntry, *hData, *hFileName;
 
-  hwg_ret_BOOL(WritePrivateProfileString(HB_PARSTR(1, &hSection, HWG_NULLPTR), HB_PARSTR(2, &hEntry, HWG_NULLPTR),
-                                         HB_PARSTR(3, &hData, HWG_NULLPTR), HB_PARSTR(4, &hFileName, HWG_NULLPTR))
+  hwg_ret_BOOL(WritePrivateProfileString(HB_PARSTR(1, &hSection, nullptr), HB_PARSTR(2, &hEntry, nullptr),
+                                         HB_PARSTR(3, &hData, nullptr), HB_PARSTR(4, &hFileName, nullptr))
                    ? TRUE
                    : FALSE);
 
@@ -434,7 +434,7 @@ HB_FUNC(HWG_PRINTSETUPDOS)
     hwg_ret_HDC(s_pd.hDC);
   } else {
     s_fPName = TRUE;
-    hwg_ret_HDC(HWG_NULLPTR);
+    hwg_ret_HDC(nullptr);
   }
 }
 
@@ -478,14 +478,14 @@ HB_FUNC(HWG__GETOPENFILENAME)
   }
 
   ZeroMemory(&ofn, sizeof(ofn));
-  ofn.hInstance = GetModuleHandle(HWG_NULLPTR);
+  ofn.hInstance = GetModuleHandle(nullptr);
   ofn.lStructSize = sizeof(ofn);
   ofn.hwndOwner = (HB_ISNIL(1) ? GetActiveWindow() : hwg_par_HWND(1));
-  ofn.lpstrTitle = HB_PARSTR(3, &hTitle, HWG_NULLPTR);
-  ofn.lpstrFilter = HB_PARSTR(4, &hFilter, HWG_NULLPTR);
+  ofn.lpstrTitle = HB_PARSTR(3, &hTitle, nullptr);
+  ofn.lpstrFilter = HB_PARSTR(4, &hFilter, nullptr);
   ofn.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT;
-  ofn.lpstrInitialDir = HB_PARSTR(6, &hInitDir, HWG_NULLPTR);
-  ofn.lpstrDefExt = HB_PARSTR(7, &hDefExt, HWG_NULLPTR);
+  ofn.lpstrInitialDir = HB_PARSTR(6, &hInitDir, nullptr);
+  ofn.lpstrDefExt = HB_PARSTR(7, &hDefExt, nullptr);
   ofn.nFilterIndex = hb_parni(8);
   ofn.lpstrFile = lpFileBuff;
   ofn.nMaxFile = (DWORD)nSize;
@@ -495,7 +495,7 @@ HB_FUNC(HWG__GETOPENFILENAME)
     HB_STORSTRLEN(lpFileBuff, nSize, 2);
     HB_RETSTR(ofn.lpstrFile);
   } else {
-    hb_retc(HWG_NULLPTR);
+    hb_retc(nullptr);
   }
 
   hb_strfree(hFileName);

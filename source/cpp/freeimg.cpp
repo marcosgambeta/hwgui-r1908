@@ -80,45 +80,45 @@ typedef BOOL(WINAPI *FREEIMAGE_GETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_
 typedef BOOL(WINAPI *FREEIMAGE_SETPIXELINDEX)(FIBITMAP *dib, uint32_t x, uint32_t y, uint8_t *value);
 typedef BOOL(WINAPI *FREEIMAGE_SETPIXELCOLOR)(FIBITMAP *dib, uint32_t x, uint32_t y, RGBQUAD *value);
 
-static HINSTANCE hFreeImageDll = HWG_NULLPTR;
-static FREEIMAGE_LOAD pLoad = HWG_NULLPTR;
-static FREEIMAGE_LOADFROMHANDLE pLoadFromHandle = HWG_NULLPTR;
-static FREEIMAGE_UNLOAD pUnload = HWG_NULLPTR;
-static FREEIMAGE_ALLOCATE pAllocate = HWG_NULLPTR;
-static FREEIMAGE_SAVE pSave = HWG_NULLPTR;
-static FREEIMAGE_GETFIFFROMFILENAME pGetfiffromfile = HWG_NULLPTR;
-static FREEIMAGE_GETWIDTH pGetwidth = HWG_NULLPTR;
-static FREEIMAGE_GETHEIGHT pGetheight = HWG_NULLPTR;
-static FREEIMAGE_GETBITS pGetbits = HWG_NULLPTR;
-static FREEIMAGE_GETINFO pGetinfo = HWG_NULLPTR;
-static FREEIMAGE_GETINFOHEADER pGetinfoHead = HWG_NULLPTR;
-static FREEIMAGE_CONVERTFROMRAWBITS pConvertFromRawBits = HWG_NULLPTR;
-static FREEIMAGE_RESCALE pRescale = HWG_NULLPTR;
-static FREEIMAGE_GETPALETTE pGetPalette = HWG_NULLPTR;
-static FREEIMAGE_GETBPP pGetBPP = HWG_NULLPTR;
-static FREEIMAGE_SETCHANNEL pSetChannel = HWG_NULLPTR;
-static FREEIMAGE_GETSCANLINE pGetScanline = HWG_NULLPTR;
-static FREEIMAGE_CONVERTTORAWBITS pConvertToRawBits = HWG_NULLPTR;
-static FREEIMAGE_GETPITCH pGetPitch = HWG_NULLPTR;
-static FREEIMAGE_GETIMAGETYPE pGetImageType = HWG_NULLPTR;
-static FREEIMAGE_GETCOLORSUSED pGetColorsUsed = HWG_NULLPTR;
-static FREEIMAGE_ROTATECLASSIC pRotateClassic = HWG_NULLPTR;
-static FREEIMAGE_GETDOTSPERMETERX pGetDotsPerMeterX = HWG_NULLPTR;
-static FREEIMAGE_GETDOTSPERMETERY pGetDotsPerMeterY = HWG_NULLPTR;
-static FREEIMAGE_SETDOTSPERMETERX pSetDotsPerMeterX = HWG_NULLPTR;
-static FREEIMAGE_SETDOTSPERMETERY pSetDotsPerMeterY = HWG_NULLPTR;
-static FREEIMAGE_PASTE pPaste = HWG_NULLPTR;
-static FREEIMAGE_COPY pCopy = HWG_NULLPTR;
-static FREEIMAGE_SETBACKGROUNDCOLOR pSetBackgroundColor = HWG_NULLPTR;
-static FREEIMAGE_INVERT pInvert = HWG_NULLPTR;
-static FREEIMAGE_CONVERTTO8BITS pConvertTo8Bits = HWG_NULLPTR;
-static FREEIMAGE_CONVERTTOGREYSCALE pConvertToGreyscale = HWG_NULLPTR;
-static FREEIMAGE_FLIPVERTICAL pFlipVertical = HWG_NULLPTR;
-static FREEIMAGE_THRESHOLD pThreshold = HWG_NULLPTR;
-static FREEIMAGE_GETPIXELINDEX pGetPixelIndex = HWG_NULLPTR;
-static FREEIMAGE_GETPIXELCOLOR pGetPixelColor = HWG_NULLPTR;
-static FREEIMAGE_SETPIXELINDEX pSetPixelIndex = HWG_NULLPTR;
-static FREEIMAGE_SETPIXELCOLOR pSetPixelColor = HWG_NULLPTR;
+static HINSTANCE hFreeImageDll = nullptr;
+static FREEIMAGE_LOAD pLoad = nullptr;
+static FREEIMAGE_LOADFROMHANDLE pLoadFromHandle = nullptr;
+static FREEIMAGE_UNLOAD pUnload = nullptr;
+static FREEIMAGE_ALLOCATE pAllocate = nullptr;
+static FREEIMAGE_SAVE pSave = nullptr;
+static FREEIMAGE_GETFIFFROMFILENAME pGetfiffromfile = nullptr;
+static FREEIMAGE_GETWIDTH pGetwidth = nullptr;
+static FREEIMAGE_GETHEIGHT pGetheight = nullptr;
+static FREEIMAGE_GETBITS pGetbits = nullptr;
+static FREEIMAGE_GETINFO pGetinfo = nullptr;
+static FREEIMAGE_GETINFOHEADER pGetinfoHead = nullptr;
+static FREEIMAGE_CONVERTFROMRAWBITS pConvertFromRawBits = nullptr;
+static FREEIMAGE_RESCALE pRescale = nullptr;
+static FREEIMAGE_GETPALETTE pGetPalette = nullptr;
+static FREEIMAGE_GETBPP pGetBPP = nullptr;
+static FREEIMAGE_SETCHANNEL pSetChannel = nullptr;
+static FREEIMAGE_GETSCANLINE pGetScanline = nullptr;
+static FREEIMAGE_CONVERTTORAWBITS pConvertToRawBits = nullptr;
+static FREEIMAGE_GETPITCH pGetPitch = nullptr;
+static FREEIMAGE_GETIMAGETYPE pGetImageType = nullptr;
+static FREEIMAGE_GETCOLORSUSED pGetColorsUsed = nullptr;
+static FREEIMAGE_ROTATECLASSIC pRotateClassic = nullptr;
+static FREEIMAGE_GETDOTSPERMETERX pGetDotsPerMeterX = nullptr;
+static FREEIMAGE_GETDOTSPERMETERY pGetDotsPerMeterY = nullptr;
+static FREEIMAGE_SETDOTSPERMETERX pSetDotsPerMeterX = nullptr;
+static FREEIMAGE_SETDOTSPERMETERY pSetDotsPerMeterY = nullptr;
+static FREEIMAGE_PASTE pPaste = nullptr;
+static FREEIMAGE_COPY pCopy = nullptr;
+static FREEIMAGE_SETBACKGROUNDCOLOR pSetBackgroundColor = nullptr;
+static FREEIMAGE_INVERT pInvert = nullptr;
+static FREEIMAGE_CONVERTTO8BITS pConvertTo8Bits = nullptr;
+static FREEIMAGE_CONVERTTOGREYSCALE pConvertToGreyscale = nullptr;
+static FREEIMAGE_FLIPVERTICAL pFlipVertical = nullptr;
+static FREEIMAGE_THRESHOLD pThreshold = nullptr;
+static FREEIMAGE_GETPIXELINDEX pGetPixelIndex = nullptr;
+static FREEIMAGE_GETPIXELCOLOR pGetPixelColor = nullptr;
+static FREEIMAGE_SETPIXELINDEX pSetPixelIndex = nullptr;
+static FREEIMAGE_SETPIXELCOLOR pSetPixelColor = nullptr;
 static void SET_FREEIMAGE_MARKER(BITMAPINFOHEADER *bmih, FIBITMAP *dib);
 
 fi_handle g_load_address;
@@ -139,7 +139,7 @@ static FARPROC s_getFunction(FARPROC h, LPCSTR funcname)
 {
   if (!h) {
     if (!hFreeImageDll && !s_freeImgInit()) {
-      return HWG_NULLPTR;
+      return nullptr;
     } else {
       return GetProcAddress(hFreeImageDll, funcname);
     }
@@ -157,50 +157,50 @@ HB_FUNC(FI_END)
 {
   if (hFreeImageDll) {
     FreeLibrary(hFreeImageDll);
-    hFreeImageDll = HWG_NULLPTR;
-    pLoad = HWG_NULLPTR;
-    pUnload = HWG_NULLPTR;
-    pAllocate = HWG_NULLPTR;
-    pSave = HWG_NULLPTR;
-    pGetfiffromfile = HWG_NULLPTR;
-    pGetwidth = HWG_NULLPTR;
-    pGetheight = HWG_NULLPTR;
-    pGetbits = HWG_NULLPTR;
-    pGetinfo = HWG_NULLPTR;
-    pGetinfoHead = HWG_NULLPTR;
-    pConvertFromRawBits = HWG_NULLPTR;
-    pRescale = HWG_NULLPTR;
-    pGetPalette = HWG_NULLPTR;
-    pGetBPP = HWG_NULLPTR;
-    pSetChannel = HWG_NULLPTR;
-    pGetScanline = HWG_NULLPTR;
-    pConvertToRawBits = HWG_NULLPTR;
-    pGetPitch = HWG_NULLPTR;
-    pGetImageType = HWG_NULLPTR;
-    pGetColorsUsed = HWG_NULLPTR;
-    pRotateClassic = HWG_NULLPTR;
-    pGetDotsPerMeterX = HWG_NULLPTR;
-    pGetDotsPerMeterY = HWG_NULLPTR;
-    pSetDotsPerMeterX = HWG_NULLPTR;
-    pSetDotsPerMeterY = HWG_NULLPTR;
-    pPaste = HWG_NULLPTR;
-    pCopy = HWG_NULLPTR;
-    pSetBackgroundColor = HWG_NULLPTR;
-    pInvert = HWG_NULLPTR;
-    pConvertTo8Bits = HWG_NULLPTR;
-    pConvertToGreyscale = HWG_NULLPTR;
-    pFlipVertical = HWG_NULLPTR;
-    pThreshold = HWG_NULLPTR;
-    pGetPixelIndex = HWG_NULLPTR;
-    pGetPixelColor = HWG_NULLPTR;
-    pSetPixelIndex = HWG_NULLPTR;
-    pSetPixelColor = HWG_NULLPTR;
+    hFreeImageDll = nullptr;
+    pLoad = nullptr;
+    pUnload = nullptr;
+    pAllocate = nullptr;
+    pSave = nullptr;
+    pGetfiffromfile = nullptr;
+    pGetwidth = nullptr;
+    pGetheight = nullptr;
+    pGetbits = nullptr;
+    pGetinfo = nullptr;
+    pGetinfoHead = nullptr;
+    pConvertFromRawBits = nullptr;
+    pRescale = nullptr;
+    pGetPalette = nullptr;
+    pGetBPP = nullptr;
+    pSetChannel = nullptr;
+    pGetScanline = nullptr;
+    pConvertToRawBits = nullptr;
+    pGetPitch = nullptr;
+    pGetImageType = nullptr;
+    pGetColorsUsed = nullptr;
+    pRotateClassic = nullptr;
+    pGetDotsPerMeterX = nullptr;
+    pGetDotsPerMeterY = nullptr;
+    pSetDotsPerMeterX = nullptr;
+    pSetDotsPerMeterY = nullptr;
+    pPaste = nullptr;
+    pCopy = nullptr;
+    pSetBackgroundColor = nullptr;
+    pInvert = nullptr;
+    pConvertTo8Bits = nullptr;
+    pConvertToGreyscale = nullptr;
+    pFlipVertical = nullptr;
+    pThreshold = nullptr;
+    pGetPixelIndex = nullptr;
+    pGetPixelColor = nullptr;
+    pSetPixelIndex = nullptr;
+    pSetPixelColor = nullptr;
   }
 }
 
 HB_FUNC(FI_VERSION)
 {
-  FREEIMAGE_GETVERSION pFunc = (FREEIMAGE_GETVERSION)s_getFunction(HWG_NULLPTR, "_FreeImage_GetVersion@0");
+  FREEIMAGE_GETVERSION pFunc = (FREEIMAGE_GETVERSION)s_getFunction(nullptr, "_FreeImage_GetVersion@0");
 
   hb_retc((pFunc) ? pFunc() : "");
 }
@@ -310,7 +310,7 @@ HB_FUNC(FI_2BITMAP)
 
   hb_retnint((intptr_t)CreateDIBitmap(hDC, pGetinfoHead(dib), CBM_INIT, pGetbits(dib), pGetinfo(dib), DIB_RGB_COLORS));
 
-  ReleaseDC(HWG_NULLPTR, hDC);
+  ReleaseDC(nullptr, hDC);
 }
 
 // 24/02/2005 - <maurilio.longo@libero.it>
@@ -366,7 +366,7 @@ static HANDLE CreateDIB(DWORD dwWidth, DWORD dwHeight, WORD wBitCount)
 
   // major bummer if we couldn't get memory block
   if (!hDIB) {
-    return HWG_NULLPTR;
+    return nullptr;
   }
 
   // lock memory and get pointer to it
@@ -429,7 +429,7 @@ static void SET_FREEIMAGE_MARKER(BITMAPINFOHEADER *bmih, FIBITMAP *dib)
 HB_FUNC(FI_FI2DIBEX)
 {
   FIBITMAP *_dib = hwg_par_FIBITMAP(1);
-  HANDLE hMem = HWG_NULLPTR;
+  HANDLE hMem = nullptr;
 
   pGetColorsUsed = (FREEIMAGE_GETCOLORSUSED)s_getFunction((FARPROC)pGetColorsUsed, "_FreeImage_GetColorsUsed@4");
   pGetwidth = (FREEIMAGE_GETWIDTH)s_getFunction((FARPROC)pGetwidth, "_FreeImage_GetWidth@4");
@@ -538,12 +538,12 @@ HB_FUNC(FI_BMP2FI)
     pGetheight = (FREEIMAGE_GETHEIGHT)s_getFunction((FARPROC)pGetheight, "_FreeImage_GetHeight@4");
 
     if (pAllocate && pGetbits && pGetinfo && pGetheight) {
-      HDC hDC = GetDC(HWG_NULLPTR);
+      HDC hDC = GetDC(nullptr);
 
       GetObject(hbmp, sizeof(BITMAP), (LPVOID)&bm);
       dib = pAllocate(bm.bmWidth, bm.bmHeight, bm.bmBitsPixel, 0, 0, 0);
       GetDIBits(hDC, hbmp, 0, pGetheight(dib), pGetbits(dib), pGetinfo(dib), DIB_RGB_COLORS);
-      ReleaseDC(HWG_NULLPTR, hDC);
+      ReleaseDC(nullptr, hDC);
       hb_retnint((intptr_t)dib);
       return;
     }

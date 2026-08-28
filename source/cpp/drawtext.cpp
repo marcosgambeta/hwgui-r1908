@@ -95,35 +95,35 @@ HB_FUNC(HWG_GETTEXTMETRIC)
 
   GetTextMetrics(hwg_par_HDC(1), &tm);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmHeight);
+  temp = hb_itemPutNL(nullptr, tm.tmHeight);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmAveCharWidth);
+  temp = hb_itemPutNL(nullptr, tm.tmAveCharWidth);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmMaxCharWidth);
+  temp = hb_itemPutNL(nullptr, tm.tmMaxCharWidth);
   hb_itemArrayPut(aMetr, 3, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmExternalLeading);
+  temp = hb_itemPutNL(nullptr, tm.tmExternalLeading);
   hb_itemArrayPut(aMetr, 4, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmInternalLeading);
+  temp = hb_itemPutNL(nullptr, tm.tmInternalLeading);
   hb_itemArrayPut(aMetr, 5, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmAscent);
+  temp = hb_itemPutNL(nullptr, tm.tmAscent);
   hb_itemArrayPut(aMetr, 6, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmDescent);
+  temp = hb_itemPutNL(nullptr, tm.tmDescent);
   hb_itemArrayPut(aMetr, 7, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, tm.tmWeight);
+  temp = hb_itemPutNL(nullptr, tm.tmWeight);
   hb_itemArrayPut(aMetr, 8, temp);
   hb_itemRelease(temp);
 
@@ -143,11 +143,11 @@ HB_FUNC(HWG_GETTEXTSIZE)
   GetTextExtentPoint32(hwg_par_HDC(1), lpText, (int32_t)nLen, &sz); // TODO: o retorno é BOOL
   hb_strfree(hText);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, sz.cx);
+  temp = hb_itemPutNL(nullptr, sz.cx);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, sz.cy);
+  temp = hb_itemPutNL(nullptr, sz.cy);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
@@ -163,19 +163,19 @@ HB_FUNC(HWG_GETCLIENTRECT)
 
   GetClientRect(hwg_par_HWND(1), &rc); // TODO: o retorno é BOOL
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.left);
+  temp = hb_itemPutNL(nullptr, rc.left);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.top);
+  temp = hb_itemPutNL(nullptr, rc.top);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.right);
+  temp = hb_itemPutNL(nullptr, rc.right);
   hb_itemArrayPut(aMetr, 3, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.bottom);
+  temp = hb_itemPutNL(nullptr, rc.bottom);
   hb_itemArrayPut(aMetr, 4, temp);
   hb_itemRelease(temp);
 
@@ -191,19 +191,19 @@ HB_FUNC(HWG_GETWINDOWRECT)
 
   GetWindowRect(hwg_par_HWND(1), &rc); // TODO: o retorno é BOOL
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.left);
+  temp = hb_itemPutNL(nullptr, rc.left);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.top);
+  temp = hb_itemPutNL(nullptr, rc.top);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.right);
+  temp = hb_itemPutNL(nullptr, rc.right);
   hb_itemArrayPut(aMetr, 3, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, rc.bottom);
+  temp = hb_itemPutNL(nullptr, rc.bottom);
   hb_itemArrayPut(aMetr, 4, temp);
   hb_itemRelease(temp);
 
@@ -217,19 +217,19 @@ HB_FUNC(HWG_GETCLIENTAREA)
   PHB_ITEM aMetr = hb_itemArrayNew(4);
   PHB_ITEM temp;
 
-  temp = hb_itemPutNL(HWG_NULLPTR, pps->rcPaint.left);
+  temp = hb_itemPutNL(nullptr, pps->rcPaint.left);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, pps->rcPaint.top);
+  temp = hb_itemPutNL(nullptr, pps->rcPaint.top);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, pps->rcPaint.right);
+  temp = hb_itemPutNL(nullptr, pps->rcPaint.right);
   hb_itemArrayPut(aMetr, 3, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, pps->rcPaint.bottom);
+  temp = hb_itemPutNL(nullptr, pps->rcPaint.bottom);
   hb_itemArrayPut(aMetr, 4, temp);
   hb_itemRelease(temp);
 
@@ -276,18 +276,18 @@ HB_FUNC(GETTEXTSIZE)
   PHB_ITEM temp;
   void *hString;
 
-  GetTextExtentPoint32(hdc, HB_PARSTR(2, &hString, HWG_NULLPTR),
+  GetTextExtentPoint32(hdc, HB_PARSTR(2, &hString, nullptr),
     lpString,         // address of text string
     strlen(cbString), // number of characters in string
     &size            // address of structure for string size
   );
   hb_strfree(hString);
 
-  temp = hb_itemPutNI(HWG_NULLPTR, size.cx);
+  temp = hb_itemPutNI(nullptr, size.cx);
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNI(HWG_NULLPTR, size.cy);
+  temp = hb_itemPutNI(nullptr, size.cy);
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
@@ -306,7 +306,7 @@ HB_FUNC(HWG_EXTTEXTOUT)
   rc.top = hb_parni(5);
   rc.right = hb_parni(6);
   rc.bottom = hb_parni(7);
-  ExtTextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), ETO_OPAQUE, &rc, lpText, (UINT)nLen, HWG_NULLPTR);
+  ExtTextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), ETO_OPAQUE, &rc, lpText, (UINT)nLen, nullptr);
   hb_strfree(hText);
 }
 
@@ -314,7 +314,7 @@ HB_FUNC(HWG_EXTTEXTOUT)
 HB_FUNC(HWG_WRITESTATUSWINDOW)
 {
   void *hString;
-  SendMessage(hwg_par_HWND(1), SB_SETTEXT, hwg_par_WPARAM(2), (LPARAM)HB_PARSTR(3, &hString, HWG_NULLPTR));
+  SendMessage(hwg_par_HWND(1), SB_SETTEXT, hwg_par_WPARAM(2), (LPARAM)HB_PARSTR(3, &hString, nullptr));
   hb_strfree(hString);
 }
 
@@ -337,7 +337,7 @@ HB_FUNC(HWG_CREATEFONT)
   DWORD fdwStrikeOut = (HB_ISNIL(8)) ? 0 : hwg_par_DWORD(8);
   void *hString;
   hFont = CreateFont(hwg_par_int(3), hwg_par_int(2), 0, 0, fnWeight, fdwItalic, fdwUnderline, fdwStrikeOut, fdwCharSet,
-                     0, 0, 0, 0, HB_PARSTR(1, &hString, HWG_NULLPTR));
+                     0, 0, 0, 0, HB_PARSTR(1, &hString, nullptr));
   hb_strfree(hString);
   hwg_ret_HFONT(hFont);
 }

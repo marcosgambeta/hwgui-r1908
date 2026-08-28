@@ -89,18 +89,18 @@ static void Draw3dRect(HDC hDC, RECT *lprect, COLORREF clrTopLeft, COLORREF clrB
   SetBkColor(hDC, clrTopLeft);
 
   SetRect(&r, x, y, x + cx - 1, y + 1);
-  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, HWG_NULLPTR, 0, HWG_NULLPTR);
+  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 
   SetRect(&r, x, y, x + 1, y + cy - 1);
-  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, HWG_NULLPTR, 0, HWG_NULLPTR);
+  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 
   SetBkColor(hDC, clrBottomRight);
 
   SetRect(&r, x + cx, y, x + cx - 1, y + cy);
-  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, HWG_NULLPTR, 0, HWG_NULLPTR);
+  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 
   SetRect(&r, x, y + cy, x + cx, y + cy - 1);
-  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, HWG_NULLPTR, 0, HWG_NULLPTR);
+  ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 }
 
 static void cxdib_Release(PCXDIB pdib)
@@ -120,7 +120,7 @@ static uint8_t *cxdib_GetBits(PCXDIB pdib)
   if (pdib->hDib) {
     return ((uint8_t *)pdib->hDib + *(LPDWORD)pdib->hDib + cxdib_GetPaletteSize(pdib));
   }
-  return HWG_NULLPTR;
+  return nullptr;
 }
 
 static int32_t cxdib_GetSize(PCXDIB pdib)
@@ -130,7 +130,7 @@ static int32_t cxdib_GetSize(PCXDIB pdib)
 
 static BOOL cxdib_IsValid(PCXDIB pdib)
 {
-  return (pdib->hDib != HWG_NULLPTR);
+  return (pdib->hDib != nullptr);
 }
 
 static void cxdib_Clone(PCXDIB pdib, PCXDIB src)
@@ -156,7 +156,7 @@ static HDIB cxdib_Create(PCXDIB pdib, DWORD dwWidth, DWORD dwHeight, WORD wBitCo
   if (pdib->hDib) {
     hb_xfree(pdib->hDib);
   }
-  pdib->hDib = HWG_NULLPTR;
+  pdib->hDib = nullptr;
 
   // Make sure bits per pixel is valid
   if (wBitCount <= 1) {
@@ -206,7 +206,7 @@ static HDIB cxdib_Create(PCXDIB pdib, DWORD dwWidth, DWORD dwHeight, WORD wBitCo
   pdib->hDib = hb_xgrab(dwLen); // alloc memory block to store our bitmap
   // hDib = new (HDIB[dwLen]); //fixes allocation problem under Win2k
   if (!pdib->hDib) {
-    return HWG_NULLPTR;
+    return nullptr;
   }
 
   // use our bitmap info structure to fill in first part of
@@ -262,7 +262,7 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
 
 static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, int32_t perc)
 {
-  if ((pdib->hDib == HWG_NULLPTR) || (pdib->m_nColors == 0)) {
+  if ((pdib->hDib == nullptr) || (pdib->m_nColors == 0)) {
     return;
   } else {
     uint8_t *iDst = (uint8_t *)(pdib->hDib) + sizeof(BITMAPINFOHEADER);
@@ -287,7 +287,7 @@ static void cxdib_SetPixelIndex(PCXDIB pdib, int32_t x, int32_t y, uint8_t i)
 {
   uint8_t *iDst;
 
-  if ((pdib->hDib == HWG_NULLPTR) || (pdib->m_nColors == 0) || (x < 0) || (y < 0) || (x >= pdib->m_bi.biWidth) ||
+  if ((pdib->hDib == nullptr) || (pdib->m_nColors == 0) || (x < 0) || (y < 0) || (x >= pdib->m_bi.biWidth) ||
       (y >= pdib->m_bi.biHeight)) {
     return;
   }
@@ -682,7 +682,7 @@ HB_FUNC(HWG_SHADE_SET)
   }
 
   cxshade_SetShade(pshade, shadeID, palette, granularity, highlight, coloring, color,
-                   (HB_ISNIL(8)) ? HWG_NULLPTR : &rect);
+                   (HB_ISNIL(8)) ? nullptr : &rect);
 }
 
 // shade_Draw(pshade, hDC, nState)

@@ -33,7 +33,7 @@ HB_FUNC(HWG_PRINTSETUP)
   if (PrintDlg(&pd)) {
     hwg_ret_HDC(pd.hDC);
   } else {
-    hwg_ret_HDC(HWG_NULLPTR);
+    hwg_ret_HDC(nullptr);
   }
 }
 
@@ -44,7 +44,7 @@ HB_FUNC_TRANSLATE(PRINTSETUP, HWG_PRINTSETUP);
 HB_FUNC(OPENPRINTER)
 {
   void *hStr;
-  hwg_ret_HDC(CreateDC(HWG_NULLPTR, HB_PARSTR(1, &hStr, HWG_NULLPTR), HWG_NULLPTR, HWG_NULLPTR));
+  hwg_ret_HDC(CreateDC(nullptr, HB_PARSTR(1, &hStr, nullptr), nullptr, nullptr));
   hb_strfree(hStr);
 }
 
@@ -57,22 +57,22 @@ HB_FUNC(OPENDEFAULTPRINTER)
 
   if (GetVersion() & 0x80000000) // Windows 98
   {
-    EnumPrinters(PRINTER_ENUM_DEFAULT, HWG_NULLPTR, 5, HWG_NULLPTR, 0, &dwNeeded, &dwReturned);
+    EnumPrinters(PRINTER_ENUM_DEFAULT, nullptr, 5, nullptr, 0, &dwNeeded, &dwReturned);
 
     pinfo5 = hb_xgrab(dwNeeded);
 
-    EnumPrinters(PRINTER_ENUM_DEFAULT, HWG_NULLPTR, 5, (PBYTE)pinfo5, dwNeeded, &dwNeeded, &dwReturned);
-    hDC = CreateDC(HWG_NULLPTR, pinfo5->pPrinterName, HWG_NULLPTR, HWG_NULLPTR);
+    EnumPrinters(PRINTER_ENUM_DEFAULT, nullptr, 5, (PBYTE)pinfo5, dwNeeded, &dwNeeded, &dwReturned);
+    hDC = CreateDC(nullptr, pinfo5->pPrinterName, nullptr, nullptr);
 
     hb_xfree(pinfo5);
   } else // Windows NT
   {
-    EnumPrinters(PRINTER_ENUM_LOCAL, HWG_NULLPTR, 4, HWG_NULLPTR, 0, &dwNeeded, &dwReturned);
+    EnumPrinters(PRINTER_ENUM_LOCAL, nullptr, 4, nullptr, 0, &dwNeeded, &dwReturned);
 
     pinfo4 = hb_xgrab(dwNeeded);
 
-    EnumPrinters(PRINTER_ENUM_LOCAL, HWG_NULLPTR, 4, (PBYTE)pinfo4, dwNeeded, &dwNeeded, &dwReturned);
-    hDC = CreateDC(HWG_NULLPTR, pinfo4->pPrinterName, HWG_NULLPTR, HWG_NULLPTR);
+    EnumPrinters(PRINTER_ENUM_LOCAL, nullptr, 4, (PBYTE)pinfo4, dwNeeded, &dwNeeded, &dwReturned);
+    hDC = CreateDC(nullptr, pinfo4->pPrinterName, nullptr, nullptr);
 
     hb_xfree(pinfo4);
   }
@@ -85,9 +85,9 @@ HB_FUNC(STARTDOC)
   DOCINFO di;
 
   di.cbSize = sizeof(DOCINFO);
-  di.lpszDocName = HB_PARSTR(2, &hStr, HWG_NULLPTR);
-  di.lpszOutput = HWG_NULLPTR;
-  di.lpszDatatype = HWG_NULLPTR;
+  di.lpszDocName = HB_PARSTR(2, &hStr, nullptr);
+  di.lpszOutput = nullptr;
+  di.lpszDatatype = nullptr;
   di.fwType = 0;
 
   hb_retnl((int32_t)StartDoc(hwg_par_HDC(1), &di));
@@ -125,39 +125,39 @@ HB_FUNC(HWG_GETDEVICEAREA)
   PHB_ITEM temp;
   PHB_ITEM aMetr = hb_itemArrayNew(9);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, HORZRES));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, HORZRES));
   hb_itemArrayPut(aMetr, 1, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, VERTRES));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, VERTRES));
   hb_itemArrayPut(aMetr, 2, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, HORZSIZE));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, HORZSIZE));
   hb_itemArrayPut(aMetr, 3, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, VERTSIZE));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, VERTSIZE));
   hb_itemArrayPut(aMetr, 4, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, LOGPIXELSX));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, LOGPIXELSX));
   hb_itemArrayPut(aMetr, 5, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, LOGPIXELSY));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, LOGPIXELSY));
   hb_itemArrayPut(aMetr, 6, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, RASTERCAPS));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, RASTERCAPS));
   hb_itemArrayPut(aMetr, 7, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, PHYSICALWIDTH));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, PHYSICALWIDTH));
   hb_itemArrayPut(aMetr, 8, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(HWG_NULLPTR, GetDeviceCaps(hDC, PHYSICALHEIGHT));
+  temp = hb_itemPutNL(nullptr, GetDeviceCaps(hDC, PHYSICALHEIGHT));
   hb_itemArrayPut(aMetr, 9, temp);
   hb_itemRelease(temp);
 

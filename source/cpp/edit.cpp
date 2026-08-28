@@ -76,13 +76,13 @@ HB_FUNC(HWG_CREATEEDIT)
   {
     ulStyle &= ~WS_BORDER;
   }
-  hWndEdit = CreateWindowEx(ulStyleEx, TEXT("EDIT"), HWG_NULLPTR, WS_CHILD | WS_VISIBLE | ulStyle, hwg_par_int(4),
+  hWndEdit = CreateWindowEx(ulStyleEx, TEXT("EDIT"), nullptr, WS_CHILD | WS_VISIBLE | ulStyle, hwg_par_int(4),
                             hwg_par_int(5), hwg_par_int(6), hwg_par_int(7), hwg_par_HWND(1), hwg_par_HMENU_ID(2),
-                            GetModuleHandle(HWG_NULLPTR), HWG_NULLPTR);
+                            GetModuleHandle(nullptr), nullptr);
 
   if (hb_pcount() > 7) {
     void *hStr;
-    LPCTSTR lpText = HB_PARSTR(8, &hStr, HWG_NULLPTR);
+    LPCTSTR lpText = HB_PARSTR(8, &hStr, nullptr);
     if (lpText) {
       SendMessage(hWndEdit, WM_SETTEXT, 0, (LPARAM)lpText);
     }

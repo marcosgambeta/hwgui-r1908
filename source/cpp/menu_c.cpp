@@ -48,7 +48,7 @@ HB_FUNC(HWG__ADDMENUITEM) // TODO: revisar retorno
     uFlags |= MFS_DISABLED;
   }
 
-  lpNewItem = HB_PARSTR(2, &hNewItem, HWG_NULLPTR);
+  lpNewItem = HB_PARSTR(2, &hNewItem, nullptr);
   if (lpNewItem) {
     BOOL lString = 0;
     LPCTSTR ptr = lpNewItem;
@@ -101,7 +101,7 @@ HB_FUNC(HWG__ADDMENUITEM)
   mii.wID = hb_parni( 5 );
   if (HB_ISCHAR(2))
   {
-    mii.dwTypeData = (LPTSTR)HB_PARSTR(2, &hData, HWG_NULLPTR);
+    mii.dwTypeData = (LPTSTR)HB_PARSTR(2, &hData, nullptr);
     mii.cch = strlen(mii.dwTypeData);
     mii.fType = MFT_STRING;
   }
@@ -130,7 +130,7 @@ HB_FUNC(HWG__CREATESUBMENU)
   if (SetMenuItemInfo(hwg_par_HMENU(1), hwg_par_UINT(2), 0, &mii)) {
     hwg_ret_HMENU(hSubMenu);
   } else {
-    hwg_ret_HMENU(HWG_NULLPTR);
+    hwg_ret_HMENU(nullptr);
   }
 }
 
@@ -218,7 +218,7 @@ HB_FUNC(HWG_ENABLEMENUITEM)
 
   if (!hMenu) {
     MessageBox(GetActiveWindow(), TEXT(""), TEXT("No Menu!"), MB_OK | MB_ICONINFORMATION);
-    HB_RETHANDLE(HWG_NULLPTR);
+    HB_RETHANDLE(nullptr);
   } else {
     HB_RETHANDLE(EnableMenuItem(hMenu, hwg_par_UINT(2),
                                 uFlag | uEnable)); // TODO: revisar retorno (o retorno é BOOL e não um handle)
@@ -267,7 +267,7 @@ HB_FUNC(HWG_TRACKMENU)
   HWND hWnd = hwg_par_HWND(4);
   SetForegroundWindow(hWnd);
   hwg_ret_BOOL(TrackPopupMenu(hwg_par_HMENU(1), HB_ISNIL(5) ? TPM_RIGHTALIGN : hwg_par_UINT(5), hwg_par_int(2),
-                              hwg_par_int(3), 0, hWnd, HWG_NULLPTR));
+                              hwg_par_int(3), 0, hWnd, nullptr));
   PostMessage(hWnd, 0, 0, 0);
 }
 
@@ -383,7 +383,7 @@ HB_FUNC(HWG_SETMENUCAPTION)
     mii.cbSize = sizeof(MENUITEMINFO);
     mii.fMask = MIIM_TYPE;
     mii.fType = MFT_STRING;
-    mii.dwTypeData = (LPTSTR)HB_PARSTR(3, &hData, HWG_NULLPTR);
+    mii.dwTypeData = (LPTSTR)HB_PARSTR(3, &hData, nullptr);
 
     if (SetMenuItemInfo(hMenu, hwg_par_UINT(2), 0, &mii)) {
       hb_retl(TRUE);
@@ -454,7 +454,7 @@ HB_FUNC(HWG__INSERTBITMAPMENU)
 HB_FUNC(HWG_CHANGEMENU)
 {
   void *hStr;
-  hb_retl(ChangeMenu(hwg_par_HMENU(1), hwg_par_UINT(2), HB_PARSTR(3, &hStr, HWG_NULLPTR), hwg_par_UINT(4),
+  hb_retl(ChangeMenu(hwg_par_HMENU(1), hwg_par_UINT(2), HB_PARSTR(3, &hStr, nullptr), hwg_par_UINT(4),
                      hwg_par_UINT(5)));
   hb_strfree(hStr);
 }
@@ -464,7 +464,7 @@ HB_FUNC(HWG_MODIFYMENU)
 {
   void *hStr;
   hwg_ret_BOOL(ModifyMenu(hwg_par_HMENU(1), hwg_par_UINT(2), hwg_par_UINT(3), hwg_par_UINT_PTR(4),
-                          HB_PARSTR(5, &hStr, HWG_NULLPTR)));
+                          HB_PARSTR(5, &hStr, nullptr)));
   hb_strfree(hStr);
 }
 
@@ -477,7 +477,7 @@ HB_FUNC(HWG_ENABLEMENUSYSTEMITEM)
 
   hMenu = GetSystemMenu(hwg_par_HWND(1), FALSE);
   if (!hMenu) {
-    HB_RETHANDLE(HWG_NULLPTR);
+    HB_RETHANDLE(nullptr);
   } else {
     HB_RETHANDLE(EnableMenuItem(hMenu, hwg_par_UINT(2),
                                 uFlag | uEnable)); // TODO: revisar retorno (o retorno é BOOL e não um handle)
@@ -502,7 +502,7 @@ HB_FUNC(HWG_SETMENUINFO)
     hMenu = hwg_par_HMENU(1);
   }
   if (hMenu) {
-    hbrush = hb_pcount() > 1 && !HB_ISNIL(2) ? CreateSolidBrush(hwg_par_COLORREF(2)) : HWG_NULLPTR;
+    hbrush = hb_pcount() > 1 && !HB_ISNIL(2) ? CreateSolidBrush(hwg_par_COLORREF(2)) : nullptr;
     mi.cbSize = sizeof(mi);
     mi.fMask = MIM_APPLYTOSUBMENUS | MIM_BACKGROUND;
     mi.hbrBack = hbrush;

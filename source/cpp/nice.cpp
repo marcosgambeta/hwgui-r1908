@@ -42,7 +42,7 @@ typedef struct _TRIVERTEX
 typedef int32_t(_stdcall *GRADIENTFILL)(HDC, PTRIVERTEX, int32_t, PVOID, int32_t, int32_t);
 LRESULT CALLBACK NiceButtProc(HWND, UINT, WPARAM, LPARAM);
 
-static GRADIENTFILL s_pGradientfill = HWG_NULLPTR;
+static GRADIENTFILL s_pGradientfill = nullptr;
 
 static void Draw_Gradient(HDC hdc, int32_t x, int32_t y, int32_t w, int32_t h, int32_t r, int32_t g, int32_t b)
 {
@@ -131,7 +131,7 @@ LRESULT CALLBACK NiceButtProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 {
   LRESULT res;
   PHB_DYNS pSymTest;
-  if ((pSymTest = hb_dynsymFind("HWG_NICEBUTTPROC")) != HWG_NULLPTR) {
+  if ((pSymTest = hb_dynsymFind("HWG_NICEBUTTPROC")) != nullptr) {
     hb_vmPushSymbol(hb_dynsymSymbol(pSymTest));
     hb_vmPushNil();       // places NIL at self
     hwg_vmPushHWND(hWnd); // pushes parameters on to the hvm stack
@@ -168,7 +168,7 @@ HB_FUNC(HWG_REGNICE)
   static BOOL s_bRegistered = 0;
 
   s_pGradientfill = (GRADIENTFILL)GetProcAddress(LoadLibrary(TEXT("MSIMG32.DLL")), "GradientFill");
-  //    if (Gradientfill == HWG_NULLPTR)
+  //    if (Gradientfill == nullptr)
   //        return FALSE;
   if (!s_bRegistered) {
     WNDCLASS wc;
@@ -180,8 +180,8 @@ HB_FUNC(HWG_REGNICE)
     wc.lpfnWndProc = NiceButtProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
-    wc.hIcon = HWG_NULLPTR;
-    wc.hCursor = HWG_NULLPTR;
+    wc.hIcon = nullptr;
+    wc.hCursor = nullptr;
     wc.lpszMenuName = 0;
 
     RegisterClass(&wc);
@@ -193,10 +193,10 @@ HB_FUNC(HWG_CREATENICEBTN)
 {
   DWORD ulStyle = HB_ISNUM(3) ? hwg_par_DWORD(3) : WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
   void *hTitle;
-  hwg_ret_HWND(CreateWindowEx(hb_parni(8), TEXT("NICEBUTT"), HB_PARSTR(9, &hTitle, HWG_NULLPTR),
+  hwg_ret_HWND(CreateWindowEx(hb_parni(8), TEXT("NICEBUTT"), HB_PARSTR(9, &hTitle, nullptr),
                               WS_CHILD | WS_VISIBLE | ulStyle, hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
-                              hwg_par_int(7), hwg_par_HWND(1), hwg_par_HMENU_ID(2), GetModuleHandle(HWG_NULLPTR),
-                              HWG_NULLPTR));
+                              hwg_par_int(7), hwg_par_HWND(1), hwg_par_HMENU_ID(2), GetModuleHandle(nullptr),
+                              nullptr));
   hb_strfree(hTitle);
 }
 
@@ -222,7 +222,7 @@ HB_FUNC(HWG_DRAW_GRADIENT)
 
 HB_FUNC(HWG_GRADIENT)
 {
-  if (s_pGradientfill == HWG_NULLPTR) {
+  if (s_pGradientfill == nullptr) {
     s_pGradientfill = (GRADIENTFILL)GetProcAddress(LoadLibrary(TEXT("MSIMG32.DLL")), "GradientFill");
   }
   // void Gradient(HDC hdc, int32_t x, int32_t y, int32_t w, int32_t h, int32_t color1, int32_t color2, int32_t nmode)
