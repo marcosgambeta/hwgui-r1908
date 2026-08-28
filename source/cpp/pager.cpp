@@ -1,0 +1,200 @@
+#include "hwingui.h"
+#include <commctrl.h>
+
+#if (defined(__DMC__) || defined(__WATCOMC__))
+#include "missing.h"
+#endif
+
+HB_FUNC(HWG_PAGERSETCHILD)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  HWND hWnd = hwg_par_HWND(2);
+
+#ifndef __GNUC__
+  Pager_SetChild(m_hWnd, hWnd);
+#else
+  SendMessage(m_hWnd, PGM_SETCHILD, 0, (LPARAM)hWnd);
+#endif
+}
+
+HB_FUNC(HWG_PAGERRECALCSIZE)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+
+#ifndef __GNUC__
+  Pager_RecalcSize(m_hWnd);
+#else
+  SendMessage(m_hWnd, PGM_RECALCSIZE, 0, 0);
+#endif
+}
+
+HB_FUNC(HWG_PAGERFORWARDMOUSE)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  BOOL bForward = hb_parl(2);
+
+#ifndef __GNUC__
+  Pager_ForwardMouse(m_hWnd, bForward);
+#else
+  SendMessage(m_hWnd, PGM_FORWARDMOUSE, (WPARAM)(bForward), 0);
+#endif
+}
+
+HB_FUNC(HWG_PAGERSETBKCOLOR)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  COLORREF clr = hwg_par_COLORREF(2);
+
+#ifndef __GNUC__
+  hb_retnl((int32_t)Pager_SetBkColor(m_hWnd, clr));
+#else
+  hb_retnl((int32_t)SendMessage((m_hWnd), PGM_SETBKCOLOR, 0, (LPARAM)clr));
+#endif
+}
+
+HB_FUNC(HWG_PAGERGETBKCOLOR)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+
+#ifndef __GNUC__
+  hb_retnl((int32_t)Pager_GetBkColor(m_hWnd));
+#else
+  hb_retnl((int32_t)SendMessage(m_hWnd, PGM_GETBKCOLOR, 0, 0));
+#endif
+}
+
+HB_FUNC(HWG_PAGERSETBORDER)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  int32_t iBorder = hb_parni(2);
+
+#ifndef __GNUC__
+  hb_retni(Pager_SetBorder(m_hWnd, iBorder));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_SETBORDER, 0, (LPARAM)iBorder));
+#endif
+}
+
+HB_FUNC(HWG_PAGERGETBORDER)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+
+#ifndef __GNUC__
+  hb_retni(Pager_GetBorder(m_hWnd));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_GETBORDER, 0, 0));
+#endif
+}
+
+HB_FUNC(HWG_PAGERSETPOS)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  int32_t iPos = hb_parni(2);
+
+#ifndef __GNUC__
+  hb_retni(Pager_SetPos(m_hWnd, iPos));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_SETPOS, 0, (LPARAM)iPos));
+#endif
+}
+
+HB_FUNC(HWG_PAGERGETPOS)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+
+#ifndef __GNUC__
+  hb_retni(Pager_GetPos(m_hWnd));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_GETPOS, 0, 0));
+#endif
+}
+
+HB_FUNC(HWG_PAGERSETBUTTONSIZE)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  int32_t iSize = hb_parni(2);
+
+#ifndef __GNUC__
+  hb_retni(Pager_SetButtonSize(m_hWnd, iSize));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_SETBUTTONSIZE, 0, (LPARAM)iSize));
+#endif
+}
+
+HB_FUNC(HWG_PAGERGETBUTTONSIZE)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+
+#ifndef __GNUC__
+  hb_retni(Pager_GetButtonSize(m_hWnd));
+#else
+  hb_retni(SendMessage(m_hWnd, PGM_GETBUTTONSIZE, 0, 0));
+#endif
+}
+
+HB_FUNC(HWG_PAGERGETBUTTONSTATE)
+{
+  HWND m_hWnd = hwg_par_HWND(1);
+  int32_t iButton = hb_parni(1);
+
+#ifndef __GNUC__
+  hb_retnl(Pager_GetButtonState(m_hWnd, iButton));
+#else
+  hb_retnl((int32_t)SendMessage(m_hWnd, PGM_GETBUTTONSTATE, 0, (LPARAM)iButton));
+#endif
+}
+
+HB_FUNC(HWG_PAGERONPAGERCALCSIZE)
+{
+  LPNMPGCALCSIZE pNMPGCalcSize = (LPNMPGCALCSIZE)HB_PARHANDLE(1);
+  HWND hwndToolbar = hwg_par_HWND(2);
+  SIZE size;
+
+  SendMessage(hwndToolbar, TB_GETMAXSIZE, 0, (LPARAM)&size);
+
+  switch (pNMPGCalcSize->dwFlag) {
+  case PGF_CALCWIDTH:
+    pNMPGCalcSize->iWidth = size.cx;
+    break;
+
+  case PGF_CALCHEIGHT:
+    pNMPGCalcSize->iHeight = size.cy;
+    break;
+  }
+
+  hb_retnl(0);
+}
+
+HB_FUNC(HWG_PAGERONPAGERSCROLL)
+{
+  LPNMPGSCROLL pNMPGScroll = (LPNMPGSCROLL)HB_PARHANDLE(1);
+
+  switch (pNMPGScroll->iDir) {
+  case PGF_SCROLLLEFT:
+  case PGF_SCROLLRIGHT:
+  case PGF_SCROLLUP:
+  case PGF_SCROLLDOWN:
+    pNMPGScroll->iScroll = 20;
+
+    break;
+  }
+
+  hb_retnl(0);
+}
+
+#ifdef HWGUI_FUNC_TRANSLATE_ON
+HB_FUNC_TRANSLATE(PAGERSETCHILD, HWG_PAGERSETCHILD);
+HB_FUNC_TRANSLATE(PAGERRECALCSIZE, HWG_PAGERRECALCSIZE);
+HB_FUNC_TRANSLATE(PAGERFORWARDMOUSE, HWG_PAGERFORWARDMOUSE);
+HB_FUNC_TRANSLATE(PAGERSETBKCOLOR, HWG_PAGERSETBKCOLOR);
+HB_FUNC_TRANSLATE(PAGERGETBKCOLOR, HWG_PAGERGETBKCOLOR);
+HB_FUNC_TRANSLATE(PAGERSETBORDER, HWG_PAGERSETBORDER);
+HB_FUNC_TRANSLATE(PAGERGETBORDER, HWG_PAGERGETBORDER);
+HB_FUNC_TRANSLATE(PAGERSETPOS, HWG_PAGERSETPOS);
+HB_FUNC_TRANSLATE(PAGERGETPOS, HWG_PAGERGETPOS);
+HB_FUNC_TRANSLATE(PAGERSETBUTTONSIZE, HWG_PAGERSETBUTTONSIZE);
+HB_FUNC_TRANSLATE(PAGERGETBUTTONSIZE, HWG_PAGERGETBUTTONSIZE);
+HB_FUNC_TRANSLATE(PAGERGETBUTTONSTATE, HWG_PAGERGETBUTTONSTATE);
+HB_FUNC_TRANSLATE(PAGERONPAGERCALCSIZE, HWG_PAGERONPAGERCALCSIZE);
+HB_FUNC_TRANSLATE(PAGERONPAGERSCROLL, HWG_PAGERONPAGERSCROLL);
+#endif
