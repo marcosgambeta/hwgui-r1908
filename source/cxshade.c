@@ -252,10 +252,10 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
     uint8_t *iDst = (uint8_t *)(pdib->hDib) + sizeof(BITMAPINFOHEADER);
     if (idx < pdib->m_nColors) {
       int32_t ldx = idx * sizeof(RGBQUAD);
-      iDst[ldx++] = (uint8_t)b;
-      iDst[ldx++] = (uint8_t)g;
-      iDst[ldx++] = (uint8_t)r;
-      iDst[ldx] = (uint8_t)0;
+      iDst[ldx++] = b;
+      iDst[ldx++] = g;
+      iDst[ldx++] = r;
+      iDst[ldx] = 0;
     }
   }
 }
