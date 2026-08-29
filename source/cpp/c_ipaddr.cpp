@@ -66,12 +66,10 @@ HB_FUNC(HWG_INITIPADDRESS)
 
 HB_FUNC(HWG_SETIPADDRESS)
 {
-  uint8_t v1, v2, v3, v4;
-
-  v1 = static_cast<uint8_t>(hb_parni(2));
-  v2 = static_cast<uint8_t>(hb_parni(3));
-  v3 = static_cast<uint8_t>(hb_parni(4));
-  v4 = static_cast<uint8_t>(hb_parni(5));
+  uint8_t v1 = static_cast<uint8_t>(hb_parni(2));
+  uint8_t v2 = static_cast<uint8_t>(hb_parni(3));
+  uint8_t v3 = static_cast<uint8_t>(hb_parni(4));
+  uint8_t v4 = static_cast<uint8_t>(hb_parni(5));
 
   SendMessage(hwg_par_HWND(1), IPM_SETADDRESS, 0, MAKEIPADDRESS(v1, v2, v3, v4));
 }
@@ -79,14 +77,13 @@ HB_FUNC(HWG_SETIPADDRESS)
 HB_FUNC(HWG_GETIPADDRESS)
 {
   DWORD pdwAddr;
-  uint8_t v1, v2, v3, v4;
 
   SendMessage(hwg_par_HWND(1), IPM_GETADDRESS, 0, (LPARAM)(LPDWORD)&pdwAddr);
 
-  v1 = static_cast<uint8_t>(FIRST_IPADDRESS(pdwAddr));
-  v2 = static_cast<uint8_t>(SECOND_IPADDRESS(pdwAddr));
-  v3 = static_cast<uint8_t>(THIRD_IPADDRESS(pdwAddr));
-  v4 = static_cast<uint8_t>(FOURTH_IPADDRESS(pdwAddr));
+  uint8_t v1 = static_cast<uint8_t>(FIRST_IPADDRESS(pdwAddr));
+  uint8_t v2 = static_cast<uint8_t>(SECOND_IPADDRESS(pdwAddr));
+  uint8_t v3 = static_cast<uint8_t>(THIRD_IPADDRESS(pdwAddr));
+  uint8_t v4 = static_cast<uint8_t>(FOURTH_IPADDRESS(pdwAddr));
 
   hb_reta(4);
   hb_storvni((INT)v1, -1, 1);
