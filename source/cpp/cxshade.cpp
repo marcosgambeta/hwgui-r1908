@@ -31,14 +31,17 @@
 #define HDIB HANDLE
 #define WIDTHBYTES(bits) (((bits) + 31) / 32 * 4)
 
-typedef struct CXDIB_STRU
+struct CXDIB_STRU
 {
   HDIB hDib;
   BITMAPINFOHEADER m_bi;
   DWORD m_LineWidth;
   WORD m_nColors;
 
-} CXDIB, *PCXDIB;
+};
+
+using CXDIB = CXDIB_STRU;
+using PCXDIB = CXDIB *;
 
 // PCXDIB cxdib_New(void); // not used
 static void cxdib_Release(PCXDIB pdib);
@@ -58,7 +61,7 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
 static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, int32_t perc);
 static void cxdib_SetPixelIndex(PCXDIB pdib, int32_t x, int32_t y, uint8_t i);
 
-typedef struct CXSHADE_STRU
+struct CXSHADE_STRU
 {
   RECT m_rect; // object coordinates
   CXDIB m_dNormal, m_dDown, m_dDisabled, m_dOver, m_dh, m_dv;
@@ -66,7 +69,10 @@ typedef struct CXSHADE_STRU
   BOOL m_Border;           // 0=flat; 1=3D;
   BOOL m_flat;
 
-} CXSHADE, *PCXSHADE;
+};
+
+using CXSHADE = CXSHADE_STRU;
+using PCXSHADE = CXSHADE *;
 
 static PCXSHADE cxshade_New(RECT *prect, BOOL lFlat);
 static void cxshade_Release(PCXSHADE pshade);
