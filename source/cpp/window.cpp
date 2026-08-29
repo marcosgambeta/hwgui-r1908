@@ -181,7 +181,7 @@ void ProcessMdiMessage(HWND hJanBase, HWND hJanClient, MSG msg, HACCEL hAcceler)
 // HWG_ACTIVATEMAINWINDOW(lShow, hAccel, lMaximize, lMinimize)
 HB_FUNC(HWG_ACTIVATEMAINWINDOW)
 {
-  HACCEL hAcceler = (HB_ISNIL(2)) ? nullptr : (HACCEL)(intptr_t)hb_parnl(2);
+  HACCEL hAcceler = (HB_ISNIL(2)) ? nullptr : (HACCEL)static_cast<intptr_t>(hb_parnl(2));
   MSG msg;
 
   if (hb_parl(1)) {
@@ -384,7 +384,7 @@ HB_FUNC(HWG_INITCLIENTWINDOW)
 
 HB_FUNC(HWG_ACTIVATEMDIWINDOW)
 {
-  HACCEL hAcceler = (HB_ISNIL(2)) ? nullptr : (HACCEL)(intptr_t)hb_parnl(2);
+  HACCEL hAcceler = (HB_ISNIL(2)) ? nullptr : (HACCEL)static_cast<intptr_t>(hb_parnl(2));
   MSG msg;
 
   if (hb_parl(1)) {
@@ -583,7 +583,7 @@ HB_FUNC(HWG_GETACTIVEWINDOW)
 
 HB_FUNC(HWG_GETINSTANCE)
 {
-  hb_retnint((intptr_t)GetModuleHandle(nullptr));
+  hb_retnint(static_cast<intptr_t>(GetModuleHandle(nullptr)));
 }
 
 HB_FUNC(HWG_SETWINDOWSTYLE)

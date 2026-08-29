@@ -138,9 +138,9 @@ HB_FUNC(HWG_SHELLEXECUTE)
     lpDirectory = TEXT("C:\\");
   }
 
-  hb_retnint((intptr_t)ShellExecute(GetActiveWindow(), HB_PARSTRDEF(2, &hOperation, nullptr),
+  hb_retnint(static_cast<intptr_t>(ShellExecute(GetActiveWindow(), HB_PARSTRDEF(2, &hOperation, nullptr),
                                     HB_PARSTR(1, &hFile, nullptr), HB_PARSTR(3, &hParameters, nullptr),
-                                    lpDirectory, HB_ISNUM(5) ? hb_parni(5) : SW_SHOWNORMAL));
+                                    lpDirectory, HB_ISNUM(5) ? hb_parni(5) : SW_SHOWNORMAL)));
 
   hb_strfree(hOperation);
   hb_strfree(hFile);

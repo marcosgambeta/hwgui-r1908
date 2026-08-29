@@ -164,7 +164,7 @@ HB_FUNC(HWG_FILLRECT)
   rc.bottom = hb_parni(5);
 
   // TODO: usar apenas hwg_par_HDC(1)
-  FillRect(HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)(intptr_t)hb_parnl(1), &rc, hwg_par_HBRUSH(6));
+  FillRect(HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)static_cast<intptr_t>(hb_parnl(1)), &rc, hwg_par_HBRUSH(6));
 }
 
 // HWG_ROUNDRECT(HDC, nLeft, nTop, nRight, nBottom, nWidth, nHeight) --> .T.|.F.
@@ -219,21 +219,21 @@ HB_FUNC(HWG_DRAWBUTTON)
   if (iType == 0) {
     FillRect(hDC, &rc, (HBRUSH)(COLOR_3DFACE + 1));
   } else {
-    FillRect(hDC, &rc, (HBRUSH)(intptr_t)(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DHILIGHT) + 1));
+    FillRect(hDC, &rc, (HBRUSH)static_cast<intptr_t>(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DHILIGHT) + 1));
     rc.left++;
     rc.top++;
     FillRect(hDC, &rc,
-             (HBRUSH)(intptr_t)(((iType & 2)   ? COLOR_3DHILIGHT
+             (HBRUSH)static_cast<intptr_t>(((iType & 2)   ? COLOR_3DHILIGHT
                                  : (iType & 4) ? COLOR_3DDKSHADOW
                                                : COLOR_3DSHADOW) +
                                 1));
     rc.right--;
     rc.bottom--;
     if (iType & 4) {
-      FillRect(hDC, &rc, (HBRUSH)(intptr_t)(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DLIGHT) + 1));
+      FillRect(hDC, &rc, (HBRUSH)static_cast<intptr_t>(((iType & 2) ? COLOR_3DSHADOW : COLOR_3DLIGHT) + 1));
       rc.left++;
       rc.top++;
-      FillRect(hDC, &rc, (HBRUSH)(intptr_t)(((iType & 2) ? COLOR_3DLIGHT : COLOR_3DSHADOW) + 1));
+      FillRect(hDC, &rc, (HBRUSH)static_cast<intptr_t>(((iType & 2) ? COLOR_3DLIGHT : COLOR_3DSHADOW) + 1));
       rc.right--;
       rc.bottom--;
     }
@@ -418,7 +418,7 @@ HB_FUNC(HWG_DRAWTRANSPARENTBITMAP)
 // HWG_SPREADBITMAP(HDC, HWND, HBITMAP, np4) -->
 HB_FUNC(HWG_SPREADBITMAP)
 {
-  HDC hDC = HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)(intptr_t)hb_parnl(1); // TODO: revisar e usar somente hwg_par_HDC
+  HDC hDC = HB_ISPOINTER(1) ? hwg_par_HDC(1) : (HDC)static_cast<intptr_t>(hb_parnl(1)); // TODO: revisar e usar somente hwg_par_HDC
   HDC hDCmem = CreateCompatibleDC(hDC);
   DWORD dwraster = (HB_ISNIL(4)) ? SRCCOPY : (DWORD)hb_parnl(4);
   HBITMAP hBitmap = hwg_par_HBITMAP(3);
@@ -536,7 +536,7 @@ HB_FUNC(HWG_OPENBITMAP)
   hfbm = CreateFile(HB_PARSTR(1, &hString, nullptr), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
                     FILE_ATTRIBUTE_READONLY, nullptr);
   hb_strfree(hString);
-  if ((static_cast<int32_t>((intptr_t)hfbm)) <= 0) {
+  if ((static_cast<int32_t>(static_cast<intptr_t>(hfbm))) <= 0) {
     HB_RETHANDLE(nullptr);
     return;
   }
@@ -710,7 +710,7 @@ HB_FUNC(HWG_GETDRAWITEMINFO)
   hb_itemArrayPut(aMetr, 7, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNInt(nullptr, (intptr_t)lpdis->hwndItem);
+  temp = hb_itemPutNInt(nullptr, static_cast<intptr_t>(lpdis->hwndItem));
   hb_itemArrayPut(aMetr, 8, temp);
   hb_itemRelease(temp);
 

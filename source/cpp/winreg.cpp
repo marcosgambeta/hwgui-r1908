@@ -63,7 +63,7 @@ __inline int32_t PtrToLong(const void *p)
 }
 #endif
 
-#define hwg_par_HKEY(n) (HKEY)(uintptr_t) hb_parnint(n)
+#define hwg_par_HKEY(n) (HKEY)static_cast<uintptr_t>(hb_parnint(n))
 
 // HWG_REGCLOSEKEY(HKEY) --> numeric
 HB_FUNC(HWG_REGCLOSEKEY)
@@ -180,7 +180,7 @@ HB_FUNC(HWG_REGCREATEKEYEX)
                         &hkResult, &dwDisposition);
 
   if (nErr == ERROR_SUCCESS) {
-    hb_stornint((intptr_t)hkResult, 8);
+    hb_stornint(static_cast<intptr_t>(hkResult), 8);
     hb_stornl(static_cast<int32_t>(dwDisposition), 9);
   }
   hb_retnl(nErr);

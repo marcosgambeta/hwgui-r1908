@@ -129,7 +129,7 @@ HB_FUNC(HWG_NMCIWINDOW)
   mciWindowParms.hWnd = hWnd;
 
   hb_retnl(mciSendCommand(hb_parni(1), MCI_WINDOW, MCI_ANIM_WINDOW_HWND | MCI_ANIM_WINDOW_DISABLE_STRETCH,
-                          (intptr_t)(LPMCI_ANIM_WINDOW_PARMS)&mciWindowParms));
+                          static_cast<intptr_t>((LPMCI_ANIM_WINDOW_PARMS)&mciWindowParms)));
 }
 
 #ifdef HWGUI_FUNC_TRANSLATE_ON

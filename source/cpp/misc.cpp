@@ -19,7 +19,7 @@
 #include "missing.h"
 
 #if defined(__BORLANDC__) && defined(__clang__) && defined(HB_OS_WIN_64)
-#define PtrToUlong(p) (static_cast<uint32_t>((uintptr_t)(p)))
+#define PtrToUlong(p) (static_cast<uint32_t>(static_cast<uintptr_t>(p)))
 #endif
 
 void writelog(char *s)
@@ -408,7 +408,7 @@ HB_FUNC(HWG_GETDESKTOPHEIGHT_VS)
 
 HB_FUNC(HWG_GETHELPDATA)
 {
-  hb_retnint((intptr_t)(((HELPINFO FAR *)(intptr_t)hb_parnl(1))->hItemHandle));
+  hb_retnint(static_cast<intptr_t>(((HELPINFO FAR *)static_cast<intptr_t>(hb_parnl(1)))->hItemHandle));
 }
 
 HB_FUNC(HWG_WINHELP)
@@ -688,7 +688,7 @@ HB_FUNC(HWG_HEDITEX_CTLCOLOR)
   COLORREF cColor;
 
   if (!pObject) {
-    hb_retnint((intptr_t)GetStockObject(HOLLOW_BRUSH)); // TODO: revisar (retornar HBRUSH ?)
+    hb_retnint(static_cast<intptr_t>(GetStockObject(HOLLOW_BRUSH))); // TODO: revisar (retornar HBRUSH ?)
     SetBkMode(hdc, TRANSPARENT);
     return;
   }

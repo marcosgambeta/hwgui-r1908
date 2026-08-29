@@ -20,7 +20,7 @@ HMODULE hModule;
 
 HB_FUNC(HWG_GETRESOURCES)
 {
-  hb_retnint((intptr_t)hModule);
+  hb_retnint(static_cast<intptr_t>(hModule));
 }
 
 HB_FUNC(HWG_LOADSTRING)
