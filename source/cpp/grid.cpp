@@ -309,7 +309,7 @@ HB_FUNC(HWG_LISTVIEW_ADDCOLUMNEX)
   lvcolumn.fmt = hb_parni(5);
   lvcolumn.iImage = iImage > 0 ? lCol : -1;
 
-  if (SendMessage(hwndListView, (UINT)LVM_INSERTCOLUMN, (WPARAM)(int32_t)lCol, (LPARAM)&lvcolumn) == -1) {
+  if (SendMessage(hwndListView, (UINT)LVM_INSERTCOLUMN, (WPARAM)static_cast<int32_t>(lCol), (LPARAM)&lvcolumn) == -1) {
     iResult = 0;
   } else {
     iResult = 1;
@@ -391,7 +391,7 @@ HB_FUNC(HWG_LISTVIEWSELECTLASTITEM)
   HWND hList = hwg_par_HWND(1);
   int32_t items;
 
-  items = (int32_t)SendMessage(hList, LVM_GETITEMCOUNT, 0, 0);
+  items = static_cast<int32_t>(SendMessage(hList, LVM_GETITEMCOUNT, 0, 0));
   items--;
   ListView_SetItemState(hList, -1, 0, LVIS_SELECTED);
   SendMessage(hList, LVM_ENSUREVISIBLE, (WPARAM)items, FALSE);
@@ -437,7 +437,7 @@ HB_FUNC(HWG_PROCESSCUSTU)
   LPARAM lParam = (LPARAM)HB_PARHANDLE(2);
   PHB_ITEM pColor = hb_param(3, HB_IT_ARRAY);
 
-  hb_retnl((int32_t)ProcessCustomDraw(lParam, pColor));
+  hb_retnl(static_cast<int32_t>(ProcessCustomDraw(lParam, pColor)));
 }
 
 HB_FUNC(HWG_LISTVIEWGETITEM)

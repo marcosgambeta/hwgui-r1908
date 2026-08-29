@@ -72,10 +72,10 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
     uint32_t ul, ulLen, ulLen1;
     PHB_ITEM pArr1;
     pArr = hb_param(2, HB_IT_ARRAY);
-    ulLen = (uint32_t)hb_arrayLen(pArr);
+    ulLen = static_cast<uint32_t>(hb_arrayLen(pArr));
     for (ul = 1; ul <= ulLen; ul++) {
       pArr1 = hb_arrayGetItemPtr(pArr, ul);
-      ulLen1 = (uint32_t)hb_arrayLen(pArr1);
+      ulLen1 = static_cast<uint32_t>(hb_arrayLen(pArr1));
       chrNew.cpMin = hb_arrayGetNL(pArr1, 1) - 1;
       chrNew.cpMax = hb_arrayGetNL(pArr1, 2) - 1;
       SendMessage(hCtrl, EM_EXSETSEL, 0, (LPARAM)&chrNew);
@@ -105,7 +105,7 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
         cf.dwEffects |= CFE_UNDERLINE;
       }
       if (ulLen1 > 8 && hb_itemType(hb_arrayGetItemPtr(pArr1, 9)) != HB_IT_NIL) {
-        cf.bCharSet = (uint8_t)hb_arrayGetNL(pArr1, 9);
+        cf.bCharSet = static_cast<uint8_t>(hb_arrayGetNL(pArr1, 9));
         cf.dwMask |= CFM_CHARSET;
       }
       if (ulLen1 > 9 && hb_itemType(hb_arrayGetItemPtr(pArr1, 10)) != HB_IT_NIL) {
@@ -157,7 +157,7 @@ HB_FUNC(HWG_RE_SETCHARFORMAT)
       cf.dwMask |= CFM_UNDERLINE;
     }
     if (!HB_ISNIL(10)) {
-      cf.bCharSet = (uint8_t)hb_parnl(10);
+      cf.bCharSet = static_cast<uint8_t>(hb_parnl(10));
       cf.dwMask |= CFM_CHARSET;
     }
     if (!HB_ISNIL(11)) {
@@ -216,7 +216,7 @@ HB_FUNC(HWG_RE_SETDEFAULT)
   }
 
   if (HB_ISNUM(8)) {
-    cf.bCharSet = (uint8_t)hb_parnl(8);
+    cf.bCharSet = static_cast<uint8_t>(hb_parnl(8));
     cf.dwMask |= CFM_CHARSET;
   }
 
@@ -235,7 +235,7 @@ HB_FUNC(HWG_RE_CHARFROMPOS)
 
   pp.x = x;
   pp.y = y;
-  ul = (uint32_t)SendMessage(hCtrl, EM_CHARFROMPOS, 0, (LPARAM)&pp);
+  ul = static_cast<uint32_t>(SendMessage(hCtrl, EM_CHARFROMPOS, 0, (LPARAM)&pp));
   hb_retnl(ul);
 }
 
@@ -250,7 +250,7 @@ HB_FUNC(HWG_RE_GETTEXTRANGE)
   tr.chrg.cpMax = hb_parnl(3) - 1;
 
   tr.lpstrText = (LPTSTR)hb_xgrab((tr.chrg.cpMax - tr.chrg.cpMin + 2) * sizeof(TCHAR));
-  ul = (uint32_t)SendMessage(hCtrl, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+  ul = static_cast<uint32_t>(SendMessage(hCtrl, EM_GETTEXTRANGE, 0, (LPARAM)&tr));
   HB_RETSTRLEN(tr.lpstrText, ul);
   hb_xfree(tr.lpstrText);
 }
@@ -260,12 +260,12 @@ HB_FUNC(HWG_RE_GETLINE)
 {
   HWND hCtrl = hwg_par_HWND(1);
   int32_t nLine = hb_parni(2);
-  uint32_t uLineIndex = (uint32_t)SendMessage(hCtrl, EM_LINEINDEX, (WPARAM)nLine, 0);
-  uint32_t ul = (uint32_t)SendMessage(hCtrl, EM_LINELENGTH, (WPARAM)uLineIndex, 0);
+  uint32_t uLineIndex = static_cast<uint32_t>(SendMessage(hCtrl, EM_LINEINDEX, (WPARAM)nLine, 0));
+  uint32_t ul = static_cast<uint32_t>(SendMessage(hCtrl, EM_LINELENGTH, (WPARAM)uLineIndex, 0));
   LPTSTR lpBuf = (LPTSTR)hb_xgrab((ul + 4) * sizeof(TCHAR));
 
   *((uint32_t *)lpBuf) = ul;
-  ul = (uint32_t)SendMessage(hCtrl, EM_GETLINE, nLine, (LPARAM)lpBuf);
+  ul = static_cast<uint32_t>(SendMessage(hCtrl, EM_GETLINE, nLine, (LPARAM)lpBuf));
   HB_RETSTRLEN(lpBuf, ul);
   hb_xfree(lpBuf);
 }
@@ -291,7 +291,7 @@ HB_FUNC(HWG_RE_FINDTEXT)
   ft.chrg.cpMax = -1;
   ft.lpstrText = (LPTSTR)HB_PARSTR(2, &hString, nullptr);
 
-  lPos = (int32_t)SendMessage(hCtrl, EM_FINDTEXTEX, (WPARAM)lFlag, (LPARAM)&ft);
+  lPos = static_cast<int32_t>(SendMessage(hCtrl, EM_FINDTEXTEX, (WPARAM)lFlag, (LPARAM)&ft));
   hb_strfree(hString);
   hb_retnl(lPos);
 }
@@ -349,7 +349,7 @@ HB_FUNC(HWG_PRINTRTF)
     if (!fSuccess) {
       break;
     }
-    cpMin = (uint32_t)SendMessage(hwnd, EM_FORMATRANGE, TRUE, (LPARAM)&fr);
+    cpMin = static_cast<uint32_t>(SendMessage(hwnd, EM_FORMATRANGE, TRUE, (LPARAM)&fr));
     if (cpMin <= fr.chrg.cpMin) {
       fSuccess = FALSE;
       break;

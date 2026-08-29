@@ -65,7 +65,7 @@ HB_FUNC(HWG_MSGRETRYCANCEL)
 
 HB_FUNC(HWG_MSGBEEP)
 {
-  MessageBeep((hb_pcount() == 0) ? (int32_t)0xFFFFFFFF : hb_parnl(1));
+  MessageBeep((hb_pcount() == 0) ? static_cast<int32_t>(0xFFFFFFFF) : hb_parnl(1));
 }
 
 HB_FUNC(HWG_MSGTEMP)
@@ -74,7 +74,7 @@ HB_FUNC(HWG_MSGTEMP)
   LPCTSTR msg;
 
 #if __HARBOUR__ - 0 >= 0x010100
-  hb_snprintf(cres, sizeof(cres), "WS_OVERLAPPEDWINDOW: %lx NM_FIRST: %d ", (int32_t)WS_OVERLAPPEDWINDOW, NM_FIRST);
+  hb_snprintf(cres, sizeof(cres), "WS_OVERLAPPEDWINDOW: %lx NM_FIRST: %d ", static_cast<int32_t>(WS_OVERLAPPEDWINDOW), NM_FIRST);
 #else
   sprintf(cres, "WS_OVERLAPPEDWINDOW: %lx NM_FIRST: %d ", /*(int32_t)*/WS_OVERLAPPEDWINDOW, NM_FIRST);
 #endif

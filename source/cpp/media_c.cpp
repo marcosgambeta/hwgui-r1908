@@ -43,8 +43,8 @@ HB_FUNC(HWG_MCISENDSTRING)
   TCHAR cBuffer[256] = {0};
   void *hCommand;
 
-  hb_retnl((int32_t)mciSendString(HB_PARSTR(1, &hCommand, nullptr), cBuffer, HB_SIZEOFARRAY(cBuffer),
-                               (HB_ISNIL(3)) ? GetActiveWindow() : hwg_par_HWND(3)));
+  hb_retnl(static_cast<int32_t>(mciSendString(HB_PARSTR(1, &hCommand, nullptr), cBuffer, HB_SIZEOFARRAY(cBuffer),
+                               (HB_ISNIL(3)) ? GetActiveWindow() : hwg_par_HWND(3))));
   if (!HB_ISNIL(2)) {
     HB_STORSTR(cBuffer, 2);
   }

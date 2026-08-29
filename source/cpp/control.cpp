@@ -255,9 +255,9 @@ HB_FUNC(HWG_INITSTATUS)
   } else {
     uint32_t ul;
     nWidth = 0;
-    for (ul = 1; ul <= (uint32_t)nParts; ul++) {
+    for (ul = 1; ul <= static_cast<uint32_t>(nParts); ul++) {
       j = hb_arrayGetNI(pArray, ul);
-      if (ul == (uint32_t)nParts && j == 0) {
+      if (ul == static_cast<uint32_t>(nParts) && j == 0) {
         nWidth = -1;
       } else {
         nWidth += j;
@@ -276,7 +276,7 @@ HB_FUNC(HWG_INITSTATUS)
 
 HB_FUNC(HWG_GETNOTIFYSBPARTS)
 {
-  hb_retnl((int32_t)(((NMMOUSE *)HB_PARHANDLE(1))->dwItemSpec));
+  hb_retnl(static_cast<int32_t>(((NMMOUSE *)HB_PARHANDLE(1))->dwItemSpec));
 }
 
 HB_FUNC(HWG_ADDTOOLTIP) // changed by MAG
@@ -380,9 +380,9 @@ HB_FUNC(HWG_GETNOTIFYDELTAPOS)
 {
   int32_t iItem = hb_parnl(2);
   if (iItem < 2) {
-    hb_retni((int32_t)(((NMUPDOWN *)HB_PARHANDLE(1))->iPos));
+    hb_retni(static_cast<int32_t>(((NMUPDOWN *)HB_PARHANDLE(1))->iPos));
   } else {
-    hb_retni((int32_t)(((NMUPDOWN *)HB_PARHANDLE(1))->iDelta));
+    hb_retni(static_cast<int32_t>(((NMUPDOWN *)HB_PARHANDLE(1))->iDelta));
   }
 }
 
@@ -425,10 +425,10 @@ HB_FUNC(HWG_SETDATEPICKER)
     } else {
       const char *szTime = hb_parc(3);
       if (szTime) {
-        ulLen = (uint32_t)strlen(szTime);
+        ulLen = static_cast<uint32_t>(strlen(szTime));
         if (ulLen >= 4) {
-          lSeconds = (int32_t)hb_strVal(szTime, 2) * 3600 * 1000 + (int32_t)hb_strVal(szTime + 2, 2) * 60 * 1000 +
-                     (int32_t)(hb_strVal(szTime + 4, ulLen - 4) * 1000);
+          lSeconds = static_cast<int32_t>(hb_strVal(szTime, 2)) * 3600 * 1000 + static_cast<int32_t>(hb_strVal(szTime + 2, 2)) * 60 * 1000 +
+                     static_cast<int32_t>(hb_strVal(szTime + 4, ulLen - 4) * 1000);
         }
       }
 #ifdef __XHARBOUR__
@@ -492,7 +492,7 @@ HB_FUNC(HWG_INITTABCONTROL)
   PHB_ITEM pArr = hb_param(2, HB_IT_ARRAY);
   int32_t iItems = hb_parnl(3);
   TC_ITEM tie;
-  uint32_t ul, ulTabs = (uint32_t)hb_arrayLen(pArr);
+  uint32_t ul, ulTabs = static_cast<uint32_t>(hb_arrayLen(pArr));
 
   tie.mask = TCIF_TEXT | TCIF_IMAGE;
   tie.iImage = iItems == 0 ? -1 : 0;
@@ -584,7 +584,7 @@ HB_FUNC(HWG_TAB_HITTEST)
     ScreenToClient(hTab, &(ht.pt));
   }
 
-  res = (int32_t)SendMessage(hTab, TCM_HITTEST, 0, (LPARAM)&ht);
+  res = static_cast<int32_t>(SendMessage(hTab, TCM_HITTEST, 0, (LPARAM)&ht));
 
   hb_storni(ht.flags, 4);
   hb_retni(res);
@@ -767,7 +767,7 @@ HB_FUNC(HWG_TREE_GETNOTIFY)
   }
 
   if (iType == TREE_GETNOTIFY_ACTION) {
-    hb_retnl((int32_t)(((NM_TREEVIEW *)HB_PARHANDLE(1))->action));
+    hb_retnl(static_cast<int32_t>(((NM_TREEVIEW *)HB_PARHANDLE(1))->action));
   } else if (iType == TREE_GETNOTIFY_PARAM || iType == TREE_GETNOTIFY_EDITPARAM || iType == TREE_GETNOTIFY_OLDPARAM) {
     PHB_ITEM oNode; // = hb_itemNew(nullptr);
     if (iType == TREE_GETNOTIFY_EDITPARAM) {
@@ -815,7 +815,7 @@ HB_FUNC(HWG_TREE_HITTEST)
     oNode = (PHB_ITEM)TreeItem.lParam;
     hb_itemReturn(oNode);
     if (hb_pcount() > 3) {
-      hb_storni((int32_t)ht.flags, 4);
+      hb_storni(static_cast<int32_t>(ht.flags), 4);
     }
   } else {
     hb_ret();
@@ -844,7 +844,7 @@ HB_FUNC(HWG_CREATEIMAGELIST)
   PHB_ITEM pArray = hb_param(1, HB_IT_ARRAY);
   UINT flags = (HB_ISNIL(5)) ? ILC_COLOR : hb_parni(5);
   HIMAGELIST himl;
-  uint32_t ul, ulLen = (uint32_t)hb_arrayLen(pArray);
+  uint32_t ul, ulLen = static_cast<uint32_t>(hb_arrayLen(pArray));
   HBITMAP hbmp;
 
   himl = ImageList_Create(hb_parni(2), hb_parni(3), flags, ulLen, hb_parni(4));
@@ -1020,10 +1020,10 @@ static void CALLBACK s_timerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dw
   if (hb_dynsymIsFunction(s_pSymTest)) {
     hb_vmPushDynSym(s_pSymTest);
     hb_vmPushNil(); // places NIL at self
-    // hb_vmPushLong((int32_t)hWnd); // pushes parameters on to the hvm stack
+    // hb_vmPushLong(static_cast<int32_t>(hWnd)); // pushes parameters on to the hvm stack
     HB_PUSHITEM(hWnd);
-    hb_vmPushLong((int32_t)idTimer);
-    hb_vmPushLong((int32_t)dwTime);
+    hb_vmPushLong(static_cast<int32_t>(idTimer));
+    hb_vmPushLong(static_cast<int32_t>(dwTime));
     hb_vmDo(3); // where iArgCount is the number of pushed parameters
   }
 }
@@ -1131,7 +1131,7 @@ LRESULT APIENTRY StaticSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 HB_FUNC(HWG_INITBUTTONPROC)
 {
-  //   s_wpOrigButtonProc = (WNDPROC)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, (int32_t)ButtonSubclassProc);
+  //   s_wpOrigButtonProc = (WNDPROC)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC, static_cast<int32_t>(ButtonSubclassProc));
   s_wpOrigButtonProc = (intptr_t)SetWindowLongPtr(hwg_par_HWND(1), GWLP_WNDPROC, (intptr_t)ButtonSubclassProc);
 }
 
@@ -1389,11 +1389,11 @@ HB_FUNC(HWG_TOOLBARADDBUTTONS)
     if (hb_arrayGetNI(pTemp, 4) == TBSTYLE_SEP) {
       tb[ulCount].iBitmap = 8;
     } else {
-      tb[ulCount].iBitmap = ulID - 1; // ulID > 0 ? (int32_t)ulCount : -1;
+      tb[ulCount].iBitmap = ulID - 1; // ulID > 0 ? static_cast<int32_t>(ulCount) : -1;
     }
     tb[ulCount].idCommand = hb_arrayGetNI(pTemp, 2);
-    tb[ulCount].fsState = (uint8_t)hb_arrayGetNI(pTemp, 3);
-    tb[ulCount].fsStyle = (uint8_t)hb_arrayGetNI(pTemp, 4);
+    tb[ulCount].fsState = static_cast<uint8_t>(hb_arrayGetNI(pTemp, 3));
+    tb[ulCount].fsStyle = static_cast<uint8_t>(hb_arrayGetNI(pTemp, 4));
     tb[ulCount].dwData = hb_arrayGetNI(pTemp, 5);
     tb[ulCount].iString = hb_arrayGetCLen(pTemp, 6) > 0 ? (INT_PTR)hb_arrayGetCPtr(pTemp, 6) : 0;
   }
@@ -1443,7 +1443,7 @@ HB_FUNC(HWG_TOOLBAR_LOADSTANDARTIMAGE)
 
   SendMessage(hWndCtrl, TB_ADDBITMAP, 0, (LPARAM)&tbab);
   himl = (HIMAGELIST)SendMessage(hWndCtrl, TB_GETIMAGELIST, 0, 0);
-  hb_retni((int32_t)ImageList_GetImageCount(himl));
+  hb_retni(static_cast<int32_t>(ImageList_GetImageCount(himl)));
 }
 
 HB_FUNC(HWG_IMAGELIST_GETIMAGECOUNT)
@@ -1554,7 +1554,7 @@ HB_FUNC(HWG_TOOLBAR_SUBMENUEXGETID)
 {
 
   LPNMTOOLBAR lpnmTB = (LPNMTOOLBAR)HB_PARHANDLE(1);
-  hb_retnl((int32_t)lpnmTB->iItem);
+  hb_retnl(static_cast<int32_t>(lpnmTB->iItem));
 }
 
 HB_FUNC(HWG_CREATEPAGER)
@@ -1696,7 +1696,7 @@ HB_FUNC(HWG_COMBOBOXGETITEMDATA)
   int32_t nIndex = hb_parnl(2);
   DWORD_PTR p;
   p = (DWORD_PTR)SendMessage(hWnd, CB_GETITEMDATA, nIndex, 0);
-  hb_retnl((int32_t)p);
+  hb_retnl(static_cast<int32_t>(p));
 }
 
 HB_FUNC(HWG_COMBOBOXSETITEMDATA)
@@ -1704,7 +1704,7 @@ HB_FUNC(HWG_COMBOBOXSETITEMDATA)
   HWND hWnd = hwg_par_HWND(1);
   int32_t nIndex = hb_parnl(2);
   DWORD_PTR dwItemData = (DWORD_PTR)hb_parnl(3);
-  hb_retnl((int32_t)SendMessage(hWnd, CB_SETITEMDATA, nIndex, (LPARAM)dwItemData));
+  hb_retnl(static_cast<int32_t>(SendMessage(hWnd, CB_SETITEMDATA, nIndex, (LPARAM)dwItemData)));
 }
 
 HB_FUNC(HWG_GETLOCALEINFO)
@@ -1719,7 +1719,7 @@ HB_FUNC(HWG_COMBOBOXGETLBTEXT)
   HWND hWnd = hwg_par_HWND(1);
   int32_t nIndex = hb_parnl(2);
   TCHAR lpszText[255] = {0};
-  hb_retni((int32_t)SendMessage(hWnd, CB_GETLBTEXT, nIndex, (LPARAM)lpszText));
+  hb_retni(static_cast<int32_t>(SendMessage(hWnd, CB_GETLBTEXT, nIndex, (LPARAM)lpszText)));
   HB_STORSTR(lpszText, 3);
 }
 
@@ -1774,7 +1774,7 @@ HB_FUNC(HWG_HANDLETOPTR)
   hb_retptr((void *)(uintptr_t)(h));
   return;
 #endif
-  hb_retnl((int32_t)h);
+  hb_retnl(static_cast<int32_t>(h));
 }
 
 HB_FUNC(HWG_TABITEMPOS)

@@ -490,7 +490,7 @@ HB_FUNC(FI_DRAW)
 {
   FIBITMAP *dib = hwg_par_FIBITMAP(1);
   HDC hDC = hwg_par_HDC(2);
-  int32_t nWidth = (int32_t)hb_parnl(3), nHeight = (int32_t)hb_parnl(4); // TODO: parnl -> parni
+  int32_t nWidth = static_cast<int32_t>(hb_parnl(3)), nHeight = static_cast<int32_t>(hb_parnl(4)); // TODO: parnl -> parni
   int32_t nDestWidth, nDestHeight;
   POINT pp[2];
   // char cres[40];
@@ -565,7 +565,7 @@ static int32_t BmiColorCount(LPBITMAPINFOHEADER lpbi)
   } else if (lpbi->biClrUsed == 0) {
     return ColorCount(lpbi->biBitCount);
   } else {
-    return (int32_t)lpbi->biClrUsed;
+    return static_cast<int32_t>(lpbi->biClrUsed);
   }
 } // BmiColorCount
 
@@ -861,7 +861,7 @@ HB_FUNC(FI_THRESHOLD)
 {
   pThreshold = (FREEIMAGE_THRESHOLD)s_getFunction((FARPROC)pThreshold, "_FreeImage_Threshold@8");
 
-  hb_retnint((intptr_t)pThreshold(hwg_par_FIBITMAP(1), (uint8_t)hb_parnl(2)));
+  hb_retnint((intptr_t)pThreshold(hwg_par_FIBITMAP(1), static_cast<uint8_t>(hb_parnl(2))));
 }
 
 HB_FUNC(FI_FLIPVERTICAL)
@@ -873,14 +873,14 @@ HB_FUNC(FI_FLIPVERTICAL)
 
 HB_FUNC(FI_GETPIXELINDEX)
 {
-  uint8_t value = (uint8_t)-1;
+  uint8_t value = static_cast<uint8_t>(-1);
   BOOL lRes;
   pGetPixelIndex = (FREEIMAGE_GETPIXELINDEX)s_getFunction((FARPROC)pGetPixelIndex, "_FreeImage_GetPixelIndex@16");
 
   lRes = pGetPixelIndex(hwg_par_FIBITMAP(1), hb_parni(2), hb_parni(3), &value);
 
   if (lRes) {
-    hb_stornl((uint32_t)value, 4);
+    hb_stornl(static_cast<uint32_t>(value), 4);
   }
 
   hb_retl(lRes);
@@ -888,7 +888,7 @@ HB_FUNC(FI_GETPIXELINDEX)
 
 HB_FUNC(FI_SETPIXELINDEX)
 {
-  uint8_t value = (uint8_t)hb_parni(4);
+  uint8_t value = static_cast<uint8_t>(hb_parni(4));
   pSetPixelIndex = (FREEIMAGE_SETPIXELINDEX)s_getFunction((FARPROC)pSetPixelIndex, "_FreeImage_SetPixelIndex@16");
 
   hb_retl(pSetPixelIndex(hwg_par_FIBITMAP(1), hb_parni(2), hb_parni(3), &value));

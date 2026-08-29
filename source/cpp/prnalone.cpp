@@ -90,7 +90,7 @@ HB_FUNC(STARTDOC)
   di.lpszDatatype = nullptr;
   di.fwType = 0;
 
-  hb_retnl((int32_t)StartDoc(hwg_par_HDC(1), &di));
+  hb_retnl(static_cast<int32_t>(StartDoc(hwg_par_HDC(1), &di)));
 
   hb_strfree(hStr);
 }
@@ -102,12 +102,12 @@ HB_FUNC(ENDDOC)
 
 HB_FUNC(STARTPAGE)
 {
-  hb_retnl((int32_t)StartPage(hwg_par_HDC(1)));
+  hb_retnl(static_cast<int32_t>(StartPage(hwg_par_HDC(1))));
 }
 
 HB_FUNC(ENDPAGE)
 {
-  hb_retnl((int32_t)EndPage(hwg_par_HDC(1)));
+  hb_retnl(static_cast<int32_t>(EndPage(hwg_par_HDC(1))));
 }
 
 HB_FUNC(HWG_DELETEDC)

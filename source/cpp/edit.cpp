@@ -33,7 +33,7 @@ static WNDPROC wpOrigEditProc;
 HB_FUNC(HWG_INITEDITPROC)
 {
   wpOrigEditProc = (WNDPROC)(intptr_t)SetWindowLong(hwg_par_HWND(1), GWLP_WNDPROC,
-                                                    (int32_t)(intptr_t)EditSubclassProc); // TODO: SetWindowLongPtr
+                                                    static_cast<int32_t>((intptr_t)EditSubclassProc)); // TODO: SetWindowLongPtr
 }
 #endif
 

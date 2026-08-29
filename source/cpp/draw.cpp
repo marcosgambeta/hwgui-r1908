@@ -143,14 +143,14 @@ HB_FUNC(HWG_PIE)
 {
   int32_t res = Pie(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5), hwg_par_int(6),
                 hwg_par_int(7), hwg_par_int(8), hwg_par_int(9));
-  hb_retnl(res ? 0 : (int32_t)GetLastError()); // TODO: o retorno da função é BOOL
+  hb_retnl(res ? 0 : static_cast<int32_t>(GetLastError())); // TODO: o retorno da função é BOOL
 }
 
 // HWG_ELLIPSE(HDC, nLeft, nTop, nRight, nBottom) --> numeric
 HB_FUNC(HWG_ELLIPSE)
 {
   int32_t res = Ellipse(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), hwg_par_int(4), hwg_par_int(5));
-  hb_retnl(res ? 0 : (int32_t)GetLastError()); // TODO: o retorno da função é BOOL
+  hb_retnl(res ? 0 : static_cast<int32_t>(GetLastError())); // TODO: o retorno da função é BOOL
 }
 
 // HWG_FILLRECT(HDC, nLeft, nTop, nRight, nBottom, HBRUSH) -->
@@ -321,7 +321,7 @@ HB_FUNC(HWG_WINDOW2BITMAP)
 
   DeleteDC(hDCmem);
   DeleteDC(hDC);
-  // hb_retnl((int32_t)hBitmap);
+  // hb_retnl(static_cast<int32_t>(hBitmap));
   hwg_ret_HBITMAP(hBitmap);
 }
 
@@ -536,7 +536,7 @@ HB_FUNC(HWG_OPENBITMAP)
   hfbm = CreateFile(HB_PARSTR(1, &hString, nullptr), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
                     FILE_ATTRIBUTE_READONLY, nullptr);
   hb_strfree(hString);
-  if (((int32_t)(intptr_t)hfbm) <= 0) {
+  if ((static_cast<int32_t>((intptr_t)hfbm)) <= 0) {
     HB_RETHANDLE(nullptr);
     return;
   }
@@ -714,7 +714,7 @@ HB_FUNC(HWG_GETDRAWITEMINFO)
   hb_itemArrayPut(aMetr, 8, temp);
   hb_itemRelease(temp);
 
-  temp = hb_itemPutNL(nullptr, (int32_t)lpdis->itemState);
+  temp = hb_itemPutNL(nullptr, static_cast<int32_t>(lpdis->itemState));
   hb_itemArrayPut(aMetr, 9, temp);
   hb_itemRelease(temp);
 
@@ -784,7 +784,7 @@ HB_FUNC(HWG_OPENIMAGE)
   HBITMAP hBitmap = 0;
 
   if (lString) {
-    iFileSize = (int32_t)hb_parclen(1);
+    iFileSize = static_cast<int32_t>(hb_parclen(1));
     hG = GlobalAlloc(GPTR, iFileSize);
     if (!hG) {
       HB_RETHANDLE(nullptr);

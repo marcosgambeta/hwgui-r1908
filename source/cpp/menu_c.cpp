@@ -282,18 +282,18 @@ HB_FUNC(HWG_CREATEACCELERATORTABLE)
 {
   PHB_ITEM pArray = hb_param(1, HB_IT_ARRAY), pSubArr;
   LPACCEL lpaccl;
-  uint32_t ul, ulEntries = (uint32_t)hb_arrayLen(pArray);
+  uint32_t ul, ulEntries = static_cast<uint32_t>(hb_arrayLen(pArray));
   HACCEL h;
 
   lpaccl = (LPACCEL)hb_xgrab(sizeof(ACCEL) * ulEntries);
 
   for (ul = 1; ul <= ulEntries; ul++) {
     pSubArr = hb_arrayGetItemPtr(pArray, ul);
-    lpaccl[ul - 1].fVirt = (uint8_t)hb_arrayGetNL(pSubArr, 1) | FNOINVERT | FVIRTKEY;
+    lpaccl[ul - 1].fVirt = static_cast<uint8_t>(hb_arrayGetNL(pSubArr, 1)) | FNOINVERT | FVIRTKEY;
     lpaccl[ul - 1].key = (WORD)hb_arrayGetNL(pSubArr, 2);
     lpaccl[ul - 1].cmd = (WORD)hb_arrayGetNL(pSubArr, 3);
   }
-  h = CreateAcceleratorTable(lpaccl, (int32_t)ulEntries);
+  h = CreateAcceleratorTable(lpaccl, static_cast<int32_t>(ulEntries));
 
   hb_xfree(lpaccl);
   hwg_ret_HACCEL(h);

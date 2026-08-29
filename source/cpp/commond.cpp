@@ -34,13 +34,13 @@ HB_FUNC(HWG_SELECTFONT)
     temp1 = GetObjectVar(pObj, "WEIGHT");
     lf.lfWeight = hb_itemGetNI(temp1);
     temp1 = GetObjectVar(pObj, "CHARSET");
-    lf.lfCharSet = (uint8_t)hb_itemGetNI(temp1);
+    lf.lfCharSet = static_cast<uint8_t>(hb_itemGetNI(temp1));
     temp1 = GetObjectVar(pObj, "ITALIC");
-    lf.lfItalic = (uint8_t)hb_itemGetNI(temp1);
+    lf.lfItalic = static_cast<uint8_t>(hb_itemGetNI(temp1));
     temp1 = GetObjectVar(pObj, "UNDERLINE");
-    lf.lfUnderline = (uint8_t)hb_itemGetNI(temp1);
+    lf.lfUnderline = static_cast<uint8_t>(hb_itemGetNI(temp1));
     temp1 = GetObjectVar(pObj, "STRIKEOUT");
-    lf.lfStrikeOut = (uint8_t)hb_itemGetNI(temp1);
+    lf.lfStrikeOut = static_cast<uint8_t>(hb_itemGetNI(temp1));
   }
 
   cf.lStructSize = sizeof(CHOOSEFONT);
@@ -306,7 +306,7 @@ HB_FUNC(HWG_CHOOSECOLOR)
   cc.Flags = nStyle;
 
   if (ChooseColor(&cc)) {
-    hb_retnl((int32_t)cc.rgbResult);
+    hb_retnl(static_cast<int32_t>(cc.rgbResult));
   } else {
     hb_ret();
   }

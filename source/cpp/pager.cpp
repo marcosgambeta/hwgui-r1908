@@ -46,9 +46,9 @@ HB_FUNC(HWG_PAGERSETBKCOLOR)
   COLORREF clr = hwg_par_COLORREF(2);
 
 #ifndef __GNUC__
-  hb_retnl((int32_t)Pager_SetBkColor(m_hWnd, clr));
+  hb_retnl(static_cast<int32_t>(Pager_SetBkColor(m_hWnd, clr)));
 #else
-  hb_retnl((int32_t)SendMessage((m_hWnd), PGM_SETBKCOLOR, 0, (LPARAM)clr));
+  hb_retnl(static_cast<int32_t>(SendMessage((m_hWnd), PGM_SETBKCOLOR, 0, (LPARAM)clr)));
 #endif
 }
 
@@ -57,9 +57,9 @@ HB_FUNC(HWG_PAGERGETBKCOLOR)
   HWND m_hWnd = hwg_par_HWND(1);
 
 #ifndef __GNUC__
-  hb_retnl((int32_t)Pager_GetBkColor(m_hWnd));
+  hb_retnl(static_cast<int32_t>(Pager_GetBkColor(m_hWnd)));
 #else
-  hb_retnl((int32_t)SendMessage(m_hWnd, PGM_GETBKCOLOR, 0, 0));
+  hb_retnl(static_cast<int32_t>(SendMessage(m_hWnd, PGM_GETBKCOLOR, 0, 0)));
 #endif
 }
 
@@ -140,7 +140,7 @@ HB_FUNC(HWG_PAGERGETBUTTONSTATE)
 #ifndef __GNUC__
   hb_retnl(Pager_GetButtonState(m_hWnd, iButton));
 #else
-  hb_retnl((int32_t)SendMessage(m_hWnd, PGM_GETBUTTONSTATE, 0, (LPARAM)iButton));
+  hb_retnl(static_cast<int32_t>(SendMessage(m_hWnd, PGM_GETBUTTONSTATE, 0, (LPARAM)iButton)));
 #endif
 }
 

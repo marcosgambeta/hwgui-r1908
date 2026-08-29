@@ -119,7 +119,7 @@ HB_FUNC(HWG_GETEDITTEXT)
 {
   HWND hDlg = hwg_par_HWND(1);
   int32_t id = hwg_par_int(2);
-  uint16_t uiLen = (uint16_t)SendMessage(GetDlgItem(hDlg, id), WM_GETTEXTLENGTH, 0, 0);
+  uint16_t uiLen = (uint16_t)uint16_t>(SendMessage(GetDlgItem(hDlg, id), WM_GETTEXTLENGTH, 0, 0));
   LPTSTR lpText = (LPTSTR)hb_xgrab((uiLen + 2) * sizeof(TCHAR));
   GetDlgItemText(hDlg, id, lpText, uiLen + 1);
   HB_RETSTR(lpText);
@@ -207,7 +207,7 @@ static HB_SIZE s_nCopyAnsiToWideChar(LPWORD lpWCStr, PHB_ITEM pItem, HB_SIZE siz
 static int32_t s_nWideStringLen(PHB_ITEM pItem)
 {
 #if defined(HB_HAS_STR_FUNC)
-  return (int32_t)hb_itemCopyStrU16(pItem, HB_CDP_ENDIAN_NATIVE, nullptr, 0) + 1;
+  return static_cast<int32_t>(hb_itemCopyStrU16(pItem, HB_CDP_ENDIAN_NATIVE, nullptr, 0)) + 1;
 #else
   return MultiByteToWideChar(GetACP(), 0, hb_itemGetCPtr(pItem), -1, nullptr, 0);
 #endif
@@ -233,7 +233,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
   ulStyle &= ~(DS_SETFONT | DS_SHELLFONT);
 
   pControls = hb_itemNew(GetObjectVar(pObj, "ACONTROLS"));
-  ulControls = (uint32_t)hb_arrayLen(pControls);
+  ulControls = static_cast<uint32_t>(hb_arrayLen(pControls));
 
   lTemplateSize += s_nWideStringLen(GetObjectVar(pObj, "TITLE"));
   lTemplateSize += lTemplateSize & 1;
@@ -283,7 +283,7 @@ static LPDLGTEMPLATE s_CreateDlgTemplate(PHB_ITEM pObj, int32_t x1, int32_t y1, 
 
     p = s_lpwAlign(p);
 
-    ulStyle = (uint32_t)hb_itemGetNL(GetObjectVar(pControl, "STYLE"));
+    ulStyle = static_cast<uint32_t>(hb_itemGetNL(GetObjectVar(pControl, "STYLE")));
     lExtStyle = hb_itemGetNL(GetObjectVar(pControl, "EXTSTYLE"));
     x1 = (hb_itemGetNI(GetObjectVar(pControl, "NLEFT")) * 4) / baseunitX;
     dwidth = (hb_itemGetNI(GetObjectVar(pControl, "NWIDTH")) * 4) / baseunitX;
@@ -331,7 +331,7 @@ static void s_ReleaseDlgTemplate(LPDLGTEMPLATE pdlgtemplate)
 HB_FUNC(HWG_CREATEDLGTEMPLATE)
 {
   hb_retnint((intptr_t)s_CreateDlgTemplate(hb_param(1, HB_IT_OBJECT), hb_parni(2), hb_parni(3), hb_parni(4),
-                                           hb_parni(5), (uint32_t)hb_parnl(6)));
+                                           hb_parni(5), static_cast<uint32_t>(hb_parnl(6))));
 }
 
 // HWG_RELEASEDLGTEMPLATE() -->
@@ -459,7 +459,7 @@ HB_FUNC(HWG_CREATEDLGINDIRECT)
     pdlgtemplate = (LPDLGTEMPLATE)(intptr_t)hb_parnl(8);
   } else {
     uint32_t ulStyle = ((hb_pcount() > 6 && !HB_ISNIL(7))
-                         ? (uint32_t)hb_parnl(7)
+                         ? static_cast<uint32_t>(hb_parnl(7))
                          : WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_SIZEBOX); // | DS_SETFONT;
 
     pdlgtemplate = s_CreateDlgTemplate(pObject, hb_parni(3), hb_parni(4), hb_parni(5), hb_parni(6), ulStyle);
@@ -480,7 +480,7 @@ HB_FUNC(HWG_DLGBOXINDIRECT)
 {
   PHB_ITEM pObject = hb_param(2, HB_IT_OBJECT);
   uint32_t ulStyle =
-      ((hb_pcount() > 6 && !HB_ISNIL(7)) ? (uint32_t)hb_parnl(7)
+      ((hb_pcount() > 6 && !HB_ISNIL(7)) ? static_cast<uint32_t>(hb_parnl(7))
                                          : WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU); // | DS_SETFONT;
   int32_t x1 = hb_parni(3), y1 = hb_parni(4), dwidth = hb_parni(5), dheight = hb_parni(6);
   LPDLGTEMPLATE pdlgtemplate = s_CreateDlgTemplate(pObject, x1, y1, dwidth, dheight, ulStyle);

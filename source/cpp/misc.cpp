@@ -19,7 +19,7 @@
 #include "missing.h"
 
 #if defined(__BORLANDC__) && defined(__clang__) && defined(HB_OS_WIN_64)
-#define PtrToUlong(p) ((uint32_t)(uintptr_t)(p))
+#define PtrToUlong(p) (static_cast<uint32_t>((uintptr_t)(p)))
 #endif
 
 void writelog(char *s)
@@ -33,7 +33,7 @@ void writelog(char *s)
   }
 
   hb_fsSeek(handle, 0, SEEK_END);
-  hb_fsWrite(handle, (const char *)s, (uint16_t)strlen(s));
+  hb_fsWrite(handle, (const char *)s, static_cast<uint16_t>(strlen(s)));
   hb_fsWrite(handle, "\n\r", 2);
 
   hb_fsClose(handle);
@@ -124,27 +124,27 @@ HB_FUNC(HWG_GETSTOCKOBJECT)
 
 HB_FUNC(HWG_LOWORD)
 {
-  hb_retni((int32_t)((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & 0xFFFF));
+  hb_retni(static_cast<int32_t>((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) & 0xFFFF));
 }
 
 HB_FUNC(HWG_HIWORD)
 {
-  hb_retni((int32_t)(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) >> 16) & 0xFFFF));
+  hb_retni(static_cast<int32_t>(((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) >> 16) & 0xFFFF));
 }
 
 HB_FUNC(HWG_BITOR)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) | hb_parnl(2));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) | hb_parnl(2));
 }
 
 HB_FUNC(HWG_BITAND)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & hb_parnl(2));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) & hb_parnl(2));
 }
 
 HB_FUNC(HWG_BITANDINVERSE)
 {
-  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & (~hb_parnl(2)));
+  hb_retnl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) & (~hb_parnl(2)));
 }
 
 HB_FUNC(HWG_SETBIT)
@@ -158,7 +158,7 @@ HB_FUNC(HWG_SETBIT)
 
 HB_FUNC(HWG_CHECKBIT)
 {
-  hb_retl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : (uint32_t)hb_parnl(1)) & (1 << (hb_parni(2) - 1)));
+  hb_retl((HB_ISPOINTER(1) ? PtrToUlong(hb_parptr(1)) : static_cast<uint32_t>(hb_parnl(1))) & (1 << (hb_parni(2) - 1)));
 }
 
 HB_FUNC(HWG_SIN)
@@ -471,8 +471,8 @@ HB_FUNC(HWG_KEYB_EVENT) // TODO: a função da WinAPi se chama keybd_event
     keybd_event(VK_MENU, 0, 0, 0);
   }
 
-  keybd_event((uint8_t)hb_parni(1), 0, dwFlags, 0);
-  keybd_event((uint8_t)hb_parni(1), 0, dwFlags | KEYEVENTF_KEYUP, 0);
+  keybd_event(static_cast<uint8_t>(hb_parni(1)), 0, dwFlags, 0);
+  keybd_event(static_cast<uint8_t>(hb_parni(1)), 0, dwFlags | KEYEVENTF_KEYUP, 0);
 
   if (bShift) {
     keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0);
@@ -609,7 +609,7 @@ HB_FUNC(HWG_DELETEFILE)
 HB_FUNC(HWG_GETFILEATTRIBUTES)
 {
   void *hStr;
-  hb_retnl((int32_t)GetFileAttributes(HB_PARSTR(1, &hStr, nullptr)));
+  hb_retnl(static_cast<int32_t>(GetFileAttributes(HB_PARSTR(1, &hStr, nullptr))));
   hb_strfree(hStr);
 }
 
@@ -732,7 +732,7 @@ HB_FUNC(HWG_GETNEXTDLGGROUPITEM)
 
 HB_FUNC(HWG_PTRTOULONG)
 {
-  hb_retnl(HB_ISPOINTER(1) ? (int32_t)PtrToUlong(hb_parptr(1)) : hb_parnl(1));
+  hb_retnl(HB_ISPOINTER(1) ? static_cast<int32_t>(PtrToUlong(hb_parptr(1))) : hb_parnl(1));
 }
 
 HB_FUNC(HWG_OUTPUTDEBUGSTRING)

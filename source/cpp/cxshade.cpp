@@ -252,10 +252,10 @@ static void cxdib_SetPaletteIndex(PCXDIB pdib, uint8_t idx, uint8_t r, uint8_t g
     uint8_t *iDst = (uint8_t *)(pdib->hDib) + sizeof(BITMAPINFOHEADER);
     if (idx < pdib->m_nColors) {
       int32_t ldx = idx * sizeof(RGBQUAD);
-      iDst[ldx++] = (uint8_t)b;
-      iDst[ldx++] = (uint8_t)g;
-      iDst[ldx++] = (uint8_t)r;
-      iDst[ldx] = (uint8_t)0;
+      iDst[ldx++] = static_cast<uint8_t>(b);
+      iDst[ldx++] = static_cast<uint8_t>(g);
+      iDst[ldx++] = static_cast<uint8_t>(r);
+      iDst[ldx] = static_cast<uint8_t>(0);
     }
   }
 }
@@ -276,9 +276,9 @@ static void cxdib_BlendPalette(PCXDIB pdib, COLORREF cr, int32_t perc)
       perc = 100;
     }
     for (i = 0; i < pdib->m_nColors; i++) {
-      pPal[i].rgbBlue = (uint8_t)((pPal[i].rgbBlue * (100 - perc) + b * perc) / 100);
-      pPal[i].rgbGreen = (uint8_t)((pPal[i].rgbGreen * (100 - perc) + g * perc) / 100);
-      pPal[i].rgbRed = (uint8_t)((pPal[i].rgbRed * (100 - perc) + r * perc) / 100);
+      pPal[i].rgbBlue = static_cast<uint8_t>((pPal[i].rgbBlue * (100 - perc) + b * perc) / 100);
+      pPal[i].rgbGreen = static_cast<uint8_t>((pPal[i].rgbGreen * (100 - perc) + g * perc) / 100);
+      pPal[i].rgbRed = static_cast<uint8_t>((pPal[i].rgbRed * (100 - perc) + r * perc) / 100);
     }
   }
 }
@@ -446,33 +446,33 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
     r = ((128 - i) * GetRValue(locr) + i * GetRValue(midcr)) / 128;
     g = ((128 - i) * GetGValue(locr) + i * GetGValue(midcr)) / 128;
     b = ((128 - i) * GetBValue(locr) + i * GetBValue(midcr)) / 128;
-    cxdib_SetPaletteIndex(&(pshade->m_dNormal), (uint8_t)i, (uint8_t)r, (uint8_t)g, (uint8_t)b);
-    cxdib_SetPaletteIndex(&(pshade->m_dh), (uint8_t)i, (uint8_t)r, (uint8_t)g, (uint8_t)b);
-    cxdib_SetPaletteIndex(&(pshade->m_dv), (uint8_t)i, (uint8_t)r, (uint8_t)g, (uint8_t)b);
+    cxdib_SetPaletteIndex(&(pshade->m_dNormal), static_cast<uint8_t>(i), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b);
+    cxdib_SetPaletteIndex(&(pshade->m_dh), static_cast<uint8_t>(i), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b));
+    cxdib_SetPaletteIndex(&(pshade->m_dv), static_cast<uint8_t>(i), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b));
   }
   for (i = 1; i < 129; i++) {
     r = ((128 - i) * GetRValue(midcr) + i * GetRValue(hicr)) / 128;
     g = ((128 - i) * GetGValue(midcr) + i * GetGValue(hicr)) / 128;
     b = ((128 - i) * GetBValue(midcr) + i * GetBValue(hicr)) / 128;
-    cxdib_SetPaletteIndex(&(pshade->m_dNormal), (uint8_t)(i + 127), (uint8_t)r, (uint8_t)g, (uint8_t)b);
-    cxdib_SetPaletteIndex(&(pshade->m_dh), (uint8_t)(i + 127), (uint8_t)r, (uint8_t)g, (uint8_t)b);
-    cxdib_SetPaletteIndex(&(pshade->m_dv), (uint8_t)(i + 127), (uint8_t)r, (uint8_t)g, (uint8_t)b);
+    cxdib_SetPaletteIndex(&(pshade->m_dNormal), static_cast<uint8_t>(i + 127), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b));
+    cxdib_SetPaletteIndex(&(pshade->m_dh), static_cast<uint8_t>(i + 127), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b));
+    cxdib_SetPaletteIndex(&(pshade->m_dv), static_cast<uint8_t>(i + 127), static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b));
   }
 
   cxdib_BlendPalette(&(pshade->m_dNormal), color, coloring); // color the palette
 
   iDst = cxdib_GetBits(&(pshade->m_dh)); // build the horiz. dotted focus bitmap
-  j = (int32_t)pshade->m_dh.m_bi.biWidth;
+  j = static_cast<int32_t>(pshade->m_dh.m_bi.biWidth);
   for (i = 0; i < j; i++) {
     // iDst[i]=64+127*(i%2);  //soft
-    iDst[i] = (uint8_t)(255 * (i % 2)); // hard
+    iDst[i] = static_cast<uint8_t>(255 * (i % 2)); // hard
   }
 
   iDst = cxdib_GetBits(&(pshade->m_dv)); // build the vert. dotted focus bitmap
-  j = (int32_t)pshade->m_dv.m_bi.biWidth;
+  j = static_cast<int32_t>(pshade->m_dv.m_bi.biWidth);
   for (i = 0; i < j; i++) {
     // *iDst=64+127*(i%2);            //soft
-    *iDst = (uint8_t)(255 * (i % 2)); // hard
+    *iDst = static_cast<uint8_t>(255 * (i % 2)); // hard
     iDst += 4;
   }
 
@@ -496,10 +496,10 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
       d = rand() / (RAND_MAX / k);                           // stroke color
       for (i = 0; i < xs; i++) {
         if (((x - i) > 0) && ((y + i) < sYSize)) {
-          cxdib_SetPixelIndex(&(pshade->m_dNormal), x - i, y + i, (uint8_t)d);
+          cxdib_SetPixelIndex(&(pshade->m_dNormal), x - i, y + i, static_cast<uint8_t>(d));
         }
         if (((x + i) < sXSize) && ((y - i) > 0)) {
-          cxdib_SetPixelIndex(&(pshade->m_dNormal), sXSize - x + i, y - i, (uint8_t)d);
+          cxdib_SetPixelIndex(&(pshade->m_dNormal), sXSize - x + i, y - i, static_cast<uint8_t>(d));
         }
       }
     }
@@ -509,8 +509,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
     for (i = 0; i < sYSize; i++) {
       for (j = 0; j < sXSize; j++) {
         d = posDst[j] + ((a * i) / sYSize + (a * (sXSize - j)) / sXSize);
-        posDst[j] = (uint8_t)d;
-        posDst[j] += (uint8_t)(rand() / grainx2);
+        posDst[j] = static_cast<uint8_t>(d);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2);
       }
       posDst += bytes;
     }
@@ -523,8 +523,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
       k = (k * (k * k) / 128) / 128;
       k = (k * (128 - granularity * 2)) / 128 + 128;
       for (j = 0; j < sXSize; j++) {
-        posDst[j] = (uint8_t)k;
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j] = static_cast<uint8_t>(k);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -538,12 +538,12 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
         x = j - sXSize / 2;
         xs = sXSize / 2 - d + (y * y * d) / a;
         if (x > xs) {
-          posDst[j] = (uint8_t)idxmin + (uint8_t)(((sXSize - j) * 128) / d);
+          posDst[j] = static_cast<uint8_t>(idxmin) + static_cast<uint8_t>(((sXSize - j) * 128) / d);
         }
         if ((x + xs) < 0) {
-          posDst[j] = (uint8_t)idxmax - (uint8_t)((j * 128) / d);
+          posDst[j] = static_cast<uint8_t>(idxmax) - static_cast<uint8_t>((j * 128) / d);
         }
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -562,8 +562,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
         if (k > idxmax) {
           k = idxmax;
         }
-        posDst[j] = (uint8_t)k;
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j] = static_cast<uint8_t>(k);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -575,8 +575,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
       k = (k * (k * k) / 128) / 128;
       k = (k * (128 - granularity)) / 128 + 128;
       for (i = 0; i < sYSize; i++) {
-        posDst[j + i * bytes] = (uint8_t)k;
-        posDst[j + i * bytes] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j + i * bytes] = static_cast<uint8_t>(k);
+        posDst[j + i * bytes] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
     }
     break;
@@ -587,8 +587,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
       k = (k * (k * k) / 128) / 128;
       k = (k * (128 - granularity)) / 128 + 128;
       for (j = 0; j < sXSize; j++) {
-        posDst[j] = (uint8_t)k;
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j] = static_cast<uint8_t>(k);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -600,9 +600,9 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
       for (j = 0; j < sXSize; j++) {
         bb = a * (sXSize - j) / sXSize;
         aa = idxmin + a * (i / sYSize);
-        //                posDst[j] = (uint8_t) (idxmin + a *(i / sYSize) + a * (sXSize - j) / sXSize);
-        posDst[j] = (uint8_t)(aa + bb);
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        //                posDst[j] = static_cast<uint8_t>(idxmin + a *(i / sYSize) + a * (sXSize - j) / sXSize);
+        posDst[j] = static_cast<uint8_t>(aa + bb);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -613,8 +613,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
     for (i = 0; i < sYSize; i++) {
       k = a * i / sYSize + idxmin;
       for (j = 0; j < sXSize; j++) {
-        posDst[j] = (uint8_t)k;
-        posDst[j] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j] = static_cast<uint8_t>(k);
+        posDst[j] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -625,8 +625,8 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
     for (j = 0; j < sXSize; j++) {
       k = a * (sXSize - j) / sXSize + idxmin;
       for (i = 0; i < sYSize; i++) {
-        posDst[j + i * bytes] = (uint8_t)k;
-        posDst[j + i * bytes] += (uint8_t)(rand() / grainx2 - granularity);
+        posDst[j + i * bytes] = static_cast<uint8_t>(k);
+        posDst[j + i * bytes] += static_cast<uint8_t>(rand() / grainx2 - granularity);
       }
     }
     break;
@@ -634,7 +634,7 @@ static void cxshade_SetShade(PCXSHADE pshade, UINT shadeID, uint8_t palette, uin
   default: // SHS_NOISE
     for (i = 0; i < sYSize; i++) {
       for (j = 0; j < sXSize; j++) {
-        posDst[j] = (uint8_t)(128 + rand() / grainx2 - granularity);
+        posDst[j] = static_cast<uint8_t>(128 + rand() / grainx2 - granularity);
       }
       posDst += bytes;
     }
@@ -670,10 +670,10 @@ HB_FUNC(HWG_SHADE_SET)
 {
   PCXSHADE pshade = (PCXSHADE)HB_PARHANDLE(1);
   UINT shadeID = (HB_ISNIL(2)) ? SHS_SOFTBUMP : hb_parni(2);
-  uint8_t palette = (HB_ISNIL(3)) ? 0 : (uint8_t)hb_parni(3);
-  uint8_t granularity = (HB_ISNIL(4)) ? 8 : (uint8_t)hb_parni(4);
-  uint8_t highlight = (HB_ISNIL(5)) ? 10 : (uint8_t)hb_parni(5);
-  uint8_t coloring = (HB_ISNIL(6)) ? 0 : (uint8_t)hb_parni(6);
+  uint8_t palette = (HB_ISNIL(3)) ? 0 : static_cast<uint8_t>(hb_parni(3));
+  uint8_t granularity = (HB_ISNIL(4)) ? 8 : static_cast<uint8_t>(hb_parni(4));
+  uint8_t highlight = (HB_ISNIL(5)) ? 10 : static_cast<uint8_t>(hb_parni(5));
+  uint8_t coloring = (HB_ISNIL(6)) ? 0 : static_cast<uint8_t>(hb_parni(6));
   COLORREF color = (HB_ISNIL(7)) ? 0 : hwg_par_COLORREF(7);
   RECT rect;
 
@@ -688,7 +688,7 @@ HB_FUNC(HWG_SHADE_SET)
 // shade_Draw(pshade, hDC, nState)
 HB_FUNC(HWG_SHADE_DRAW)
 {
-  cxshade_Draw((PCXSHADE)HB_PARHANDLE(1), hwg_par_HDC(2), (int16_t)hb_parni(3));
+  cxshade_Draw((PCXSHADE)HB_PARHANDLE(1), hwg_par_HDC(2), static_cast<int16_t>(hb_parni(3)));
 }
 
 #ifdef HWGUI_FUNC_TRANSLATE_ON

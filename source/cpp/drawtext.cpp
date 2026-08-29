@@ -48,7 +48,7 @@ HB_FUNC(HWG_TEXTOUT)
   void *hText;
   HB_SIZE nLen;
   LPCTSTR lpText = HB_PARSTR(4, &hText, &nLen);
-  TextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), lpText, (int32_t)nLen); // TODO: o retorno é BOOL
+  TextOut(hwg_par_HDC(1), hwg_par_int(2), hwg_par_int(3), lpText, static_cast<int32_t>(nLen)); // TODO: o retorno é BOOL
   hb_strfree(hText);
 }
 
@@ -73,7 +73,7 @@ HB_FUNC(HWG_DRAWTEXT)
     Array2Rect(hb_param(3, HB_IT_ARRAY), &rc);
   }
 
-  heigh = DrawText(hwg_par_HDC(1), lpText, (int32_t)nLen, &rc, uFormat);
+  heigh = DrawText(hwg_par_HDC(1), lpText, static_cast<int32_t>(nLen), &rc, uFormat);
   hb_strfree(hText);
 
   // if (HB_ISBYREF(uiPos))
@@ -140,7 +140,7 @@ HB_FUNC(HWG_GETTEXTSIZE)
   PHB_ITEM aMetr = hb_itemArrayNew(2);
   PHB_ITEM temp;
 
-  GetTextExtentPoint32(hwg_par_HDC(1), lpText, (int32_t)nLen, &sz); // TODO: o retorno é BOOL
+  GetTextExtentPoint32(hwg_par_HDC(1), lpText, static_cast<int32_t>(nLen), &sz); // TODO: o retorno é BOOL
   hb_strfree(hText);
 
   temp = hb_itemPutNL(nullptr, sz.cx);

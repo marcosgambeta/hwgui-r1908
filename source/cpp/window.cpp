@@ -105,7 +105,7 @@ HB_FUNC(HWG_INITMAINWINDOW)
 
     if (RegisterClass(&wndclass)) {
       hWnd = CreateWindowEx(ExStyle, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW | nStyle, hwg_par_int(8), hwg_par_int(9),
-                            (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height,
+                            (!width) ? static_cast<int32_t>(CW_USEDEFAULT) : width, (!height) ? static_cast<int32_t>(CW_USEDEFAULT) : height,
                             nullptr, nullptr, (HINSTANCE)hInstance, nullptr);
 
       temp = hb_itemPutNL(nullptr, 1);
@@ -269,7 +269,7 @@ HB_FUNC(HWG_INITCHILDWINDOW)
   if (fRegistered) {
     hWnd =
         CreateWindowEx(WS_EX_MDICHILD, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW | nStyle, hwg_par_int(8), hwg_par_int(9),
-                       (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height, hParent,
+                       (!width) ? static_cast<int32_t>(CW_USEDEFAULT) : width, (!height) ? static_cast<int32_t>(CW_USEDEFAULT) : height, hParent,
                        nullptr, (HINSTANCE)hInstance, nullptr);
 
     temp = hb_itemPutNL(nullptr, 1);
@@ -343,7 +343,7 @@ HB_FUNC(HWG_INITMDIWINDOW)
       } else {
         // Create frame window
         hWnd = CreateWindowEx(0, lpAppName, lpTitle, WS_OVERLAPPEDWINDOW, hwg_par_int(8), hwg_par_int(9),
-                              (!width) ? (int32_t)CW_USEDEFAULT : width, (!height) ? (int32_t)CW_USEDEFAULT : height,
+                              (!width) ? static_cast<int32_t>(CW_USEDEFAULT) : width, (!height) ? static_cast<int32_t>(CW_USEDEFAULT) : height,
                               nullptr, nullptr, (HINSTANCE)hInstance, nullptr);
         if (!hWnd) {
           hb_retni(-4);
@@ -410,10 +410,10 @@ HB_FUNC(HWG_CREATEMDICHILDWINDOW)
   HWND hWnd = nullptr;
   PHB_ITEM pObj = hb_param(1, HB_IT_OBJECT);
   DWORD style = (DWORD)hb_itemGetNL(GetObjectVar(pObj, "STYLE"));
-  int32_t y = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NTOP")); // TODO: GetNL -> GetNI
-  int32_t x = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NLEFT")); // TODO: GetNL -> GetNI
-  int32_t width = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NWIDTH")); // TODO: GetNL -> GetNI
-  int32_t height = (int32_t)hb_itemGetNL(GetObjectVar(pObj, "NHEIGHT")); // TODO: GetNL -> GetNI
+  int32_t y = static_cast<int32_t>(hb_itemGetNL(GetObjectVar(pObj, "NTOP"))); // TODO: GetNL -> GetNI
+  int32_t x = static_cast<int32_t>(hb_itemGetNL(GetObjectVar(pObj, "NLEFT"))); // TODO: GetNL -> GetNI
+  int32_t width = static_cast<int32_t>(hb_itemGetNL(GetObjectVar(pObj, "NWIDTH"))); // TODO: GetNL -> GetNI
+  int32_t height = static_cast<int32_t>(hb_itemGetNL(GetObjectVar(pObj, "NHEIGHT"))); // TODO: GetNL -> GetNI
   void *hTitle;
   LPCTSTR lpTitle = HB_ITEMGETSTR(GetObjectVar(pObj, "TITLE"), &hTitle, nullptr);
 
@@ -421,9 +421,9 @@ HB_FUNC(HWG_CREATEMDICHILDWINDOW)
   //    style = WS_VISIBLE | WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
 
   if (!style) {
-    style = WS_CHILD | WS_OVERLAPPEDWINDOW | (int32_t)hb_parnl(2); // WS_VISIBLE | WS_MAXIMIZE;
+    style = WS_CHILD | WS_OVERLAPPEDWINDOW | static_cast<int32_t>(hb_parnl(2)); // WS_VISIBLE | WS_MAXIMIZE;
   } else {
-    style = style | (int32_t)hb_parnl(2);
+    style = style | static_cast<int32_t>(hb_parnl(2));
   }
 
   if (aWindows[0]) {
@@ -454,24 +454,24 @@ HB_FUNC(HWG_SENDMESSAGE)
   void *hText;
   LPCTSTR lpText = HB_PARSTR(4, &hText, nullptr);
 
-  hb_retnl((int32_t)SendMessage(hwg_par_HWND(1),   // handle of destination window
+  hb_retnl(static_cast<int32_t>(SendMessage(hwg_par_HWND(1),   // handle of destination window
                              hwg_par_UINT(2),   // message to send
                              hwg_par_WPARAM(3), // first message parameter
                              lpText            ? (LPARAM)lpText
                              : HB_ISPOINTER(4) ? (LPARAM)HB_PARHANDLE(4)
                                                : hwg_par_LPARAM(4) // second message parameter
-                             ));
+                             )));
   hb_strfree(hText);
 }
 
 HB_FUNC(HWG_POSTMESSAGE)
 {
 
-  hb_retnl((int32_t)PostMessage(hwg_par_HWND(1), // handle of destination window
+  hb_retnl(static_cast<int32_t>(PostMessage(hwg_par_HWND(1), // handle of destination window
                              hwg_par_UINT(2), // message to send
                              HB_ISPOINTER(3) ? (WPARAM)HB_PARHANDLE(3) : hwg_par_WPARAM(3), // first message parameter
                              hwg_par_LPARAM(4)                                              // second message parameter
-                             ));
+                             )));
 }
 
 HB_FUNC(HWG_SETFOCUS)
@@ -516,10 +516,10 @@ HB_FUNC(HWG_SETWINDOWTEXT)
 HB_FUNC(HWG_GETWINDOWTEXT)
 {
   HWND hWnd = hwg_par_HWND(1);
-  uint32_t ulLen = (uint32_t)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
+  uint32_t ulLen = static_cast<uint32_t>(SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0));
   LPTSTR cText = (TCHAR *)hb_xgrab((ulLen + 1) * sizeof(TCHAR));
 
-  ulLen = (uint32_t)SendMessage(hWnd, WM_GETTEXT, (WPARAM)(ulLen + 1), (LPARAM)cText);
+  ulLen = static_cast<uint32_t>(SendMessage(hWnd, WM_GETTEXT, (WPARAM)(ulLen + 1), (LPARAM)cText));
 
   HB_RETSTRLEN(cText, ulLen);
   hb_xfree(cText);
@@ -846,7 +846,7 @@ const wchar_t *hwg_wstrget(PHB_ITEM pItem, void **phStr, HB_SIZE *pnLen)
     const char *pszText = hb_itemGetCPtr(pItem);
 
     if (nLen) {
-      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int32_t)nLen, nullptr, 0);
+      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, static_cast<int32_t>(nLen), nullptr, 0);
     }
 
     if (nDest == 0) {
@@ -856,7 +856,7 @@ const wchar_t *hwg_wstrget(PHB_ITEM pItem, void **phStr, HB_SIZE *pnLen)
       wchar_t *pResult = (wchar_t *)hb_xgrab((nDest + 1) * sizeof(wchar_t));
 
       pResult[nDest] = 0;
-      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, (int32_t)nLen, pResult, (int32_t)nDest);
+      nDest = MultiByteToWideChar(s_iVM_CP, 0, pszText, static_cast<int32_t>(nLen), pResult, static_cast<int32_t>(nDest));
       *phStr = (void *)pResult;
       pStr = pResult;
     }
@@ -879,13 +879,13 @@ void hwg_wstrlenset(PHB_ITEM pItem, const wchar_t *pStr, HB_SIZE nLen)
     HB_SIZE nDest = 0;
 
     if (pStr != nullptr && nLen > 0) {
-      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int32_t)nLen, nullptr, 0, nullptr, nullptr);
+      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, static_cast<int32_t>(nLen), nullptr, 0, nullptr, nullptr);
     }
 
     if (nDest) {
       char *pResult = (char *)hb_xgrab(nDest + 1);
 
-      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, (int32_t)nLen, pResult, (int32_t)nDest, nullptr, nullptr);
+      nDest = WideCharToMultiByte(s_iVM_CP, 0, pStr, static_cast<int32_t>(nLen), pResult, static_cast<int32_t>(nDest), nullptr, nullptr);
       hb_itemPutCLPtr(pItem, pResult, nDest);
     } else {
       hb_itemPutC(pItem, nullptr);
@@ -921,12 +921,12 @@ HB_SIZE hwg_wstrcopy(PHB_ITEM pItem, wchar_t *pStr, HB_SIZE nLen)
     HB_SIZE size = hb_itemGetCLen(pItem);
 
     if (pStr) {
-      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int32_t)size, pStr, (int32_t)nLen);
+      size = MultiByteToWideChar(s_iVM_CP, 0, text, static_cast<int32_t>(size), pStr, static_cast<int32_t>(nLen));
       if (size < nLen) {
         pStr[size] = '\0';
       }
     } else {
-      size = MultiByteToWideChar(s_iVM_CP, 0, text, (int32_t)size, nullptr, 0);
+      size = MultiByteToWideChar(s_iVM_CP, 0, text, static_cast<int32_t>(size), nullptr, 0);
       if (nLen && size > nLen) {
         size = nLen;
       }
@@ -1047,7 +1047,7 @@ HB_FUNC(HWG_MAKEWPARAM)
   WPARAM p;
 
   p = MAKEWPARAM((WORD)hb_parnl(1), (WORD)hb_parnl(2));
-  hb_retnl((int32_t)p);
+  hb_retnl(static_cast<int32_t>(p));
 }
 
 HB_FUNC(HWG_MAKELPARAM)
@@ -1177,8 +1177,8 @@ LRESULT CALLBACK KbdHook(int32_t code, WPARAM wp, LPARAM lp)
 
   switch (code) {
   case HC_ACTION:
-    nBtnNo = (int32_t)SendMessage(s_hMytoolMenu, TB_BUTTONCOUNT, 0, 0);
-    nId = (int32_t)SendMessage(s_hMytoolMenu, TB_GETHOTITEM, 0, 0);
+    nBtnNo = static_cast<int32_t>(SendMessage(s_hMytoolMenu, TB_BUTTONCOUNT, 0, 0));
+    nId = static_cast<int32_t>(SendMessage(s_hMytoolMenu, TB_GETHOTITEM, 0, 0));
 
     bPressed = (HIWORD(lp) & KF_UP) ? FALSE : TRUE;
 
@@ -1208,7 +1208,7 @@ LRESULT CALLBACK KbdHook(int32_t code, WPARAM wp, LPARAM lp)
       if (pSym_onEven_Tool && pObject) {
         hb_vmPushSymbol(hb_dynsymSymbol(pSym_onEven_Tool));
         hb_vmPush(pObject);
-        hb_vmPushLong((int32_t)uId);
+        hb_vmPushLong(static_cast<int32_t>(uId));
 
         hb_vmSend(1);
         Res = hb_parnl(-1);
