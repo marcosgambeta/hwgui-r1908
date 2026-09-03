@@ -14,6 +14,7 @@
 
 {!xhb}-gc3
 
+-cflag=-D_HB_API_INTERNAL_
 {allmsvc}-cflag=-D_CRT_SECURE_NO_WARNINGS
 {mingw64}-cflag=-Wno-cast-function-type
 {msvc|msvc64}-cflag=-wd4201
