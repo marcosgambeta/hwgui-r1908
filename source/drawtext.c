@@ -87,7 +87,8 @@ HB_FUNC(HWG_DRAWTEXT)
 }
 
 // HWG_GETTEXTMETRIC(HDC) --> array[8]
-HB_FUNC(HWG_GETTEXTMETRIC)
+#if 0
+HB_FUNC(HWG_GETTEXTMETRIC) // old code for reference
 {
   TEXTMETRIC tm;
   PHB_ITEM aMetr = hb_itemArrayNew(8);
@@ -129,6 +130,42 @@ HB_FUNC(HWG_GETTEXTMETRIC)
 
   hb_itemReturnRelease(aMetr);
 }
+#else
+HB_FUNC(HWG_GETTEXTMETRIC) // new code optimized
+{
+  TEXTMETRIC tm;
+  PHB_ITEM aMetr = hb_itemArrayNew(8);
+  HB_ITEM temp = {0};
+
+  GetTextMetrics(hwg_par_HDC(1), &tm);
+
+  hb_itemPutNL(&temp, tm.tmHeight);
+  hb_itemArrayPut(aMetr, 1, &temp);
+
+  hb_itemPutNL(&temp, tm.tmAveCharWidth);
+  hb_itemArrayPut(aMetr, 2, &temp);
+
+  hb_itemPutNL(&temp, tm.tmMaxCharWidth);
+  hb_itemArrayPut(aMetr, 3, &temp);
+
+  hb_itemPutNL(&temp, tm.tmExternalLeading);
+  hb_itemArrayPut(aMetr, 4, &temp);
+
+  hb_itemPutNL(&temp, tm.tmInternalLeading);
+  hb_itemArrayPut(aMetr, 5, &temp);
+
+  hb_itemPutNL(&temp, tm.tmAscent);
+  hb_itemArrayPut(aMetr, 6, &temp);
+
+  hb_itemPutNL(&temp, tm.tmDescent);
+  hb_itemArrayPut(aMetr, 7, &temp);
+
+  hb_itemPutNL(&temp, tm.tmWeight);
+  hb_itemArrayPut(aMetr, 8, &temp);
+
+  hb_itemReturnRelease(aMetr);
+}
+#endif
 
 // HWG_GETTEXTSIZE(HDC, cText) -->
 HB_FUNC(HWG_GETTEXTSIZE)
