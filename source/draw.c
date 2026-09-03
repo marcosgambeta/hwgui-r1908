@@ -676,7 +676,8 @@ HB_FUNC(HWG_RELEASEDC)
 }
 
 // GETDRAWITEMINFO(DRAWITEMSTRUCT) --> aInfo[9]
-HB_FUNC(HWG_GETDRAWITEMINFO)
+#if 0
+HB_FUNC(HWG_GETDRAWITEMINFO) // old code for reference
 {
   DRAWITEMSTRUCT *lpdis = (DRAWITEMSTRUCT *)HB_PARHANDLE(1); // hb_parnl(1);
   PHB_ITEM aMetr = hb_itemArrayNew(9);
@@ -720,6 +721,43 @@ HB_FUNC(HWG_GETDRAWITEMINFO)
 
   hb_itemReturnRelease(aMetr);
 }
+#else
+HB_FUNC(HWG_GETDRAWITEMINFO) // new code optimized
+{
+  DRAWITEMSTRUCT *lpdis = (DRAWITEMSTRUCT *)HB_PARHANDLE(1); // hb_parnl(1);
+  PHB_ITEM aMetr = hb_itemArrayNew(9);
+  HB_ITEM temp = {0};
+
+  hb_itemPutNL(&temp, lpdis->itemID);
+  hb_itemArrayPut(aMetr, 1, &temp);
+
+  hb_itemPutNL(&temp, lpdis->itemAction);
+  hb_itemArrayPut(aMetr, 2, &temp);
+
+  HB_PUTHANDLE(&temp, lpdis->hDC);
+  hb_itemArrayPut(aMetr, 3, &temp);
+
+  hb_itemPutNL(&temp, lpdis->rcItem.left);
+  hb_itemArrayPut(aMetr, 4, &temp);
+
+  hb_itemPutNL(&temp, lpdis->rcItem.top);
+  hb_itemArrayPut(aMetr, 5, &temp);
+
+  hb_itemPutNL(&temp, lpdis->rcItem.right);
+  hb_itemArrayPut(aMetr, 6, &temp);
+
+  hb_itemPutNL(&temp, lpdis->rcItem.bottom);
+  hb_itemArrayPut(aMetr, 7, &temp);
+
+  hb_itemPutNInt(&temp, (intptr_t)lpdis->hwndItem);
+  hb_itemArrayPut(aMetr, 8, &temp);
+
+  hb_itemPutNL(&temp, (int32_t)lpdis->itemState);
+  hb_itemArrayPut(aMetr, 9, &temp);
+
+  hb_itemReturnRelease(aMetr);
+}
+#endif
 
 // hwg_DrawGrayBitmap(hDC, hBitmap, x, y)
 
